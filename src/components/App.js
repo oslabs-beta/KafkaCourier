@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import CredentialForm from '../CredentialForm/CredentialForm.js';
+import CredentialForm from './CredentialForm/CredentialForm.js';
 
 export default function App() {
   // loggedIn state
