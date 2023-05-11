@@ -1,7 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import CredentialForm from './components/CredentialForm/CredentialForm.js';
-import Dashboard from "./components/dashboard/Dashboard.jsx"
+import Dashboard from "./components/dashboard/Dashboard.jsx";
+import Login from './components/Login/Login.js';
 
 function Error() {
   return (
@@ -11,6 +12,9 @@ function Error() {
 
 export default function App() {
   // loggedIn state
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [inDatabase, setInDatabase] = useState(false);
+  const [sub, setSub] = useState();
   const serverUri = useRef();
   const apiKey = useRef();
   const apiSecret = useRef();
@@ -49,3 +53,40 @@ export default function App() {
   );
 }
 
+/*
+let components = !loggedIn ? <Login setSub={setSub} setLoggedIn={setLoggedIn}/> : 
+inDatabase ? <Dashboard 
+serverUri={serverUri}
+apiKey={apiKey}
+apiSecret={apiSecret}
+/> : <CredentialForm
+  serverUri={serverUri}
+  apiKey={apiKey}
+  apiSecret={apiSecret}
+  handleClick={handleClick}
+/>
+*/
+
+
+
+// return (
+//     <div>
+//       {components}
+//       {/* if !loggedIn */}
+//       {/* <Login setSub={setSub}/> */}
+
+//       {/* <CredentialForm
+//         serverUri={serverUri}
+//         apiKey={apiKey}
+//         apiSecret={apiSecret}
+//         handleClick={handleClick}
+//       />
+      
+//       <Dashboard 
+//         serverUri={serverUri}
+//         apiKey={apiKey}
+//         apiSecret={apiSecret}
+//       /> */}
+     
+      // </div>
+      // );
