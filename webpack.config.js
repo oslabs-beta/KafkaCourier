@@ -12,10 +12,18 @@ module.exports = {
       template: './src/index.html',
     }),
   ],
+  devServer: {
+    proxy: {
+      '/': {
+        target: 'http://localhost:3000',
+        secure: false,
+      }
+    },
+  },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',

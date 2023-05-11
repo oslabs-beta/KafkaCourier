@@ -1,30 +1,19 @@
 import React, { useState } from 'react';
-import NavBar from '../NavBar/NavBar';
+import NavBar from '../NavBar/NavBar.jsx';
+import KafkaContainer from '../KafkaContainer/KafkaContainer.jsx';
 
-// set default display to topic
+
+//setState 
 
 export default function Dashboard() {
+  // set default display to topic
   const [display, setDisplay] = useState('topic');
-  //function here to determine which cluster component to display below
-  //default display will be topic component
-
-  //REPLACE WITH BROSWER ROUTER LINKS
-  const renderComponent = () => {
-    switch (display) {
-      case 'producer':
-        return <Producer />;
-      case 'broker':
-        return <Broker />;
-      case 'consumer':
-        return <Consumer />;
-      default:
-        return <Topic />;
-    }
-  };
+  
   return (
     <>
-      <NavBar />
-      <div>{renderComponent()}</div>
+      <NavBar setDisplay={setDisplay}/>
+      <KafkaContainer display={display}/>
+      <div></div>
     </>
   );
 }

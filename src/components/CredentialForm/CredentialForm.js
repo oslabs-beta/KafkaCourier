@@ -2,6 +2,22 @@ import React, { useState, useRef } from 'react';
 import './styles.css';
 
 export default function CredentialForm(props) {
+
+  const handleClick = () => {
+    fetch('/api/addUser', {
+      method: 'POST',
+      headers: {
+
+      },
+      body: JSON.stringify({
+        user: props.sub,
+        server: props.serverUri,
+        key: props.apiKey,
+        secret: props.apiSecret
+      })
+    })
+  }
+
   return (
     <div className="formContainer">
       <form onClick={props.handleClick}>
