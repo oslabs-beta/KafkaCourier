@@ -1,7 +1,13 @@
 import React, { useRef } from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import CredentialForm from './CredentialForm/CredentialForm.js';
-import Dashboard from "./dashboard/Dashboard.jsx"
+import CredentialForm from './components/CredentialForm/CredentialForm.js';
+import Dashboard from "./components/dashboard/Dashboard.jsx"
+
+function Error() {
+  return (
+    <div>THIS IS AN ERROR BAD</div>
+  )
+}
 
 export default function App() {
   // loggedIn state
@@ -28,8 +34,7 @@ export default function App() {
       {/* // this part will load after Oauth 
       // check to see if googleID is present in database setState to present
       // if present load dashboard else load CredentialForm */}
-
-
+      
       <BrowserRouter>
         <Routes>
           {/* // login page will be root path  */}
@@ -37,6 +42,7 @@ export default function App() {
           <Route exact path="/" element={<Dashboard />}></Route>
           <Route path= "/credentials" element={<CredentialForm/>}/>
           <Route path= "/home" element={<Dashboard/>}/>
+          <Route path="/*" element={<Error/>}/>
         </Routes>
       </BrowserRouter>
     </div>

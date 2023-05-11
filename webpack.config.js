@@ -6,6 +6,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/dist'),
     filename: 'bundle.js',
+    publicPath: '/'
   },
   plugins: [
     new HTMLWebpackPlugin({
@@ -14,11 +15,12 @@ module.exports = {
   ],
   devServer: {
     proxy: {
-      '/': {
+      '/api': {
         target: 'http://localhost:3000',
         secure: false,
-      }
+      },
     },
+    historyApiFallback: true,
   },
   module: {
     rules: [
