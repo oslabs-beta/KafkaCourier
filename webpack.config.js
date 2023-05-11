@@ -7,6 +7,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/dist'),
     filename: 'bundle.js',
+    publicPath: '/'
   },
   plugins: [
     new HTMLWebpackPlugin({
@@ -14,10 +15,19 @@ module.exports = {
     }),
     new Dotenv(),
   ],
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        secure: false,
+      },
+    },
+    historyApiFallback: true,
+  },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
