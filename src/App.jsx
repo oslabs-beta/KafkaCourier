@@ -43,9 +43,9 @@ export default function App() {
         <Routes>
           {/* // login page will be root path  */}
           {/* <Route path='/' element={<Login />}/> */} 
-          <Route exact path="/" element={<Dashboard />}></Route>
+          <Route exact path="/" element={<Login />}></Route>
           <Route path= "/credentials" element={<CredentialForm/>}/>
-          <Route path= "/home" element={<Dashboard/>}/>
+          <Route path= "/home/*" element={<Dashboard/>}/>
           <Route path="/*" element={<Error/>}/>
         </Routes>
       </BrowserRouter>

@@ -1,0 +1,18 @@
+button {
+    cursor: pointer;
+    
+}
+
+button:hover {
+    background-color: #6c8d8d;
+    color: white;
+}
+
+nav{
+    display: flex;
+    align-items: space;
+}
+
+a{
+    text-decoration: none;
+}
