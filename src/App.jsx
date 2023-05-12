@@ -13,20 +13,48 @@ function Error() {
 export default function App() {
   // loggedIn state
   const [loggedIn, setLoggedIn] = useState(false);
-  const [inDatabase, setInDatabase] = useState(false);
+  const [inDatabase, setInDatabase] = useState();
   const [sub, setSub] = useState();
   const serverUri = useRef();
   const apiKey = useRef();
   const apiSecret = useRef();
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    console.log('hello');
-    console.log(serverUri.current.value);
-  };
+  // const handleClick = async () => {
+  //   const response = await fetch('/api/createUser', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify({
+  //       user: sub,
+  //       server: serverUri.current.value,
+  //       key: apiKey.current.value,
+  //       secret: apiSecret.current.value
+  //     })
+  //   });
+  //   const result = response.json();
+  //   console.log(result);
+  // };
+
+  
+let components = !loggedIn ? <Login setInDatabase={setInDatabase} setSub={setSub} setLoggedIn={setLoggedIn}/> : 
+  inDatabase ? 
+    <Dashboard 
+      serverUri={serverUri}
+      apiKey={apiKey}
+      apiSecret={apiSecret}
+    /> : 
+    <CredentialForm
+      setInDatabase={setInDatabase}
+      sub={sub}
+      serverUri={serverUri}
+      apiKey={apiKey}
+      apiSecret={apiSecret}
+    />
+
 
   return (
-    <div>
+    <>
       {/* if !loggedIn */}
       {/* <Dashboard />
       <CredentialForm
@@ -43,29 +71,17 @@ export default function App() {
         <Routes>
           {/* // login page will be root path  */}
           {/* <Route path='/' element={<Login />}/> */} 
-          <Route exact path="/" element={<Dashboard />}></Route>
+          <Route exact path="/" element={components}></Route>
           <Route path= "/credentials" element={<CredentialForm/>}/>
           <Route path= "/home" element={<Dashboard/>}/>
           <Route path="/*" element={<Error/>}/>
         </Routes>
       </BrowserRouter>
-    </div>
+    </>
   );
 }
 
-/*
-let components = !loggedIn ? <Login setSub={setSub} setLoggedIn={setLoggedIn}/> : 
-inDatabase ? <Dashboard 
-serverUri={serverUri}
-apiKey={apiKey}
-apiSecret={apiSecret}
-/> : <CredentialForm
-  serverUri={serverUri}
-  apiKey={apiKey}
-  apiSecret={apiSecret}
-  handleClick={handleClick}
-/>
-*/
+
 
 
 
