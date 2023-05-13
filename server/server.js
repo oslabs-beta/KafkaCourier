@@ -9,6 +9,7 @@ const PG_URI = process.env.PG_URI;
 const pool = new Pool({
   connectionString: PG_URI, 
 });
+const kafkaController = require('./controllers/kafkaController');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -40,6 +41,11 @@ app.get('/api/checkUser/:user', async (req, res) => {
   console.log('server result: ', result.rows);
   res.status(200).json(result.rows);
 });
+
+// get topic data
+app.get('/api/topic', kafkaController.getTopicData, (req, res, next) => {
+  res.json('It worked');
+})
 
 //catch-all route for errors 
 app.get('*', (req, res) => {

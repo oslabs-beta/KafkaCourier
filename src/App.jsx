@@ -73,7 +73,7 @@ let components = !loggedIn ? <Login setInDatabase={setInDatabase} setSub={setSub
           {/* <Route path='/' element={<Login />}/> */} 
           <Route exact path="/" element={components}></Route>
           <Route path= "/credentials" element={<CredentialForm/>}/>
-          <Route path= "/home" element={<Dashboard/>}/>
+          <Route path= "/home/*" element={<Dashboard/>}/>
           <Route path="/*" element={<Error/>}/>
         </Routes>
       </BrowserRouter>
