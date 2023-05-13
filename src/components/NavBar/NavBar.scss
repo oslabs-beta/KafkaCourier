@@ -1,18 +1,17 @@
 button {
-    cursor: pointer;
-    
+  cursor: pointer;
 }
 
 button:hover {
-    background-color: #6c8d8d;
-    color: white;
+  background-color: #6c8d8d;
+  color: white;
 }
 
-nav{
-    display: flex;
-    align-items: space;
+nav {
+  display: flex;
+  justify-content: space-between;
 }
 
-a{
-    text-decoration: none;
+a {
+  text-decoration: none;
 }
