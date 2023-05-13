@@ -1,0 +1,23 @@
+.test {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(115, 160, 142);
+}
+
+// body {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   background-color: blue;
+// }
+
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(73, 75, 75);
+  height: 100vh !important;
+  border-radius: 10px;
+}

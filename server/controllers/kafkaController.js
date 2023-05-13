@@ -5,7 +5,8 @@ const { Partitioners } = require('kafkajs');
 // This creates a client instance that is configured to connect to the Kafka broker provided by
 // the environment variable KAFKA_BOOTSTRAP_SERVER
 const { KAFKA_USERNAME: username, KAFKA_PASSWORD: password } = process.env;
-const sasl = username && password ? { username, password, mechanism: 'plain' } : null;
+const sasl =
+  username && password ? { username, password, mechanism: 'plain' } : null;
 const ssl = !!sasl;
 
 const kafka = new Kafka({
@@ -16,27 +17,52 @@ const kafka = new Kafka({
   sasl: {
     mechanism: 'plain',
     username,
-    password
-  }
-})
+    password,
+  },
+});
 
-const admin = kafka.admin()
+const admin = kafka.admin();
 
 const kafkaController = {
-    async getTopicData () {
-        try {
-            await admin.connect();
-            const result = await admin.fetchTopicMetadata();
-            console.log('admin: ', result.topics[0].partitions);
-            const groups = await admin.listGroups();
-            console.log('group: ', groups);
-        }
-        catch (error) {
-            console.log(error);
-        }
+  async getTopicData(req, res, next) {
+    try {
+      await admin.connect();
+      const topicData = await admin.fetchTopicMetadata();
+      console.log('admin: ', topicData.topics);
+      const groups = await admin.listGroups();
+      console.log('group: ', groups);
+      const formattedData = {
+        topics: [],
+        partitions: [],
+        consumerGroups: [],
+      };
+      for (let i = 0; i < topicData.topics.length; i++) {
+        // get topic names
+        formattedData.topics.push(topicData.topics[i].name);
+        // get # of partitions
+        formattedData.partitions.push(topicData.topics[i].partitions.length);
+        // get # of consumer groups
+        // formattedData.consumerGroups.push(groups.length);
+      }
+      console.log('formattedData: ', formattedData);
+      res.locals.topicMetaData = formattedData;
+      next();
+    } catch (error) {
+      console.log(error);
     }
-}
-     
-    //   run().catch(console.error);
+  },
+
+  async getPartitionData(req, res, next) {
+    next();
+  },
+};
+
+//   run().catch(console.error);
 
 module.exports = kafkaController;
+
+// const data = {
+//     topics: [name1, name2, name2],
+//     partitions: [6, 1, 4],
+//     consumerGroups: [1, 1, 1],
+// }
