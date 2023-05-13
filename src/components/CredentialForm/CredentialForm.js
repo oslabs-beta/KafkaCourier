@@ -3,24 +3,31 @@ import './styles.css';
 
 export default function CredentialForm(props) {
 
-  const handleClick = () => {
-    fetch('/api/addUser', {
-      method: 'POST',
-      headers: {
-
-      },
-      body: JSON.stringify({
-        user: props.sub,
-        server: props.serverUri,
-        key: props.apiKey,
-        secret: props.apiSecret
-      })
-    })
+  const handleClick = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('/api/createUser', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user_id: props.sub,
+          server: props.serverUri.current.value,
+          key: props.apiKey.current.value,
+          secret: props.apiSecret.current.value
+        })
+      });
+      const result = await response.json();
+      props.setInDatabase(true);
+    } catch (err) {
+      console.log('Error in CredentialForm: ', err);
+    }
   }
 
   return (
     <div className="formContainer">
-      <form onClick={props.handleClick}>
+      <form>
         <label>
           Enter Kafka Server URI:
           <input type="text" ref={props.serverUri} />
@@ -36,7 +43,7 @@ export default function CredentialForm(props) {
           <input type="password" ref={props.apiSecret} />
         </label>
 
-        <button>Submit</button>
+        <button onClick={handleClick}>Submit</button>
       </form>
     </div>
   );

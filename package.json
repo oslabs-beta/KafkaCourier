@@ -16,6 +16,7 @@
     "jwt-decode": "^3.1.2",
     "kafkajs": "^2.2.4",
     "nodemon": "^2.0.22",
+    "pg": "^8.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.1"
