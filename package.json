@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@react-oauth/google": "^0.11.0",
+    "child_process": "^1.0.2",
     "dotenv": "^16.0.3",
     "jwt-decode": "^3.1.2",
     "kafkajs": "^2.2.4",

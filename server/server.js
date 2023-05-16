@@ -1,4 +1,4 @@
-///const express = require('express');
+const express = require('express');
 const app = express();
 const path = require('path');
 const { Kafka, AssignerProtocol } = require('kafkajs')
@@ -50,27 +50,27 @@ app.get('/api/topic', kafkaController.getTopicData, (req, res, next) => {
 // app.get to endpoint to get consumers from a particular consumer group
 // this will give you a members array
 
-app.get('/api/consumers/:group', async (req, res) => {
-  // need topic to pull from assignment below
-  const admin = kafka.admin()
-  await admin.connect()
-  const groupID = req.params.group
-  const groupDescription = await admin.describeGroups([groupID])
-  const consumersArr = groupDescription.groups[0].members
-  const result = [];
-  consumersArr.forEach(consumer => {
-    const assignmentData = AssignerProtocol.MemberAssignment.decode(consumer.memberAssignment);
-    const offset = await admin.fetchTopicOffsets(topic);
-    const newObj = {
-      memberID: consumer.memberId,
-      partition: assignmentData.assignment[topic],  // array of partitions
-    }
+// app.get('/api/consumers/:group', async (req, res) => {
+//   // need topic to pull from assignment below
+//   const admin = kafka.admin()
+//   await admin.connect()
+//   const groupID = req.params.group
+//   const groupDescription = await admin.describeGroups([groupID])
+//   const consumersArr = groupDescription.groups[0].members
+//   const result = [];
+//   consumersArr.forEach(consumer => {
+//     const assignmentData = AssignerProtocol.MemberAssignment.decode(consumer.memberAssignment);
+//     const offset = await admin.fetchTopicOffsets(topic);
+//     const newObj = {
+//       memberID: consumer.memberId,
+//       partition: assignmentData.assignment[topic],  // array of partitions
+//     }
 
 
-  })
+//   })
 
-  res.status(200).json(obj);
-})
+//   res.status(200).json(obj);
+// })
 /* 
 {
   memberID:,
