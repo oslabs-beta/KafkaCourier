@@ -29,7 +29,7 @@ export default function Topic(props) {
       <TopicRow
         topicName={topicData.topics[i]}
         partitions={topicData.partitions[i]}
-        consumerGroups={0}
+        consumerGroups={topicData.consumerGroups[i]}
       />
     );
   }
