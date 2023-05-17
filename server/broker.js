@@ -35,29 +35,29 @@ producer.on('producer.network.request_timeout', (payload) => {
   console.log(`KafkaProvider: request timeout ${payload.clientId}`);
 });
 
-producer.on(producer.events.REQUEST, async (e) => {
-  const command = `kafka-consumer-groups --bootstrap-server ${server} --command-config server/cloud.properties --group my-group --describe`;
-  exec(command, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error executing command: ${error.message}`);
-      return;
-    }
+// producer.on(producer.events.REQUEST, async (e) => {
+  // const command = `kafka-consumer-groups --bootstrap-server ${server} --command-config server/cloud.properties --group my-group --describe`;
+  // exec(command, (error, stdout, stderr) => {
+  //   if (error) {
+  //     console.error(`Error executing command: ${error.message}`);
+  //     return;
+  //   }
   
-    if (stderr) {
-      console.error(`Command stderr: ${stderr}`);
-      return;
-    }
-    console.log("STDOUT: ", stdout);
-    // console.log('columns', stdout.trim().split('\n'))
-    // console.log("split: ", stdout.split(' '));
-    stdout = stdout.split(' ');
-    const values = [];
-    const noWhiteSpace = stdout.forEach(el => {
-      if (el !== '') values.push(el);
-    });
-    // console.log('values: ', values);
-  });
-});
+  //   if (stderr) {
+  //     console.error(`Command stderr: ${stderr}`);
+  //     return;
+  //   }
+  //   console.log("STDOUT: ", stdout);
+  //   // console.log('columns', stdout.trim().split('\n'))
+  //   // console.log("split: ", stdout.split(' '));
+  //   stdout = stdout.split(' ');
+  //   const values = [];
+  //   const noWhiteSpace = stdout.forEach(el => {
+  //     if (el !== '') values.push(el);
+  //   });
+  //   // console.log('values: ', values);
+  // });
+// });
 
 const consumer1 = kafka.consumer({ groupId: 'my-group' });
 const consumer2 = kafka.consumer({ groupId: 'my-group' });
@@ -85,6 +85,29 @@ const consumer2 = kafka.consumer({ groupId: 'my-group' });
 //     console.log('values: ', values);
 //   });
 // })
+
+const myInterval = setInterval(() => {
+  const command = `kafka-consumer-groups --bootstrap-server ${server} --command-config server/cloud.properties --group my-group --describe`;
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error executing command: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.error(`Command stderr: ${stderr}`);
+      return;
+    }
+    console.log("STDOUT: ", stdout);
+    // console.log('columns', stdout.trim().split('\n'))
+    // console.log("split: ", stdout.split(' '));
+    stdout = stdout.split(' ');
+    const values = [];
+    const noWhiteSpace = stdout.forEach(el => {
+      if (el !== '') values.push(el);
+    });
+    // console.log('values: ', values);
+  });
+}, 3000);
 
 module.exports = {
   producer,
