@@ -1,26 +1,24 @@
 import React from 'react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import './KafkaComponents.scss';
 
 // row component to render within Topic
 function TopicRow(props) {
   return (
-    <tr>
-      <td>{props.topicName}</td>
-      <td>{props.partitions}</td>
-      <td>{props.consumerGroups}</td>
-    </tr>
+    <TableRow>
+      <TableCell>{props.topicName}</TableCell>
+      <TableCell>{props.partitions}</TableCell>
+      <TableCell>{props.consumerGroups}</TableCell>
+    </TableRow>
   );
 }
 
 export default function Topic(props) {
-  // api call to get topic data
-
-  //function to procedurally display correct amount of rows based on data received from cluster
-  /// THIS IS WHERE API DATA WILL GO
-  console.log('props', props);
-  // if (!props.topicData) {
-  //   return <h1>No topic data yet</h1>;
-  // }
   const topicData = JSON.parse(props.topicData);
   console.log('topicData', topicData);
   const topics = [];
@@ -34,15 +32,17 @@ export default function Topic(props) {
     );
   }
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Topic Name</th>
-          <th>Partitions</th>
-          <th>Consumer Groups</th>
-        </tr>
-      </thead>
-      <tbody>{topics}</tbody>
-    </table>
+    <TableContainer>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Topic Name</TableCell>
+            <TableCell>Partitions</TableCell>
+            <TableCell>Consumer Groups</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>{topics}</TableBody>
+      </Table>
+    </TableContainer>
   );
 }

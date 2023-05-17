@@ -1,4 +1,6 @@
 const { Kafka } = require('kafkajs');
+const { metricize } = require('kafkajs-metrics')
+
 require('dotenv').config();
 const { Partitioners, AssignerProtocol } = require('kafkajs');
 
@@ -20,6 +22,9 @@ const kafka = new Kafka({
     password,
   },
 });
+
+metricize(kafka);
+const kafkaMetricsObject = kafka.metrics;
 
 const admin = kafka.admin();
 
@@ -72,7 +77,11 @@ const run = async () => {
   await consumer2.connect();
   await consumer2.subscribe({ topic: 'purchases', fromBeginning: true });
 
+  console.log('kafka: ', kafkaMetricsObject);
+  console.log('consumer1: ', consumer1.metrics);
   await consumer2.run({
+  
+    // console.log('METRICS: ', consumer.metrics)
     // eachMessage: async ({ topic, partition, message }) => {
     //   console.log('consumer2: ', {
     //     partition,
