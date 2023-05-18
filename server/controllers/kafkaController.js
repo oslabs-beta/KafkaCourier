@@ -81,6 +81,34 @@ const kafkaController = {
       return topicConsumerGroups.length;
     }
   },
+  async getConsumerData(req, res, next) {
+    try{
+      await admin.connect()
+      const{consumerGroupId} = req.params
+      const consumers = await admin.describeGroups([consumerGroupId])
+      // create a result object to send to frontend
+      let resultObj = {
+        memberId: [],
+        partitions: []
+      }
+      // loop over consumer.groups[0].members
+      consumers.groups[0].members.forEach(member => {
+        resultObj.memberId.push(member.memberId);
+        resultObj.partitions.push(AssignerProtocol.MemberAssignment.decode(member.memberAssignment).assignment);
+      })
+        // assign memeberId in objext
+        // decode memberAssignment and access assignment property of the buffer and assign this to partition in result object
+        //
+
+      console.log('resultObj ', resultObj);
+      res.locals.consumerData = resultObj;
+      next();
+    }
+    catch(error) {
+      console.log(error);
+      next(error);
+    }
+  }
 };
 
 module.exports = kafkaController;

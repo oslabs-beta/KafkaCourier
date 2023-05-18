@@ -47,6 +47,11 @@ app.get('/api/topic', kafkaController.getTopicData, (req, res, next) => {
   res.status(200).json(res.locals.topicMetaData);
 });
 
+// get consumer data
+app.get('/api/consumerData/:consumerGroupId', kafkaController.getConsumerData, (req, res, next) => {
+  res.status(200).json(res.locals.consumerData);
+})
+
 //catch-all route for errors
 app.get('*', (req, res) => {
   res.sendStatus(404);

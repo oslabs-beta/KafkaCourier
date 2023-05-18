@@ -7,8 +7,8 @@ export default function CardComponent(){
     return (
         <Card class = "cardComponent">
             <Typography component="div" variant="h5">
-            Chosen Topic
-          </Typography>
+                Chosen Topic
+            </Typography>
             <img className='graph' src="https://prometheus.io/assets/grafana_prometheus.png "/>
         </Card>
     )

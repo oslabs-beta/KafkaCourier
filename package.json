@@ -16,6 +16,7 @@
     "@mui/material": "^5.13.1",
     "@mui/styles": "^5.13.1",
     "@react-oauth/google": "^0.11.0",
+    "axios": "^1.4.0",
     "dotenv": "^16.0.3",
     "jwt-decode": "^3.1.2",
     "kafkajs": "^2.2.4",
