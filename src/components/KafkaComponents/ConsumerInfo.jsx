@@ -28,7 +28,7 @@ export default function ConsumerInfo() {
     for (let i = 0; i < data.memberId.length; i++) {
       res.push(<TableRow>
         <TableCell>{data.memberId[i]}</TableCell>
-        // returns is hardcoded replace with topic
+      
         <TableCell>{data.partitions[i].returns.join()}</TableCell>
       </TableRow>)
     }   

@@ -11,11 +11,27 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import CardComponent from './CardComponent.jsx'
 import './KafkaComponents.scss';
+// import { makeStyles } from '@mui/styles';
+
+
+// const useStyles = {
+//   tableCellStyles: {
+//     color: '#4E6667'
+//   }
+// }
+
+//  const useStyles = makeStyles(() => ({
+//   tableCellStyles: {
+//     color: '#4E6667'
+//     },
+//   }));
+// const useStylesFunction = useStyles();
+// className={useStyles.tableCellStyles}
 
 // row component to render within Topic
 function TopicRow(props) {
   return (
-    <TableRow>
+    <TableRow sx={{border: '3px solid #F8F2E3'}}>
       <TableCell>{props.topicName}</TableCell>
       <TableCell>{props.partitions}</TableCell>
       <TableCell>{props.consumerGroups}</TableCell>
@@ -24,12 +40,19 @@ function TopicRow(props) {
 }
 
 export default function Topic(props) {
+  // const useStyles = makeStyles(() => ({
+  //   tableRowStyles: {
+  //     border: '2px solid #F8F2E3 !important',
+  //   },
+  // }));
+  
   const topicData = JSON.parse(props.topicData);
   console.log('topicData', topicData);
   const topics = [];
   for (let i = 0; i < topicData.topics.length; i++) {
     topics.push(
       <TopicRow
+        key={i}
         topicName={topicData.topics[i]}
         partitions={topicData.partitions[i]}
         consumerGroups={topicData.consumerGroups[i]}
@@ -42,7 +65,7 @@ export default function Topic(props) {
         <TableContainer>
           <Table>
             <TableHead>
-              <TableRow>
+              <TableRow sx={{border: '3px solid #F8F2E3'}}>
                 <TableCell>Topic Name</TableCell>
                 <TableCell>Partitions</TableCell>
                 <TableCell>Consumer Groups</TableCell>

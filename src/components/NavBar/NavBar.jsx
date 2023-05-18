@@ -33,7 +33,8 @@ const useStylesFunction = useStyles();
       color:'#F8F2E3',
       // backgroundColor: 'lightgrey'
       border: '2px solid #F8F2E3',
-      marginRight: '10px'
+      marginRight: '10px',
+      paddingTop: 0
     }}>
       <ListItemButton 
       className={useStylesFunction.listItemButton} 

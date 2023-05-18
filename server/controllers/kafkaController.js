@@ -22,30 +22,24 @@ const kafka = new Kafka({
 });
 
 const admin = kafka.admin();
-// (async () => await admin.connect())();
+// connect to kafka cluster
 admin.connect();
 
 const kafkaController = {
   async getTopicData(req, res, next) {
     try {
-      // connect to kafka cluster
       // await admin.connect();
       // get topic names and # of partitions
-      console.time('fetchTopicMetadata');
       const topicData = await admin.fetchTopicMetadata();
-      console.timeEnd('fetchTopicMetadata');
 
       const formattedData = {
         topics: [],
         partitions: [],
         consumerGroups: [],
       };
-      // get # of consumer groups
 
       //RETRIEVE GROUP IDs
-      console.time();
       const groups = await admin.listGroups();
-      console.timeEnd();
       const groupArray = [];
       groups.groups.forEach((group) => {
         groupArray.push(group.groupId);
