@@ -42,7 +42,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div class="dashboard">
+    <div className="dashboard">
       <NavBar setDisplay={setDisplay} getKafkaData={getKafkaData} />
       <KafkaContainer display={display} topicData={topicData} />
     </div>
