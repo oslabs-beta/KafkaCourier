@@ -15,16 +15,29 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-// import { makeStyles } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 
 
 export default function NavBar(props) {
   //onClick functions must be anon to not be immediately called upon render
+  const useStyles = makeStyles(() => ({
+    listItemButton: {
+      border: '1px solid #F8F2E3 !important',
+      backgroundColor: '#F8F2E3' 
+    },
+  }));
+const useStylesFunction = useStyles();
+
   return (
     <List sx={{
-      color:'white',
+      color:'#F8F2E3',
+      // backgroundColor: 'lightgrey'
+      border: '2px solid #F8F2E3',
+      marginRight: '10px'
     }}>
-      <ListItemButton  component={Link} >
+      <ListItemButton 
+      className={useStylesFunction.listItemButton} 
+      component={Link} >
         <ListItemText primary="Topics" 
           onClick={() => {
             props.setDisplay('topic');
@@ -33,12 +46,14 @@ export default function NavBar(props) {
           }/>
         </ListItemButton>
         <ListItemButton 
+         className={useStylesFunction.listItemButton}
           component={Link} 
           onClick={() => {props.setDisplay('producer'); 
           console.log("Producers clicked!")}}>
           <ListItemText primary="Producers" />
         </ListItemButton>
       <ListItemButton 
+        className={useStylesFunction.listItemButton}
         component={Link} 
         onClick={() => {props.setDisplay('broker'); 
         console.log("Brokers clicked!")}}>
@@ -46,12 +61,14 @@ export default function NavBar(props) {
         </ListItemButton>
       
       <ListItemButton  
+        className={useStylesFunction.listItemButton}
         component={Link} 
         onClick={() => {props.setDisplay('consumer'); 
         console.log("Consumers clicked!")}}>
         <ListItemText primary="Consumers" />
         </ListItemButton>
         <ListItemButton 
+          className={useStylesFunction.listItemButton}
           component={Link} 
           onClick={() => {props.setDisplay('Account'); 
           console.log("Accounts clicked!")}}>

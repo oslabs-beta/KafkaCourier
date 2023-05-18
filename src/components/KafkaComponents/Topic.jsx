@@ -56,23 +56,25 @@ export default function Topic(props) {
         {/* mui grid component */}
         {/* <Card className='cardComponent' variant="outlined">CARD HERE</Card>
         <Card className='cardComponent' variant="outlined">CARD HERE</Card>
+        <Card className='cardComponent' variant="outlined">CARD HERE</Card>
         <Card className='cardComponent' variant="outlined">CARD HERE</Card> */}
-        <Box sx={{ width: '100%' }}>
-          {/* <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}> */}
+        {/* <Box sx={{ width: '100%' }}>
+          <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
             <Grid item xs={4}>
-              {/* <Card className='cardComponent' variant="outlined">CARD HERE</Card> */}
               <CardComponent />
             </Grid>
             <Grid item xs={4}>
-              {/* <Card className='cardComponent' variant="outlined">CARD HERE</Card> */}
               <CardComponent />
             </Grid>
             <Grid item xs={4}>
-              {/* <Card className='cardComponent' variant="outlined">CARD HERE</Card> */}
               <CardComponent />
             </Grid>
-          {/* </Grid> */}
-        </Box>
+          </Grid>
+        </Box> */}
+        <CardComponent />
+        <CardComponent />
+        <CardComponent />
+        <CardComponent />
       </div>
     </>
   );

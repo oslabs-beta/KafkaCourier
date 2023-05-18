@@ -1,15 +1,28 @@
+
+
+
 table {
     border: 1px solid #22302D;
+    
 }
 
 .topic-lower-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     justify-items: center;
-    height: 700px;
+    height: 100%;
+    padding: 10px;
 }
 
 .cardComponent{
-    height: 30%;
+    // min-height: 40vh;
+    height: 40vh;
     width: 90%;
+    color:#D6B8AF;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.graph{
+    height: 50%;
+    width: 70%;
 }

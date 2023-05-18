@@ -10,8 +10,8 @@ function Error() {
 
 export default function App() {
   // loggedIn state
-  const [loggedIn, setLoggedIn] = useState(true);
-  const [inDatabase, setInDatabase] = useState('111429477736994873824');
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [inDatabase, setInDatabase] = useState(); // '111429477736994873824'
   const [sub, setSub] = useState();
   const serverUri = useRef();
   const apiKey = useRef();
