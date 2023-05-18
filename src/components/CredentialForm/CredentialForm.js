@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
-import './styles.css';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import './styles.scss';
 
 export default function CredentialForm(props) {
 
@@ -28,20 +30,45 @@ export default function CredentialForm(props) {
   return (
     <div className="formContainer">
       <form>
-        <label>
+        {/* <label>
           Enter Kafka Server URI:
           <input type="text" ref={props.serverUri} />
-        </label>
+        </label> */}
+        <TextField
+          sx={{
+            width: 300,
+          }}
+          required
+          id="filled-required"
+          label="Enter Kafka Server URI:"
+          variant="filled"
+          inputRef={props.serverUri}
+        />
 
-        <label>
+        {/* <label>
           Enter API Key:
           <input type="text" ref={props.apiKey} />
-        </label>
+        </label> */}
+        <TextField
+          required
+          id="filled-required"
+          label="Enter API Key:"
+          variant="filled"
+          inputRef={props.apiKey}
+        />
 
-        <label>
+        {/* <label>
           Enter API Secret:
           <input type="password" ref={props.apiSecret} />
-        </label>
+        </label> */}
+        <TextField
+          required
+          id="filled-password-input"
+          label="Enter API Secret:"
+          type="password"
+          variant="filled"
+          inputRef={props.apiSecret}
+        />
 
         <button onClick={handleClick}>Submit</button>
       </form>

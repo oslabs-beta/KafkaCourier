@@ -1,26 +1,29 @@
 import React from 'react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import CardComponent from './CardComponent.jsx'
 import './KafkaComponents.scss';
 
 // row component to render within Topic
 function TopicRow(props) {
   return (
-    <tr>
-      <td>{props.topicName}</td>
-      <td>{props.partitions}</td>
-      <td>{props.consumerGroups}</td>
-    </tr>
+    <TableRow>
+      <TableCell>{props.topicName}</TableCell>
+      <TableCell>{props.partitions}</TableCell>
+      <TableCell>{props.consumerGroups}</TableCell>
+    </TableRow>
   );
 }
 
 export default function Topic(props) {
-  // api call to get topic data
-
-  //function to procedurally display correct amount of rows based on data received from cluster
-  /// THIS IS WHERE API DATA WILL GO
-  console.log('props', props);
-  // if (!props.topicData) {
-  //   return <h1>No topic data yet</h1>;
-  // }
   const topicData = JSON.parse(props.topicData);
   console.log('topicData', topicData);
   const topics = [];
@@ -29,20 +32,50 @@ export default function Topic(props) {
       <TopicRow
         topicName={topicData.topics[i]}
         partitions={topicData.partitions[i]}
-        consumerGroups={0}
+        consumerGroups={topicData.consumerGroups[i]}
       />
     );
   }
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Topic Name</th>
-          <th>Partitions</th>
-          <th>Consumer Groups</th>
-        </tr>
-      </thead>
-      <tbody>{topics}</tbody>
-    </table>
+    <>
+      <div className="topic-upper-container">
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Topic Name</TableCell>
+                <TableCell>Partitions</TableCell>
+                <TableCell>Consumer Groups</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>{topics}</TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+      <div className="topic-lower-container">
+        {/* mui grid component */}
+        {/* <Card className='cardComponent' variant="outlined">CARD HERE</Card>
+        <Card className='cardComponent' variant="outlined">CARD HERE</Card>
+        <Card className='cardComponent' variant="outlined">CARD HERE</Card>
+        <Card className='cardComponent' variant="outlined">CARD HERE</Card> */}
+        {/* <Box sx={{ width: '100%' }}>
+          <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+            <Grid item xs={4}>
+              <CardComponent />
+            </Grid>
+            <Grid item xs={4}>
+              <CardComponent />
+            </Grid>
+            <Grid item xs={4}>
+              <CardComponent />
+            </Grid>
+          </Grid>
+        </Box> */}
+        <CardComponent />
+        <CardComponent />
+        <CardComponent />
+        <CardComponent />
+      </div>
+    </>
   );
 }

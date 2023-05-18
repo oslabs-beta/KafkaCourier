@@ -5,20 +5,23 @@ import Consumer from '../KafkaComponents/Consumer.jsx';
 import Producer from '../KafkaComponents/Producer.jsx';
 import Broker from '../KafkaComponents/Broker.jsx';
 import { Routes, Route } from 'react-router-dom';
+import './KafkaContainer.scss'
 
 export default function KafkaContainer(props) {
   return (
-    <Routes>
-      <Route path="/" element={<Topic topicData={props.topicData} />}></Route>
-      {/* <Route path="/" element={<Consumer />}></Route> */}
-      <Route path="/producer" element={<Producer />}></Route>
-      <Route path="/broker" element={<Broker />}></Route>
-      <Route
-        path="/topic"
-        element={<Topic topicData={props.topicData} />}
-      ></Route>
-      <Route path="/consumer" element={<Consumer />}></Route>
-    </Routes>
+    <div className="kafka-container">
+      <Routes>
+        <Route path="/" element={<Topic topicData={props.topicData} />}></Route>
+        {/* <Route path="/" element={<Consumer />}></Route> */}
+        <Route path="/producer" element={<Producer />}></Route>
+        <Route path="/broker" element={<Broker />}></Route>
+        <Route
+          path="/topic"
+          element={<Topic topicData={props.topicData} />}
+        ></Route>
+        <Route path="/consumer" element={<Consumer />}></Route>
+      </Routes>
+    </div>
   );
 
   // conditionally render components depending on display state
