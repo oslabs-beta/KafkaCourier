@@ -44,43 +44,46 @@ producer.on('producer.network.request_timeout', (payload) => {
 const run = async () => {
   // Producing
   await producer.connect();
-  await producer.send({
-    topic: 'purchases',
-    messages: [
-      {
-        value: Buffer.from(
-          JSON.stringify({
-            event_name: 'QA',
-            payload: {
-              assessment: {
-                performance: 7,
-                quality: 7,
-                communication: 7,
-                flexibility: 7,
-                cost: 7,
-                delivery: 6,
+  for (let i = 0; i < 1000; i++) {
+    await producer.send({
+      topic: 'returns',
+      messages: [
+        {
+          value: Buffer.from(
+            JSON.stringify({
+              event_name: 'QA',
+              payload: {
+                assessment: {
+                  performance: 7,
+                  quality: 7,
+                  communication: 7,
+                  flexibility: 7,
+                  cost: 7,
+                  delivery: 6,
+                },
               },
-            },
-          })
-        ),
-      },
-    ],
-  });
+            })
+          ),
+        },
+      ],
+    });
+  }
 
   //FIRST CONSUMER
-  const consumer1 = kafka.consumer({ groupId: 'my-group' });
+  const consumer1 = kafka.consumer({ groupId: 'group2' });
   await consumer1.connect();
   await consumer1.subscribe({ topic: 'returns', fromBeginning: true });
-  console.log('consumer1 metrics: ', consumer1.metrics);
 
   //SECOND CONSUMER
-  const consumer2 = kafka.consumer({ groupId: 'group2' });
-  await consumer2.connect();
-  await consumer2.subscribe({ topic: 'purchases', fromBeginning: true });
+  // const consumer2 = kafka.consumer({ groupId: 'group2' });
+  // await consumer2.connect();
+  // await consumer2.subscribe({ topic: 'returns', fromBeginning: true });
 
-  console.log('kafka: ', kafkaMetricsObject);
-  console.log('consumer1: ', consumer1.metrics);
-  await consumer2.run({
+  // console.log('kafka: ', kafkaMetricsObject);
+  // console.log('consumer1: ', consumer1.metrics);
+
+  await consumer1.run({});
+  // await consumer2.run({
   
     // console.log('METRICS: ', consumer.metrics)
     // eachMessage: async ({ topic, partition, message }) => {
@@ -90,7 +93,11 @@ const run = async () => {
     //     value: message.value.toString(),
     //   });
     // },
-  });
+  // });
+  const consumers = await admin.describeGroups(['group2'])
+  console.log('members', consumers.groups[0].members) 
+  console.log('before member assignment ', AssignerProtocol.MemberAssignment.decode(consumers.groups[0].members[0].memberAssignment));
+  console.log('member assignment ', AssignerProtocol.MemberAssignment.decode(consumers.groups[0].members[0].memberAssignment).assignment);
 };
 
 run().catch(console.error);

@@ -113,8 +113,6 @@ const kafkaController = {
         // assign memeberId in objext
         // decode memberAssignment and access assignment property of the buffer and assign this to partition in result object
         //
-
-      console.log('resultObj ', resultObj);
       res.locals.consumerData = resultObj;
       next();
     }
