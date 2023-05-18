@@ -17,3 +17,15 @@
 //   height: 100vh !important;
 //   border-radius: 10px;
 // }
+
+.dashboard{
+    background-color: #BD9699;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    margin: 5rem;
+    margin-top: 3rem;
+}
+
+#root{
+    background-color: #BD9699;
+}

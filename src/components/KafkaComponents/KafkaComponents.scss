@@ -1,3 +1,15 @@
 table {
-    border: 1px solid lightgray;
+    border: 1px solid #22302D;
+}
+
+.topic-lower-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+    height: 700px;
+}
+
+.cardComponent{
+    height: 30%;
+    width: 90%;
 }

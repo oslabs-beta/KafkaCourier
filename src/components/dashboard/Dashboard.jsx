@@ -14,10 +14,14 @@ export default function Dashboard() {
       consumerGroups: [],
     })
   );
-
+  // const [topic, setTopic] = useState();
+  
+  // change useEffect dependency so it runs only on load and when display changes to topic
+    // avoid fetching unnecessarily
   useEffect(() => {
+    console.log('useEffect');
     getKafkaData('topic');
-  });
+  }, []);
 
   const getKafkaData = async (kafkaComponent) => {
     console.log('getKafka function invoked');
@@ -38,7 +42,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div class="test">
+    <div class="dashboard">
       <NavBar setDisplay={setDisplay} getKafkaData={getKafkaData} />
       <KafkaContainer display={display} topicData={topicData} />
     </div>

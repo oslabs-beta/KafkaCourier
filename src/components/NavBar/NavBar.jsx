@@ -1,12 +1,70 @@
-import React from 'react';
+// import React from 'react';
 import { Link } from 'react-router-dom';
 import './NavBar.scss';
+//MUI dependencies 
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import CssBaseline from '@mui/material/CssBaseline';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import List from '@mui/material/List';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+// import { makeStyles } from '@mui/styles';
+
 
 export default function NavBar(props) {
   //onClick functions must be anon to not be immediately called upon render
   return (
-    <nav>
-      <Link to="/home/producer">
+    <List sx={{
+      color:'white',
+    }}>
+      <ListItemButton  component={Link} >
+        <ListItemText primary="Topics" 
+          onClick={() => {
+            props.setDisplay('topic');
+            props.getKafkaData('topic');
+            console.log("Topics clicked!")}
+          }/>
+        </ListItemButton>
+        <ListItemButton 
+          component={Link} 
+          onClick={() => {props.setDisplay('producer'); 
+          console.log("Producers clicked!")}}>
+          <ListItemText primary="Producers" />
+        </ListItemButton>
+      <ListItemButton 
+        component={Link} 
+        onClick={() => {props.setDisplay('broker'); 
+        console.log("Brokers clicked!")}}>
+        <ListItemText primary="Brokers" />
+        </ListItemButton>
+      
+      <ListItemButton  
+        component={Link} 
+        onClick={() => {props.setDisplay('consumer'); 
+        console.log("Consumers clicked!")}}>
+        <ListItemText primary="Consumers" />
+        </ListItemButton>
+        <ListItemButton 
+          component={Link} 
+          onClick={() => {props.setDisplay('Account'); 
+          console.log("Accounts clicked!")}}>
+          <ListItemText primary="Accounts" />
+        </ListItemButton>
+    </List>
+  )
+}
+
+
+// component={Link} to="props.setDisplay('producer')"
+
+/* <Link to="/home/producer">
         <button onClick={() => props.setDisplay('producer')}>Producer</button>
       </Link>
       <Link to="/home/broker">
@@ -24,7 +82,4 @@ export default function NavBar(props) {
       </Link>
       <Link to="/home/consumer">
         <button onClick={() => props.setDisplay('consumer')}>Consumer</button>
-      </Link>
-    </nav>
-  );
-}
+      </Link> */

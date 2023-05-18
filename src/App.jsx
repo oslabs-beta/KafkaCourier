@@ -10,8 +10,8 @@ function Error() {
 
 export default function App() {
   // loggedIn state
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [inDatabase, setInDatabase] = useState();
+  const [loggedIn, setLoggedIn] = useState(true);
+  const [inDatabase, setInDatabase] = useState('111429477736994873824');
   const [sub, setSub] = useState();
   const serverUri = useRef();
   const apiKey = useRef();
@@ -54,6 +54,7 @@ export default function App() {
 
   return (
     <>
+      {/* <header>KAFKA COURIER</header> */}
       {/* if !loggedIn */}
       {/* <Dashboard />
       <CredentialForm

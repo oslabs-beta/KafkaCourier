@@ -71,6 +71,7 @@ const run = async () => {
   const consumer1 = kafka.consumer({ groupId: 'my-group' });
   await consumer1.connect();
   await consumer1.subscribe({ topic: 'returns', fromBeginning: true });
+  console.log('consumer1 metrics: ', consumer1.metrics);
 
   //SECOND CONSUMER
   const consumer2 = kafka.consumer({ groupId: 'group2' });
