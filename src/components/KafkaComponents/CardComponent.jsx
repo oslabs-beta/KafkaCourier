@@ -6,7 +6,7 @@ import React from 'react';
 export default function CardComponent(props) {
     return (
         // props.groupName
-        <Card class = "cardComponent">
+        <Card className = "cardComponent">
             <Typography component="div" variant="h5">
                 Chosen Topic
             </Typography>

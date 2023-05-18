@@ -22,14 +22,18 @@ const kafka = new Kafka({
 });
 
 const admin = kafka.admin();
+// (async () => await admin.connect())();
+admin.connect();
 
 const kafkaController = {
   async getTopicData(req, res, next) {
     try {
       // connect to kafka cluster
-      await admin.connect();
+      // await admin.connect();
       // get topic names and # of partitions
+      console.time('fetchTopicMetadata');
       const topicData = await admin.fetchTopicMetadata();
+      console.timeEnd('fetchTopicMetadata');
 
       const formattedData = {
         topics: [],
@@ -38,34 +42,44 @@ const kafkaController = {
       };
       // get # of consumer groups
 
+      //RETRIEVE GROUP IDs
+      console.time();
+      const groups = await admin.listGroups();
+      console.timeEnd();
+      const groupArray = [];
+      groups.groups.forEach((group) => {
+        groupArray.push(group.groupId);
+      });
+
       for (let i = 0; i < topicData.topics.length; i++) {
         // get topic names
         formattedData.topics.push(topicData.topics[i].name);
         // get # of partitions
         formattedData.partitions.push(topicData.topics[i].partitions.length);
+        
         // get # of consumer groups
         const consumerGroupCount = await getConsumerGroups(
-          topicData.topics[i].name
+          topicData.topics[i].name,
+          groupArray
         );
         formattedData.consumerGroups.push(consumerGroupCount);
         // formattedData.consumerGroups.push(groups.length);
       }
 
       res.locals.topicMetaData = formattedData;
-      await admin.disconnect();
       next();
     } catch (error) {
       console.log(error);
     }
 
     //function to retrieve consumer groups
-    async function getConsumerGroups(topic) {
-      //RETRIEVE GROUP IDs
-      const groups = await admin.listGroups();
-      const groupArray = [];
-      groups.groups.forEach((group) => {
-        groupArray.push(group.groupId);
-      });
+    async function getConsumerGroups(topic, groupArray) {
+      // //RETRIEVE GROUP IDs
+      // const groups = await admin.listGroups();
+      // const groupArray = [];
+      // groups.groups.forEach((group) => {
+      //   groupArray.push(group.groupId);
+      // });
 
       //Pass GroupId array as arg
       const consumerGroups = await admin.describeGroups(groupArray);
@@ -83,7 +97,7 @@ const kafkaController = {
   },
   async getConsumerData(req, res, next) {
     try{
-      await admin.connect()
+      // await admin.connect()
       const{consumerGroupId} = req.params
       const consumers = await admin.describeGroups([consumerGroupId])
       // create a result object to send to frontend
