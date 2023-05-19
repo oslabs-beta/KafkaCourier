@@ -3,7 +3,11 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import './styles.scss';
 
-export default function CredentialForm(props) {
+export default function CredentialForm({ setInDatabase, sub }) {
+
+  const serverUri = useRef();
+  const apiKey = useRef();
+  const apiSecret = useRef();
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -14,14 +18,14 @@ export default function CredentialForm(props) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          user_id: props.sub,
-          server: props.serverUri.current.value,
-          key: props.apiKey.current.value,
-          secret: props.apiSecret.current.value
+          user_id: sub,
+          server: serverUri.current.value,
+          key: apiKey.current.value,
+          secret: apiSecret.current.value
         })
       });
       const result = await response.json();
-      props.setInDatabase(true);
+      setInDatabase(true);
     } catch (err) {
       console.log('Error in CredentialForm: ', err);
     }
@@ -42,7 +46,7 @@ export default function CredentialForm(props) {
           id="filled-required"
           label="Enter Kafka Server URI:"
           variant="filled"
-          inputRef={props.serverUri}
+          inputRef={serverUri}
         />
 
         {/* <label>
@@ -54,7 +58,7 @@ export default function CredentialForm(props) {
           id="filled-required"
           label="Enter API Key:"
           variant="filled"
-          inputRef={props.apiKey}
+          inputRef={apiKey}
         />
 
         {/* <label>
@@ -67,7 +71,7 @@ export default function CredentialForm(props) {
           label="Enter API Secret:"
           type="password"
           variant="filled"
-          inputRef={props.apiSecret}
+          inputRef={apiSecret}
         />
 
         <button onClick={handleClick}>Submit</button>

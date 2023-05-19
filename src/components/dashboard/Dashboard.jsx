@@ -4,7 +4,8 @@ import KafkaContainer from '../KafkaContainer/KafkaContainer.jsx';
 import './dashboard.scss';
 
 //setState
-export default function Dashboard() {
+export default function Dashboard({ serverUri, apiKey, apiSecret }) {
+
   // set default display to topic
   const [display, setDisplay] = useState('topic');
   const [topicData, setTopicData] = useState(
@@ -16,7 +17,7 @@ export default function Dashboard() {
   );
   // const [topic, setTopic] = useState();
   
-  // change useEffect dependency so it runs only on load and when display changes to topic
+  /**** change useEffect dependency so it runs only on load and when display changes to topic ****/
     // avoid fetching unnecessarily
   useEffect(() => {
     console.log('useEffect');
