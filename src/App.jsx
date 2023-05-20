@@ -38,7 +38,7 @@ export default function App() {
 
   return (
     <>
-      {/* <header>KAFKA COURIER</header> */}
+     
       {/* if !loggedIn */}
       {/* <Dashboard />
       <CredentialForm
@@ -56,33 +56,13 @@ export default function App() {
           {/* // login page will be root path  */}
           {/* <Route path='/' element={<Login />}/> */}
           <Route exact path="/" element={components}></Route>
-          <Route path="/credentials" element={<CredentialForm />} />
-          <Route path="/home/*" element={<Dashboard />} />
-          <Route path="/*" element={<Error />} />
+          {/* <Route path="/credentials" element={<CredentialForm />} /> */}
+          {/* <Route path="/home/*" element={<Dashboard />} /> */}
+          <Route path="/*" element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
     </>
   );
 }
 
-// return (
-//     <div>
-//       {components}
-//       {/* if !loggedIn */}
-//       {/* <Login setSub={setSub}/> */}
 
-//       {/* <CredentialForm
-//         serverUri={serverUri}
-//         apiKey={apiKey}
-//         apiSecret={apiSecret}
-//         handleClick={handleClick}
-//       />
-
-//       <Dashboard
-//         serverUri={serverUri}
-//         apiKey={apiKey}
-//         apiSecret={apiSecret}
-//       /> */}
-
-// </div>
-// );
