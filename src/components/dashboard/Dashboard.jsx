@@ -6,7 +6,7 @@ import './dashboard.scss';
 //setState
 export default function Dashboard() {
   // set default display to topic
-  const [display, setDisplay] = useState('topic');
+  const [display, setDisplay] = useState('');
   const [topicData, setTopicData] = useState(
     JSON.stringify({
       topics: [],
@@ -14,7 +14,7 @@ export default function Dashboard() {
       consumerGroups: [],
     })
   );
-  // const [topic, setTopic] = useState();
+
   
   // change useEffect dependency so it runs only on load and when display changes to topic
     // avoid fetching unnecessarily
