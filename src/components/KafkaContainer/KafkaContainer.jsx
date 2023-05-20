@@ -11,14 +11,13 @@ export default function KafkaContainer(props) {
   return (
     <div className="kafka-container">
       <Routes>
-        <Route path="/" element={<Topic topicData={props.topicData} />}></Route>
         {/* <Route path="/" element={<Consumer />}></Route> */}
-        <Route path="/producer" element={<Producer />}></Route>
-        <Route path="/broker" element={<Broker />}></Route>
         <Route
           path="/topic"
           element={<Topic topicData={props.topicData} />}
         ></Route>
+        <Route path="/producer" element={<Producer />}></Route>
+        <Route path="/broker" element={<Broker />}></Route>
         <Route path="/consumer" element={<Consumer />}></Route>
       </Routes>
     </div>

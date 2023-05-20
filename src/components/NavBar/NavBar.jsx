@@ -23,7 +23,6 @@ export default function NavBar(props) {
   const useStyles = makeStyles(() => ({
     listItemButton: {
       border: '1px solid #F8F2E3 !important',
-      backgroundColor: '#F8F2E3' 
     },
   }));
 const useStylesFunction = useStyles();
@@ -35,13 +34,27 @@ const useStylesFunction = useStyles();
       border: '2px solid #F8F2E3',
       marginRight: '10px'
     }}>
-      <ListItemButton 
+    <ListItem>
+      <Link to="/topic">Topics</Link>
+    </ListItem>
+      <ListItem>
+    <Link to="/producer">Producers</Link>
+      </ListItem>
+    <ListItem>
+      <Link to="/broker">Brokers</Link>
+    </ListItem>
+    <ListItem>
+      <Link to="/consumer">Consumers</Link>
+    </ListItem>
+    <ListItem>
+      <Link to="/account">Account</Link>
+    </ListItem>
+      {/* <ListItemButton 
       className={useStylesFunction.listItemButton} 
       component={Link} >
         <ListItemText primary="Topics" 
           onClick={() => {
             props.setDisplay('topic');
-            props.getKafkaData('topic');
             console.log("Topics clicked!")}
           }/>
         </ListItemButton>
@@ -73,7 +86,7 @@ const useStylesFunction = useStyles();
           onClick={() => {props.setDisplay('Account'); 
           console.log("Accounts clicked!")}}>
           <ListItemText primary="Accounts" />
-        </ListItemButton>
+        </ListItemButton> */}
     </List>
   )
 }
