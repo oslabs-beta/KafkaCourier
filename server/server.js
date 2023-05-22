@@ -39,6 +39,7 @@ app.get('/api/topic',
 );
 
 // get consumer data
+
 app.get('/api/consumerData/:consumerGroupId', 
   kafkaController.getConsumerData, 
   (req, res, next) => {
