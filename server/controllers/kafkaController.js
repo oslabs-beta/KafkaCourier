@@ -1,6 +1,7 @@
 const { Kafka } = require('kafkajs');
 require('dotenv').config();
 const { Partitioners, AssignerProtocol } = require('kafkajs');
+const { exec } = require('child_process');
 
 let admin;
 
@@ -62,7 +63,7 @@ const kafkaController = {
         formattedData.topics.push(topicData.topics[i].name);
         // get # of partitions
         formattedData.partitions.push(topicData.topics[i].partitions.length);
-        
+
         // get # of consumer groups
         const consumerGroupCount = await getConsumerGroups(
           topicData.topics[i].name,
@@ -102,31 +103,64 @@ const kafkaController = {
     }
   },
   async getConsumerData(req, res, next) {
-    try{
+    try {
       // await admin.connect()
-      const{consumerGroupId} = req.params
-      const consumers = await admin.describeGroups([consumerGroupId])
+      const { consumerGroupId } = req.params;
+      const consumers = await admin.describeGroups([consumerGroupId]);
       // create a result object to send to frontend
       let resultObj = {
         memberId: [],
-        partitions: []
-      }
+        partitions: [],
+      };
       // loop over consumer.groups[0].members
-      consumers.groups[0].members.forEach(member => {
+      consumers.groups[0].members.forEach((member) => {
         resultObj.memberId.push(member.memberId);
-        resultObj.partitions.push(AssignerProtocol.MemberAssignment.decode(member.memberAssignment).assignment);
-      })
-        // assign memeberId in objext
-        // decode memberAssignment and access assignment property of the buffer and assign this to partition in result object
-        //
+        resultObj.partitions.push(
+          AssignerProtocol.MemberAssignment.decode(member.memberAssignment)
+            .assignment
+        );
+      });
+      // assign memeberId in objext
+      // decode memberAssignment and access assignment property of the buffer and assign this to partition in result object
+      //
       res.locals.consumerData = resultObj;
       next();
-    }
-    catch(error) {
+    } catch (error) {
       console.log(error);
       next(error);
     }
-  }
+  },
+
+  async getConsumerDataCLI(req, res, next) {
+    try {
+      const { consumerGroupId } = req.params;
+      const command = `kafka-consumer-groups --bootstrap-server ${server} --command-config server/cloud.properties --group ${consumerGroupId} --describe`;
+      exec(command, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`Error executing command: ${error.message}`);
+          return;
+        }
+
+        if (stderr) {
+          console.error(`Command stderr: ${stderr}`);
+          return;
+        }
+
+        // console.log('STDOUT: ', stdout);
+        let array = stdout.trim().split('\n');
+        let lagArray = array[0].split(/\s+/).indexOf('LAG');
+        let newArray2 = array.slice(1).map((line) => {
+          const columns = line.split(/\s+/);
+          return Number(columns[lagArray]);
+        });
+      });
+      res.locals.consumerLag = newArray2;
+      return next();
+    } catch (error) {
+      console.log(error);
+      return next(error);
+    }
+  },
 };
 
 module.exports = kafkaController;
