@@ -33,7 +33,7 @@ app.get('/api/checkUser/:user',
 // get topic data
 app.get('/api/topic', 
   kafkaController.getTopicData, 
-  (req, res, next) => {
+  (req, res) => {
     res.status(200).json(res.locals.topicMetaData);
   }
 );
@@ -41,7 +41,7 @@ app.get('/api/topic',
 // get consumer data
 app.get('/api/consumerData/:consumerGroupId', 
   kafkaController.getConsumerData, 
-  (req, res, next) => {
+  (req, res) => {
     res.status(200).json(res.locals.consumerData);
   }
 )
