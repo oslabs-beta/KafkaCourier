@@ -13,31 +13,17 @@ export default function App() {
   const [loggedIn, setLoggedIn] = useState();
   const [inDatabase, setInDatabase] = useState(); // '111429477736994873824'
   const [sub, setSub] = useState();
-  const serverUri = useRef();
-  const apiKey = useRef();
-  const apiSecret = useRef();
-
-  // const handleClick = async () => {
-  //   const response = await fetch('/api/createUser', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({
-  //       user: sub,
-  //       server: serverUri.current.value,
-  //       key: apiKey.current.value,
-  //       secret: apiSecret.current.value
-  //     })
-  //   });
-  //   const result = response.json();
-  //   console.log(result);
-  // };
+  const [serverUri, setServerUri] = useState();
+  const [apiKey, setApiKey] = useState();
+  const [apiSecret, setApiSecret] = useState();
 
   let components = !loggedIn ? (
     <Login
-      setInDatabase={setInDatabase}
       setSub={setSub}
+      setServerUri={setServerUri}
+      setApiKey={setApiKey}
+      setApiSecret={setApiSecret}
+      setInDatabase={setInDatabase}
       setLoggedIn={setLoggedIn}
     />
   ) : inDatabase ? (
@@ -49,9 +35,6 @@ export default function App() {
     <CredentialForm
       setInDatabase={setInDatabase}
       sub={sub}
-      serverUri={serverUri}
-      apiKey={apiKey}
-      apiSecret={apiSecret}
     />
   );
 

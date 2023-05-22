@@ -5,7 +5,7 @@ import './dashboard.scss';
 import Logout from '../Login/Logout.jsx'
 
 //setState
-export default function Dashboard({ setSub, setLoggedIn, setInDatabase }) {
+export default function Dashboard({ serverUri, apiKey, apiSecret, setSub, setLoggedIn, setInDatabase  }) {
   // set default display to topic
   const [display, setDisplay] = useState();
   const [topicData, setTopicData] = useState(
@@ -16,8 +16,8 @@ export default function Dashboard({ setSub, setLoggedIn, setInDatabase }) {
     })
   );
 
-  // change useEffect dependency so it runs only on load and when display changes to topic
-    // avoid fetching unnecessarily
+
+  /**** change useEffect dependency so it runs only on load and when display changes to topic ****/
   useEffect(() => {
     console.log('useEffect');
     getKafkaData('topic');

@@ -3,25 +3,40 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import './styles.scss';
 
-export default function CredentialForm(props) {
+export default function CredentialForm({ setInDatabase, sub }) {
+
+  const serverUri = useRef();
+  const apiKey = useRef();
+  const apiSecret = useRef();
 
   const handleClick = async (e) => {
     e.preventDefault();
     try {
+      const server = serverUri.current.value;
+      const key = apiKey.current.value;
+      const secret = apiSecret.current.value;
+
+      // show helperText below input fields if any are empty
+      // if (!server || !key || !secret) throw new Error();
+      // if (!server) {
+      //   console.log(serverUri);
+      //   throw new Error('Server URI required');
+      // }
+
       const response = await fetch('/api/createUser', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          user_id: props.sub,
-          server: props.serverUri.current.value,
-          key: props.apiKey.current.value,
-          secret: props.apiSecret.current.value
+          user_id: sub,
+          server,
+          key,
+          secret
         })
       });
       const result = await response.json();
-      props.setInDatabase(true);
+      setInDatabase(true);
     } catch (err) {
       console.log('Error in CredentialForm: ', err);
     }
@@ -39,10 +54,12 @@ export default function CredentialForm(props) {
             width: 300,
           }}
           required
-          id="filled-required"
+          // id="filled-required"
+          id="uri-input"
           label="Enter Kafka Server URI:"
           variant="filled"
-          inputRef={props.serverUri}
+          inputRef={serverUri}
+          // helperText="Please enter a server URI"
         />
 
         {/* <label>
@@ -51,10 +68,11 @@ export default function CredentialForm(props) {
         </label> */}
         <TextField
           required
-          id="filled-required"
+          // id="filled-required"
+          id="api-key-input"
           label="Enter API Key:"
           variant="filled"
-          inputRef={props.apiKey}
+          inputRef={apiKey}
         />
 
         {/* <label>
@@ -63,11 +81,12 @@ export default function CredentialForm(props) {
         </label> */}
         <TextField
           required
-          id="filled-password-input"
+          // id="filled-password-input"
+          id="api-secret-input"
           label="Enter API Secret:"
           type="password"
           variant="filled"
-          inputRef={props.apiSecret}
+          inputRef={apiSecret}
         />
 
         <button onClick={handleClick}>Submit</button>
