@@ -58,7 +58,8 @@ export default function NavBar(props) {
       color:'#F8F2E3',
       // backgroundColor: 'lightgrey'
       border: '2px solid #F8F2E3',
-      marginRight: '10px'
+      marginRight: '10px',
+      paddingTop: 0
     }}>
       <ListItem component={Link} to="/topic" className="ListItem" id="topic" onClick={() => props.setDisplay('topic')}>
         <TopicIcon></TopicIcon>
