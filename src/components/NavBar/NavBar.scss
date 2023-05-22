@@ -1,3 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:wght@400;500&display=swap');
+$darkestGray: #1e1e1e;
+$darkGray: #313131;
+$gray: #4d4c4c;
+$pink: #BD9699;
+
+.dashboard .navBar {
+    background-color: #EFF2F3;
+    margin: 0;
+    border-radius: 12px;
+    padding: 10px;
+}
+
+.navBar a {
+    color: $gray;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.MuiSvgIcon-root {
+    color: $gray;
+}
+
+// .MuiListItem-root {
+//     display: flex;
+//     gap: 15px;
+//     border-radius: 4px;
+//     margin: 2px 0 2px 0;
+//     padding-left: 25px;
+// }
+
+.navBar .ListItem {
+    display: flex;
+    gap: 12px;
+    margin: 2px 0 2px 0;
+    padding-left: 15px;
+    height: 45px;
+    border-radius: 16px;
+}
+
+.navBar .ListItem:hover, .navBar .navBarCurrent {
+    background-color: $pink;
+    color: white;
+}
+
+.navBar .ListItem:hover svg, .navBarCurrent svg {
+    color: white;
+}
+
+
 // button {
 //   cursor: pointer;
 // }

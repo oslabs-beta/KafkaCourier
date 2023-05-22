@@ -1,9 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@400;500&display=swap');
 
+$darkestGray: #1e1e1e;
+$darkGray: #313131;
+$lightGray: #9b9b9b;
+$lightestGray: #e8e5e5;
+$pink: #BD9699;
 
+.cardComponent div {
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+}
 
 table {
-    border: 1px solid #22302D;
-    
+    // border: 1px solid #22302D;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+}
+
+table .MuiTableCell-root {
+    font-family: 'Inter', sans-serif;
+    color: $darkestGray;
+}
+
+table .MuiTableCell-head {
+    font-weight: 600;
+}
+
+table .MuiTableBody-root:last-child {
+    border-bottom: none; /* Remove the bottom border from the last row */
+}
+
+.topic-upper-container .MuiTableBody-root .MuiTableRow-root:hover {
+    cursor: pointer;
+    background-color: $lightestGray;
+    color: white;
+}
+
+.topic-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .topic-lower-container {
@@ -18,7 +55,7 @@ table {
     // min-height: 40vh;
     height: 40vh;
     width: 90%;
-    color: #22302D;
+    color: $pink;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 

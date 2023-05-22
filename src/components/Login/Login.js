@@ -40,6 +40,7 @@ export default function Login({
       <GoogleLogin
         onSuccess={async credentialResponse => {
           const decoded = jwt_decode(credentialResponse.credential);
+          console.log('decoded: ', decoded);
           setSub(decoded.sub);
           await verifyUser(decoded.sub);
           setLoggedIn(true);

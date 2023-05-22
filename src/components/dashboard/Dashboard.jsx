@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import NavBar from '../NavBar/NavBar.jsx';
 import KafkaContainer from '../KafkaContainer/KafkaContainer.jsx';
 import './dashboard.scss';
+import Logout from '../Login/Logout.jsx'
 
 //setState
-export default function Dashboard({ serverUri, apiKey, apiSecret }) {
+export default function Dashboard({ setSub, setLoggedIn, setInDatabase, serverUri, apiKey, apiSecret }) {
 
   // set default display to topic
-  const [display, setDisplay] = useState('');
+  const [display, setDisplay] = useState();
   const [topicData, setTopicData] = useState(
     JSON.stringify({
       topics: [],
@@ -43,9 +44,15 @@ export default function Dashboard({ serverUri, apiKey, apiSecret }) {
   };
 
   return (
-    <div className="dashboard">
-      <NavBar setDisplay={setDisplay} getKafkaData={getKafkaData} />
+    <div class="dashboard">
+      {/* <Logout
+        setInDatabase={setInDatabase}
+        setSub={setSub}
+        setLoggedIn={setLoggedIn}>
+      </Logout> */}
+      <NavBar display={display} setDisplay={setDisplay} getKafkaData={getKafkaData} />
       <KafkaContainer display={display} topicData={topicData} />
+      <Logout setLoggedIn={setLoggedIn}></Logout>
     </div>
   );
 }
