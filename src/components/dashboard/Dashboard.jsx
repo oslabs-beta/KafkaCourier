@@ -17,9 +17,8 @@ export default function Dashboard({ setSub, setLoggedIn, setInDatabase, serverUr
     })
   );
 
-  
+
   /**** change useEffect dependency so it runs only on load and when display changes to topic ****/
-    // avoid fetching unnecessarily
   useEffect(() => {
     console.log('useEffect');
     getKafkaData('topic');
