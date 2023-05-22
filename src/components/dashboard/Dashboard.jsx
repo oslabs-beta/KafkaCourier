@@ -5,7 +5,7 @@ import './dashboard.scss';
 import Logout from '../Login/Logout.jsx'
 
 //setState
-export default function Dashboard({ setSub, setLoggedIn, setInDatabase }) {
+export default function Dashboard({ setSub, setLoggedIn, setInDatabase, removeCookie }) {
   // set default display to topic
   const [display, setDisplay] = useState();
   const [topicData, setTopicData] = useState(
@@ -43,14 +43,9 @@ export default function Dashboard({ setSub, setLoggedIn, setInDatabase }) {
 
   return (
     <div class="dashboard">
-      {/* <Logout
-        setInDatabase={setInDatabase}
-        setSub={setSub}
-        setLoggedIn={setLoggedIn}>
-      </Logout> */}
       <NavBar display={display} setDisplay={setDisplay} getKafkaData={getKafkaData} />
       <KafkaContainer display={display} topicData={topicData} />
-      <Logout setLoggedIn={setLoggedIn}></Logout>
+      <Logout setLoggedIn={setLoggedIn} removeCookie={removeCookie}></Logout>
     </div>
   );
 }

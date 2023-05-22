@@ -1,8 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import CredentialForm from './components/CredentialForm/CredentialForm.js';
 import Dashboard from './components/dashboard/Dashboard.jsx';
 import Login from './components/Login/Login.js';
+import { useCookies } from 'react-cookie';
 
 function Error() {
   return <div>THIS IS AN ERROR BAD</div>;
@@ -13,38 +14,40 @@ export default function App() {
   const [loggedIn, setLoggedIn] = useState();
   const [inDatabase, setInDatabase] = useState(); // '111429477736994873824'
   const [sub, setSub] = useState();
-  const serverUri = useRef();
-  const apiKey = useRef();
-  const apiSecret = useRef();
+  const [serverUri, setServerUri] = useState();
+  const [apiKey, setApiKey] = useState();
+  const [apiSecret, setApiSecret] = useState();
+  // cookie handling
+  const [cookies, setCookie, removeCookie] = useCookies();
 
-  // const handleClick = async () => {
-  //   const response = await fetch('/api/createUser', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({
-  //       user: sub,
-  //       server: serverUri.current.value,
-  //       key: apiKey.current.value,
-  //       secret: apiSecret.current.value
-  //     })
-  //   });
-  //   const result = response.json();
-  //   console.log(result);
-  // };
+  useEffect(() => {
+    // check if user has an existing session
+    if (cookies.kafka_courier_session) {
+      setSub(cookies.kafka_courier_session.user_id)
+      setLoggedIn(true);
+      setInDatabase(true);// what happens if the user has an active session but hasn't entered kafka credentials yet?
+    }
+    else {
+      setLoggedIn(false);
+    }
+  })
 
   let components = !loggedIn ? (
     <Login
-      setInDatabase={setInDatabase}
       setSub={setSub}
+      setServerUri={setServerUri}
+      setApiKey={setApiKey}
+      setApiSecret={setApiSecret}
+      setInDatabase={setInDatabase}
       setLoggedIn={setLoggedIn}
+      setCookie={setCookie}
     />
   ) : inDatabase ? (
     <Dashboard serverUri={serverUri} apiKey={apiKey} apiSecret={apiSecret} 
       setInDatabase={setInDatabase}
       setSub={setSub}
-      setLoggedIn={setLoggedIn}/>
+      setLoggedIn={setLoggedIn}
+      removeCookie={removeCookie}/>
   ) : (
     <CredentialForm
       setInDatabase={setInDatabase}
