@@ -3,30 +3,42 @@ require('dotenv').config();
 const { Partitioners, AssignerProtocol } = require('kafkajs');
 const { exec } = require('child_process');
 
-// This creates a client instance that is configured to connect to the Kafka broker provided by
-// the environment variable KAFKA_BOOTSTRAP_SERVER
-const { KAFKA_USERNAME: username, KAFKA_PASSWORD: password } = process.env;
-const sasl =
-  username && password ? { username, password, mechanism: 'plain' } : null;
-const ssl = !!sasl;
-
-const kafka = new Kafka({
-  clientId: 'qa-topic',
-  brokers: ['pkc-6ojv2.us-west4.gcp.confluent.cloud:9092'],
-  logLevel: 2,
-  ssl,
-  sasl: {
-    mechanism: 'plain',
-    username,
-    password,
-  },
-});
-
-const admin = kafka.admin();
-// connect to kafka cluster
-admin.connect();
+let admin;
 
 const kafkaController = {
+  // connect to kafka cluster and admin api in order to prefetch
+  async connect(req, res, next) {
+    try {
+      // connect to kafka broker only if res.locals.rows contains nonempty array 
+      // allows middleware to be used both when user does and doesn't exist in database
+      if (res.locals.rows.length) {
+        const { server, username, password } = res.locals;
+        const sasl =
+          username && password ? { username, password, mechanism: 'plain' } : null;
+        const ssl = !!sasl;
+        // This creates a client instance that is configured to connect to the Kafka broker
+        const kafka = new Kafka({
+          clientId: 'qa-topic',
+          brokers: [server],
+          logLevel: 2,
+          ssl,
+          sasl: {
+            mechanism: 'plain',
+            username,
+            password,
+          },
+        });
+
+        // connect to admin API
+        admin = kafka.admin();
+        admin.connect();
+      }
+      next();
+    } catch (err) {
+      console.log('Error in kafkaController.connect: ', err);
+    }
+  },
+
   async getTopicData(req, res, next) {
     try {
       // await admin.connect();
