@@ -15,38 +15,43 @@ const PORT = 3000;
 app.use(express.static(path.join(__dirname, './src')));
 
 //create user
-app.post('/api/createUser', async (req, res) => {
-  // get credentials from req.body
-  const { user_id, server, key, secret } = req.body;
-  //sql query
-  const query = `INSERT INTO login (user_id, server, key, secret)
-                VALUES ($1, $2, $3, $4)
-                RETURNING *`;
-  const result = await pool.query(query, [user_id, server, key, secret]);
-  res.status(200).json(result.rows[0]);
+app.post('/api/createUser', 
+  userController.createUser,
+  kafkaController.connect,
+  async (req, res) => {
+    res.status(200).json(res.locals.rows);
 });
 
 app.get('/api/checkUser/:user',
-  userController.checkUser, 
+  userController.checkUser,
+  kafkaController.connect, 
   async (req, res) => {
     res.status(200).json(res.locals.rows);
   }
 );
 
 // get topic data
-app.get('/api/topic', kafkaController.getTopicData, (req, res, next) => {
-  res.status(200).json(res.locals.topicMetaData);
-});
+app.get('/api/topic', 
+  kafkaController.getTopicData, 
+  (req, res, next) => {
+    res.status(200).json(res.locals.topicMetaData);
+  }
+);
 
 // get consumer data
-app.get('/api/consumerData/:consumerGroupId', kafkaController.getConsumerData, (req, res, next) => {
-  res.status(200).json(res.locals.consumerData);
-})
+app.get('/api/consumerData/:consumerGroupId', 
+  kafkaController.getConsumerData, 
+  (req, res, next) => {
+    res.status(200).json(res.locals.consumerData);
+  }
+)
 
-//catch-all route for errors
+// catch-all route for errors
 app.get('*', (req, res) => {
   res.sendStatus(404);
 });
+
+// express global error handler
 
 // start server
 app.listen(PORT, () => {

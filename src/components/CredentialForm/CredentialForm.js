@@ -12,6 +12,17 @@ export default function CredentialForm({ setInDatabase, sub }) {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
+      const server = serverUri.current.value;
+      const key = apiKey.current.value;
+      const secret = apiSecret.current.value;
+
+      // show helperText below input fields if any are empty
+      // if (!server || !key || !secret) throw new Error();
+      // if (!server) {
+      //   console.log(serverUri);
+      //   throw new Error('Server URI required');
+      // }
+
       const response = await fetch('/api/createUser', {
         method: 'POST',
         headers: {
@@ -19,9 +30,9 @@ export default function CredentialForm({ setInDatabase, sub }) {
         },
         body: JSON.stringify({
           user_id: sub,
-          server: serverUri.current.value,
-          key: apiKey.current.value,
-          secret: apiSecret.current.value
+          server,
+          key,
+          secret
         })
       });
       const result = await response.json();
@@ -43,10 +54,12 @@ export default function CredentialForm({ setInDatabase, sub }) {
             width: 300,
           }}
           required
-          id="filled-required"
+          // id="filled-required"
+          id="uri-input"
           label="Enter Kafka Server URI:"
           variant="filled"
           inputRef={serverUri}
+          // helperText="Please enter a server URI"
         />
 
         {/* <label>
@@ -55,7 +68,8 @@ export default function CredentialForm({ setInDatabase, sub }) {
         </label> */}
         <TextField
           required
-          id="filled-required"
+          // id="filled-required"
+          id="api-key-input"
           label="Enter API Key:"
           variant="filled"
           inputRef={apiKey}
@@ -67,7 +81,8 @@ export default function CredentialForm({ setInDatabase, sub }) {
         </label> */}
         <TextField
           required
-          id="filled-password-input"
+          // id="filled-password-input"
+          id="api-secret-input"
           label="Enter API Secret:"
           type="password"
           variant="filled"
