@@ -75,7 +75,8 @@ export default function App() {
           {/* // login page will be root path  */}
           <Route exact path="/" element={components}></Route>
           {/* <Route path="/credentials" element={<CredentialForm />} /> */}
-          {/* <Route path="/home/*" element={<Dashboard />} /> */}
+
+          {/* Only allow users that are logged in to these pages */}
           <Route path="/*" element={components}></Route>
            {/* <Route path="/*" element={<Dashboard serverUri={serverUri} apiKey={apiKey} apiSecret={apiSecret} 
             setInDatabase={setInDatabase}

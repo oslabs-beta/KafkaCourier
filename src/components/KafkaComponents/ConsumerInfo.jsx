@@ -28,7 +28,6 @@ export default function ConsumerInfo() {
     for (let i = 0; i < data.memberId.length; i++) {
       res.push(<TableRow>
         <TableCell>{data.memberId[i]}</TableCell>
-        // returns is hardcoded replace with topic
         <TableCell>{data.partitions[i].returns.join()}</TableCell>
       </TableRow>)
     }   
@@ -44,7 +43,9 @@ export default function ConsumerInfo() {
                     <TableCell>Partitions Subscribed To</TableCell>
                 </TableRow>
             </TableHead>
-            {res}
+            <TableBody>
+              {res}
+            </TableBody>
         </Table>
     </TableContainer>
   )

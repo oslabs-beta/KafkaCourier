@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -14,8 +14,17 @@ import './KafkaComponents.scss';
 
 // row component to render within Topic
 function TopicRow(props) {
+  const [topic, setTopic] = useState();
+  useEffect(() => {
+    // change color of current topic row
+    if (topic) {
+      const element = document.getElementById(topic);
+      element.classList.add('currentTopic');
+    }
+  });
+
   return (
-    <TableRow>
+    <TableRow onClick={() => setTopic(props.topicName)} topic={topic} id={topic}>
       <TableCell>{props.topicName}</TableCell>
       <TableCell>{props.partitions}</TableCell>
       <TableCell>{props.consumerGroups}</TableCell>
@@ -24,6 +33,8 @@ function TopicRow(props) {
 }
 
 export default function Topic(props) {
+  // set current topic
+
   const topicData = JSON.parse(props.topicData);
   console.log('topicData', topicData);
   const topics = [];
@@ -37,7 +48,7 @@ export default function Topic(props) {
     );
   }
   return (
-    <>
+    <div className="topic-container">
       <div className="topic-upper-container">
         <TableContainer>
           <Table>
@@ -76,6 +87,6 @@ export default function Topic(props) {
         <CardComponent />
         <CardComponent /> */}
       </div>
-    </>
+    </div>
   );
 }
