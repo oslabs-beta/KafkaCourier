@@ -22,18 +22,4 @@ export default function KafkaContainer(props) {
       </Routes>
     </div>
   );
-
-  // conditionally render components depending on display state
-  // switch(props.display) {
-  //   case 'consumer':
-  //     return <div id='kafka'><Consumer /></div>;
-  //   case 'producer':
-  //     return <Producer />;
-  //   case 'broker':
-  //     return <Broker/>;
-  //   case 'topic':
-  //     return <Topic />;
-  //   default:
-  //     return <Topic />
-  // }
 }

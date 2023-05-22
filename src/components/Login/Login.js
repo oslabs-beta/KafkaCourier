@@ -30,6 +30,7 @@ export default function Login({ setSub, setLoggedIn, setInDatabase }) {
         onSuccess={async credentialResponse => {
           console.log(credentialResponse);
           const decoded = jwt_decode(credentialResponse.credential);
+          console.log('decoded: ', decoded);
           setSub(decoded.sub);
           await verifyUser(decoded.sub);
           setLoggedIn(true);
