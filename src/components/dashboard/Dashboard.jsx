@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import NavBar from '../NavBar/NavBar.jsx';
 import KafkaContainer from '../KafkaContainer/KafkaContainer.jsx';
 import './dashboard.scss';
+import Logout from '../Login/Logout.jsx'
 
 //setState
-export default function Dashboard() {
+export default function Dashboard({ setSub, setLoggedIn, setInDatabase }) {
   // set default display to topic
   const [display, setDisplay] = useState('');
   const [topicData, setTopicData] = useState(
@@ -43,6 +44,12 @@ export default function Dashboard() {
 
   return (
     <div class="dashboard">
+      <button class="btn btn-blue">HOLA</button>
+      <Logout
+        setInDatabase={setInDatabase}
+        setSub={setSub}
+        setLoggedIn={setLoggedIn}>
+      </Logout>
       <NavBar setDisplay={setDisplay} getKafkaData={getKafkaData} />
       <KafkaContainer display={display} topicData={topicData} />
     </div>
