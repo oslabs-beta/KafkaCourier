@@ -18,14 +18,17 @@
 //   border-radius: 10px;
 // }
 
-.dashboard{
+.dashboard {
     background-color: #BD9699;
     display: grid;
-    grid-template-columns: 1fr 3fr;
-    margin: 5rem;
-    margin-top: 3rem;
+    grid-template-columns: 1fr 5fr;
+    grid-gap: 10px;
+    padding: 10px;
+    padding-top: 20px;
+    // margin: 5rem;
+    // margin-top: 3rem;
 }
 
-#root{
+#root {
     background-color: #BD9699;
 }
