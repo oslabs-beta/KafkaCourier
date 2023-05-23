@@ -11,11 +11,11 @@ function Error() {
 export default function App() {
   // loggedIn state
   const [loggedIn, setLoggedIn] = useState();
-  const [inDatabase, setInDatabase] = useState(); // '111429477736994873824'
+  const [inDatabase, setInDatabase] = useState();
   const [sub, setSub] = useState();
-  const [serverUri, setServerUri] = useState();
-  const [apiKey, setApiKey] = useState();
-  const [apiSecret, setApiSecret] = useState();
+  const [serverUri, setServerUri] = useState(); // pkc-6ojv2.us-west4.gcp.confluent.cloud:9092
+  const [apiKey, setApiKey] = useState(); // 66Q24F3Z7OMTPVPC
+  const [apiSecret, setApiSecret] = useState(); // F9uRCY83yyn+Ta7xfV4HKL0pLfsCUeYXc0Jk40Afdamw/8E7cGCrIH+s+G58TLH3
 
   let components = !loggedIn ? (
     <Login

@@ -4,7 +4,21 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from "d3";
 import ConsumerInfo from './ConsumerInfo.jsx';
-import "./CardComponent.css"
+import "./CardComponent.css";
+
+import { io } from 'socket.io-client';
+const socket = io('http://localhost:3001');
+socket.on('connect', () => {
+  console.log('socket connected');
+});
+
+socket.on('group2', obj => {
+  console.log('obj1: ', obj);
+})
+
+// socket1.emit('event', {
+//   a: 100
+// });
 
 //LINE GRAPH
 const LineGraph = () => {
@@ -21,7 +35,7 @@ const LineGraph = () => {
     ];
 
     // Set up dimensions
-    const width = 400;
+    const width = 350;
     const height = 300;
     const margin = { top: 20, right: 20, bottom: 30, left: 50 };
     const graphWidth = width - margin.left - margin.right;
