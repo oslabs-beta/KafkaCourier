@@ -1,39 +1,34 @@
 // import Card from '@mui/material/Card';
 // import CardMedia from '@mui/material/CardMedia';
 // import Typography from '@mui/material/Typography';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from "d3";
 import ConsumerInfo from './ConsumerInfo.jsx';
 import "./CardComponent.css";
 
 import { io } from 'socket.io-client';
-const socket = io('http://localhost:3001');
-socket.on('connect', () => {
-  console.log('socket connected');
-});
-
-socket.on('group2', obj => {
-  console.log('obj1: ', obj);
-})
-
-// socket1.emit('event', {
-//   a: 100
-// });
 
 //LINE GRAPH
 const LineGraph = () => {
   const graphRef = useRef(null);
+  const [data, setData] = useState([]);
+  const [sockets, setSockets] = useState(false);
+
+  if (!sockets) {
+    const socket = io('http://localhost:3001');
+    socket.on('group2', obj => {
+      console.log('data: ', data);
+      console.log('TYPEX: ', typeof obj.x);
+      console.log('TYPEY: ', typeof obj.y);
+      console.log('updated data: ', [...data, obj]);
+      setData(prevData => [...prevData, obj]);
+    });
+    // setSockets(true);
+  }
 
   useEffect(() => {
-    // GET DATA
-    const data = [
-      { x: 0, y: 20 },
-      { x: 1, y: 40 },
-      { x: 2, y: 10 },
-      { x: 3, y: 30 },
-      { x: 4, y: 50 },
-    ];
-
+    setSockets(true);
+    console.log('data: ', data);
     // Set up dimensions
     const width = 350;
     const height = 300;
@@ -48,11 +43,11 @@ const LineGraph = () => {
 
     // Create scales
     const xScale = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.x)])
+      .domain([199990, d3.max(data, d => d.x+10)])
       .range([0, graphWidth]);
 
     const yScale = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.y)])
+      .domain([0, d3.max(data, d => d.y+100)])
       .range([graphHeight, 0]);
 
     // Create line generator
@@ -80,7 +75,7 @@ const LineGraph = () => {
     // Add y-axis
     graph.append('g')
       .call(d3.axisLeft(yScale));
-  }, []);
+  }, [data]);
 
   return (
     <svg ref={graphRef}></svg>

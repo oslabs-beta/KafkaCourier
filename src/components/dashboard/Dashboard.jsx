@@ -42,7 +42,7 @@ export default function Dashboard({ serverUri, apiKey, apiSecret, setSub, setLog
   };
 
   return (
-    <div class="dashboard">
+    <div className="dashboard">
       {/* <Logout
         setInDatabase={setInDatabase}
         setSub={setSub}

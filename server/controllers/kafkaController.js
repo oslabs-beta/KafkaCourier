@@ -189,49 +189,62 @@ const kafkaController = {
 
   getConsumerDataCLI: function(consumerGroupId) {
     try {
-      let newArray2 = [];
-      const command = `kafka-consumer-groups --bootstrap-server pkc-6ojv2.us-west4.gcp.confluent.cloud:9092 --command-config server/cloud.properties --group ${consumerGroupId} --describe`;
-      exec(command, (error, stdout, stderr) => {
-        if (error) {
-          console.error(`Error executing command: ${error.message}`);
-          return;
-        }
+      return new Promise((resolve, reject) => {
+        let newArray2 = [];
+        const command = `kafka-consumer-groups --bootstrap-server pkc-6ojv2.us-west4.gcp.confluent.cloud:9092 --command-config server/cloud.properties --group ${consumerGroupId} --describe`;
+        exec(command, (error, stdout, stderr) => {
+          if (error) {
+            console.error(`Error executing command: ${error.message}`);
+            return;
+          }
+  
+          if (stderr) {
+            console.error(`Command stderr: ${stderr}`);
+            return;
+          }
+  
+          // console.log('STDOUT: ', stdout);
+          const array = stdout.trim().split('\n');
+          console.log("array.length: ",array.length);
+          const lagArray = array[0].split(/\s+/).indexOf('LAG');
+          console.log('lag array', lagArray);
+          newArray2 = array.slice(1).map((line) => {
+            const columns = line.split(/\s+/);
+            return Number(columns[lagArray]);
+          })
+            .filter(el => {
+              if (!isNaN(el)) return el;
+            });
+          console.log('newArray2: ', newArray2);
+          const maxNum = Math.max(...newArray2);
+          console.log('max number', maxNum);
 
-        if (stderr) {
-          console.error(`Command stderr: ${stderr}`);
-          return;
-        }
+          const getCurrentTime = () => {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0'); 
+            const currentTime = Number(`${hours}${minutes}${seconds}`);
+            return currentTime;
+          }
 
-        // console.log('STDOUT: ', stdout);
-        let array = stdout.trim().split('\n');
-        console.log("array.length: ",array.length);
-        let lagArray = array[0].split(/\s+/).indexOf('LAG');
-        console.log('lag array', lagArray);
-        newArray2 = array.slice(1).map((line) => {
-          const columns = line.split(/\s+/);
-          return Number(columns[lagArray]);
-        })
-          .filter(el => {
-            if (!isNaN(el)) return el;
-          });
-        console.log('newArray2: ', newArray2);
-        let maxNum = Math.max(...newArray2)
-        console.log('max number', maxNum);
-        let resultArray = [{x: Date.now(), y: maxNum}]
-        // io.emit('consumer Data', resultArray)
-        console.log('resultArray: ', resultArray);
-        return resultArray;
-      });
-      // console.log('newArray2: ', newArray2);
-      // let maxNum = Math.max(...newArray2)
-      // let resultArray = [{x: Date.now(), y: maxNum}]
-      // // io.emit('consumer Data', resultArray)
-      // res.locals.consumerLag = resultArray;
-      // return next();
-    } catch (error) {
+          const resultArray = {x: getCurrentTime(), y: maxNum};
+          // io.emit('consumer Data', resultArray)
+          console.log('resultArray: ', resultArray);
+          return resolve(resultArray);
+        });
+        // console.log('newArray2: ', newArray2);
+        // let maxNum = Math.max(...newArray2)
+        // let resultArray = [{x: Date.now(), y: maxNum}]
+        // // io.emit('consumer Data', resultArray)
+        // res.locals.consumerLag = resultArray;
+        // return next();
+      })
+     } catch (error) {
       console.log('error: ', error);
+      reject(error)
     }
   },
-};
+}
 
 module.exports = kafkaController;

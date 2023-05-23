@@ -79,17 +79,7 @@ app.get('/api/consumerData/:consumerGroupId',
   (req, res, next) => {
     // io.emit....
     const emitter = async (groupId) => {
-      const consumerLag = await new Promise((resolve, reject) => {
-        kafkaController.getConsumerDataCLI(req.params.consumerGroupId, (error, data) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(data);
-          }
-        });
-      });
-        
-      console.log('consumerLag: ', consumerLag);
+      const consumerLag = await kafkaController.getConsumerDataCLI(req.params.consumerGroupId);  // [{x, y}]
       io.emit(groupId, consumerLag);
     }
     
