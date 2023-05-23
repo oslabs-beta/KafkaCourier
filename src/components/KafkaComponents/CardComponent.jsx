@@ -64,7 +64,7 @@ const LineGraph = () => {
       .datum(data)
       .attr('fill', 'none')
       .attr('stroke', 'green')
-      .attr('stroke-width', 2)
+      .attr('stroke-width', 5)
       .attr('d', line);
 
     // Add x-axis
