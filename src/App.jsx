@@ -27,9 +27,6 @@ export default function App() {
       setLoggedIn(true);
       setInDatabase(true);// what happens if the user has an active session but hasn't entered kafka credentials yet?
     }
-    else {
-      setLoggedIn(false);
-    }
   })
 
   let components = !loggedIn ? (
@@ -52,6 +49,7 @@ export default function App() {
     <CredentialForm
       setInDatabase={setInDatabase}
       sub={sub}
+      setCookie={setCookie}
     />
   );
 

@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import './styles.scss';
 
-export default function CredentialForm({ setInDatabase, sub }) {
+export default function CredentialForm({ setInDatabase, sub, setCookie }) {
 
   const serverUri = useRef();
   const apiKey = useRef();
@@ -36,6 +36,12 @@ export default function CredentialForm({ setInDatabase, sub }) {
         })
       });
       const result = await response.json();
+      const userSession = {
+        user_id: sub // add other relevant data if needed
+      }
+      // set session cookie
+      setCookie('kafka_courier_session', userSession, { path: '/' });
+
       setInDatabase(true);
     } catch (err) {
       console.log('Error in CredentialForm: ', err);

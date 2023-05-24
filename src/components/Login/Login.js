@@ -26,18 +26,16 @@ export default function Login({
       setApiKey(result.key);
       setApiSecret(result.secret);
       setInDatabase(true);
-    }
-      // navigate('/home')
-    else setInDatabase(false);
 
-    // create session object to store in cookie
-    const userSession = {
-      user_id: result.user_id // add other relevant data if needed
+      // create session object to store in cookie
+      const userSession = {
+        user_id: result.user_id // add other relevant data if needed
+      }
+      // set session cookie
+      setCookie('kafka_courier_session', userSession, { path: '/' });
     }
-    setCookie('kafka_courier_session', userSession, { path: '/' });
-    // add session to local storage to persist upon page refresh, tab close, etc. 
-    // localStorage.setItem('userSession', JSON.stringify(userSession));
-    // console.log('user Session: ', userSession);
+
+    else setInDatabase(false);
   }
     
   return (
