@@ -15,9 +15,9 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.1",
-    "@mui/styles": "^5.13.1",
     "@react-oauth/google": "^0.11.0",
     "axios": "^1.4.0",
+    "d3": "^7.8.4",
     "dotenv": "^16.0.3",
     "jwt-decode": "^3.1.2",
     "kafkajs": "^2.2.4",
@@ -28,7 +28,9 @@
     "pg": "^8.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.11.1"
+    "react-router-dom": "^6.11.1",
+    "socket.io": "^4.6.1",
+    "socket.io-client": "^4.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.21.8",

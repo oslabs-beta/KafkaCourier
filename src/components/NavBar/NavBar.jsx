@@ -16,7 +16,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { alpha, styled } from '@mui/material/styles';
-import { makeStyles } from '@mui/styles';
 
 // icons
 import TopicIcon from '@mui/icons-material/Topic';
@@ -27,11 +26,6 @@ import PersonIcon from '@mui/icons-material/Person';
 
 export default function NavBar(props) {
   //onClick functions must be anon to not be immediately called upon render
-  const useStyles = makeStyles(() => ({
-    listItemButton: {
-      border: '1px solid #F8F2E3 !important',
-    },
-  }));
 
   useEffect(() => {
     // change the color of the nav bar component that is currently clicked
@@ -50,8 +44,6 @@ export default function NavBar(props) {
   const handleClick = (display) => {
 
   }
-
-  const useStylesFunction = useStyles();
 
   return (
     <List className="navBar" sx={{

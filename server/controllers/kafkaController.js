@@ -4,6 +4,13 @@ const { Partitioners, AssignerProtocol } = require('kafkajs');
 const { exec } = require('child_process');
 
 let admin;
+let server;
+let username;
+let password;
+// pkc-6ojv2.us-west4.gcp.confluent.cloud:9092
+// module.exports = function(io) {
+//   // ...your controller functions here, which can now use the `io` object...
+// };
 
 const kafkaController = {
   // connect to kafka cluster and admin api in order to prefetch
@@ -12,7 +19,10 @@ const kafkaController = {
       // connect to kafka broker only if res.locals.rows contains nonempty array 
       // allows middleware to be used both when user does and doesn't exist in database
       if (res.locals.rows.length) {
-        const { server, username, password } = res.locals;
+        ({ server, username, password } = res.locals);
+
+        console.log(server, username, password);
+
         const sasl =
           username && password ? { username, password, mechanism: 'plain' } : null;
         const ssl = !!sasl;
@@ -32,6 +42,7 @@ const kafkaController = {
         // connect to admin API
         admin = kafka.admin();
         admin.connect();
+        console.log('connecting to admin');
       }
       next();
     } catch (err) {
@@ -131,36 +142,111 @@ const kafkaController = {
     }
   },
 
-  async getConsumerDataCLI(req, res, next) {
+  // async getConsumerDataCLI(req, res, next) {
+  //   try {
+  //     const { consumerGroupId } = req.params;
+  //     let newArray2 = [];
+  //     const command = `kafka-consumer-groups --bootstrap-server pkc-6ojv2.us-west4.gcp.confluent.cloud:9092 --command-config server/cloud.properties --group ${consumerGroupId} --describe`;
+  //     exec(command, (error, stdout, stderr) => {
+  //       if (error) {
+  //         console.error(`Error executing command: ${error.message}`);
+  //         return;
+  //       }
+
+  //       if (stderr) {
+  //         console.error(`Command stderr: ${stderr}`);
+  //         return;
+  //       }
+
+  //       // console.log('STDOUT: ', stdout);
+  //       let array = stdout.trim().split('\n');
+  //       console.log("array.length: ",array.length);
+  //       let lagArray = array[0].split(/\s+/).indexOf('LAG');
+  //       console.log('lag array', lagArray);
+  //       newArray2 = array.slice(1).map((line) => {
+  //         const columns = line.split(/\s+/);
+  //         return Number(columns[lagArray]);
+  //       })
+  //         .filter(el => {
+  //           if (!isNaN(el)) return el;
+  //         });
+  //       console.log('newArray2: ', newArray2);
+  //       let maxNum = Math.max(...newArray2)
+  //       let resultArray = [{x: Date.now(), y: maxNum}]
+  //       // io.emit('consumer Data', resultArray)
+  //       res.locals.consumerLag = resultArray;
+  //       return next();
+  //     });
+  //     // console.log('newArray2: ', newArray2);
+  //     // let maxNum = Math.max(...newArray2)
+  //     // let resultArray = [{x: Date.now(), y: maxNum}]
+  //     // // io.emit('consumer Data', resultArray)
+  //     // res.locals.consumerLag = resultArray;
+  //     // return next();
+  //   } catch (error) {
+  //     console.log('error: ', error);
+  //     return next(error);
+  //   }
+  // },
+
+  getConsumerDataCLI: function(consumerGroupId) {
     try {
-      const { consumerGroupId } = req.params;
-      const command = `kafka-consumer-groups --bootstrap-server ${server} --command-config server/cloud.properties --group ${consumerGroupId} --describe`;
-      exec(command, (error, stdout, stderr) => {
-        if (error) {
-          console.error(`Error executing command: ${error.message}`);
-          return;
-        }
+      return new Promise((resolve, reject) => {
+        let newArray2 = [];
+        const command = `kafka-consumer-groups --bootstrap-server pkc-6ojv2.us-west4.gcp.confluent.cloud:9092 --command-config server/cloud.properties --group ${consumerGroupId} --describe`;
+        exec(command, (error, stdout, stderr) => {
+          if (error) {
+            console.error(`Error executing command: ${error.message}`);
+            return;
+          }
+  
+          if (stderr) {
+            console.error(`Command stderr: ${stderr}`);
+            return;
+          }
+  
+          // console.log('STDOUT: ', stdout);
+          const array = stdout.trim().split('\n');
+          console.log("array.length: ",array.length);
+          const lagArray = array[0].split(/\s+/).indexOf('LAG');
+          console.log('lag array', lagArray);
+          newArray2 = array.slice(1).map((line) => {
+            const columns = line.split(/\s+/);
+            return Number(columns[lagArray]);
+          })
+            .filter(el => {
+              if (!isNaN(el)) return el;
+            });
+          console.log('newArray2: ', newArray2);
+          const maxNum = Math.max(...newArray2);
+          console.log('max number', maxNum);
 
-        if (stderr) {
-          console.error(`Command stderr: ${stderr}`);
-          return;
-        }
+          const getCurrentTime = () => {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0'); 
+            const currentTime = Number(`${hours}${minutes}${seconds}`);
+            return currentTime;
+          }
 
-        // console.log('STDOUT: ', stdout);
-        let array = stdout.trim().split('\n');
-        let lagArray = array[0].split(/\s+/).indexOf('LAG');
-        let newArray2 = array.slice(1).map((line) => {
-          const columns = line.split(/\s+/);
-          return Number(columns[lagArray]);
+          const resultArray = {x: getCurrentTime(), y: maxNum};
+          // io.emit('consumer Data', resultArray)
+          console.log('resultArray: ', resultArray);
+          return resolve(resultArray);
         });
-      });
-      res.locals.consumerLag = newArray2;
-      return next();
-    } catch (error) {
-      console.log(error);
-      return next(error);
+        // console.log('newArray2: ', newArray2);
+        // let maxNum = Math.max(...newArray2)
+        // let resultArray = [{x: Date.now(), y: maxNum}]
+        // // io.emit('consumer Data', resultArray)
+        // res.locals.consumerLag = resultArray;
+        // return next();
+      })
+     } catch (error) {
+      console.log('error: ', error);
+      reject(error)
     }
   },
-};
+}
 
 module.exports = kafkaController;

@@ -11,7 +11,6 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import CardComponent from './CardComponent.jsx'
 import './KafkaComponents.scss';
-// import { makeStyles } from '@mui/styles';
 
 
 // const useStyles = {
