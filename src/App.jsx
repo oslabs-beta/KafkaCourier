@@ -25,7 +25,7 @@ export default function App() {
     if (cookies.kafka_courier_session) {
       setSub(cookies.kafka_courier_session.user_id)
       setLoggedIn(true);
-      setInDatabase(true);// what happens if the user has an active session but hasn't entered kafka credentials yet?
+      setInDatabase(true);
     }
   })
 
