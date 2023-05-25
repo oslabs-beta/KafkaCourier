@@ -9,11 +9,9 @@ export default function Login({
   setApiKey,
   setApiSecret,
   setLoggedIn,
-  setInDatabase
+  setInDatabase, 
+  setCookie
 }) {
-  function handleLogout() {
-      console.log('Logged out successfully')
-    }
 
   // function verifyUser(user) {
   async function verifyUser(user) {
@@ -28,12 +26,17 @@ export default function Login({
       setApiKey(result.key);
       setApiSecret(result.secret);
       setInDatabase(true);
+
+      // create session object to store in cookie
+      const userSession = {
+        user_id: result.user_id // add other relevant data if needed
+      }
+      // set session cookie
+      setCookie('kafka_courier_session', userSession, { path: '/' });
     }
-      // navigate('/home')
+
     else setInDatabase(false);
-      // navigate('/credentials)
   }
-  // }
     
   return (
     <div id="oauth">
