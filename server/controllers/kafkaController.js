@@ -4,7 +4,9 @@ const { Partitioners, AssignerProtocol } = require('kafkajs');
 const { exec } = require('child_process');
 
 let admin;
-// let [server, username, password];
+let server;
+let username;
+let password;
 // pkc-6ojv2.us-west4.gcp.confluent.cloud:9092
 // module.exports = function(io) {
 //   // ...your controller functions here, which can now use the `io` object...
@@ -17,7 +19,7 @@ const kafkaController = {
       // connect to kafka broker only if res.locals.rows contains nonempty array 
       // allows middleware to be used both when user does and doesn't exist in database
       if (res.locals.rows.length) {
-        const { server, username, password } = res.locals;
+        ({ server, username, password } = res.locals);
 
         console.log(server, username, password);
 
