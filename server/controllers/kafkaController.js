@@ -16,6 +16,12 @@ const kafkaController = {
   // connect to kafka cluster and admin api in order to prefetch
   async connect(req, res, next) {
     try {
+      // if admin exists and kafka session cookie exists, don't connect
+      if (admin && req.cookies.kafka_courier_session) {
+
+        return next();
+      }
+      
       // connect to kafka broker only if res.locals.rows contains nonempty array 
       // allows middleware to be used both when user does and doesn't exist in database
       if (res.locals.rows.length) {

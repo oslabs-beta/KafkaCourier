@@ -31,7 +31,24 @@ const userController = {
 
   async checkUser(req, res, next) {
     try {
-      const { user } = req.params;
+      let user;
+      console.log('req.params ', req.params);
+      // check user upon login
+      if (req.params.user) {
+        user = req.params.user;
+        console.log('typeof req.params.user: ', typeof user);
+      }
+      // session cookie exists
+      else if (req.cookies.kafka_courier_session) {
+        console.log('checkUser cookie');
+        user = JSON.parse(req.cookies.kafka_courier_session).user_id;
+        console.log('typeof user cookie: ', typeof user);
+      }
+      // 
+      else {
+        return next();
+      }
+      // const { user } = req.params || req.cookies.kafka_courier_session;
       //sql query here
       const query = `SELECT * FROM login WHERE user_id=$1;`;
       const result = await pool.query(query, [user]);
