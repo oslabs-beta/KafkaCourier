@@ -1,9 +1,10 @@
-// import Card from '@mui/material/Card';
-// import CardMedia from '@mui/material/CardMedia';
-// import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
 import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from "d3";
 import ConsumerInfo from './ConsumerInfo.jsx';
+import CardContent from '@mui/material/CardContent';
 import "./CardComponent.css";
 
 import { io } from 'socket.io-client';
@@ -17,10 +18,10 @@ const LineGraph = () => {
   if (!sockets) {
     const socket = io('http://localhost:3001');
     socket.on('group2', obj => {
-      console.log('data: ', data);
-      console.log('TYPEX: ', typeof obj.x);
-      console.log('TYPEY: ', typeof obj.y);
-      console.log('updated data: ', [...data, obj]);
+      // console.log('data: ', data);
+      // console.log('TYPEX: ', typeof obj.x);
+      // console.log('TYPEY: ', typeof obj.y);
+      // console.log('updated data: ', [...data, obj]);
       setData(prevData => [...prevData, obj]);
     });
     // setSockets(true);
@@ -83,7 +84,7 @@ const LineGraph = () => {
 
   useEffect(() => {
     setSockets(true);
-    console.log('data: ', data);
+    // console.log('data: ', data);
     // Set up dimensions
     const width = 350;
     const height = 300;
@@ -206,18 +207,22 @@ const LineGraph = () => {
 
 
 
-export default function CardComponent(props) {
+export default function CardComponent({ consumerGroup }) {
     return (
         <div className="card-container" sx={{
             color: '#4E6667'
         }}>
-            <div className="hero-image-container">
-                {/* <iframe src="http://localhost:3001/d-solo/jCCArlU4k/new-dashboard-copy?orgId=1&from=1684436139033&to=1684437039033&panelId=2" height="200"></iframe> */}
-                <LineGraph />
-            </div>
-            <main className="main-content">
-                <ConsumerInfo></ConsumerInfo>
-            </main>
+          <Typography variant="h5" component="h2"> {consumerGroup} </Typography>
+          <Card>
+            <CardContent>
+              <CardMedia>
+            {/* <div className="hero-image-container"> */}   
+               <LineGraph />
+            {/* </div> */}
+            </CardMedia>
+            </CardContent>
+          </Card>
+          <ConsumerInfo></ConsumerInfo>
         </div>
     )
 }

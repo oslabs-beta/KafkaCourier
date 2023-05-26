@@ -11,7 +11,7 @@ const io = require('socket.io')(3001, {
 });
 
 io.on('connection', socket => {
-  console.log('socket id: ', socket.id);
+  // console.log('socket id: ', socket.id);
   // socket.on('event', obj => {
   //   console.log('obj: ', obj);
   // })
@@ -77,7 +77,7 @@ app.get('/api/topic',
 //   }
 // )
 
-app.get('/api/consumerData/:consumerGroupId', 
+app.get('/api/consumerData', 
   kafkaController.getConsumerData,  
   (req, res, next) => {
     // io.emit....

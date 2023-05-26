@@ -25,6 +25,7 @@ export default function Dashboard({ setSub, setLoggedIn, setInDatabase, removeCo
 
   const getKafkaData = async (kafkaComponent) => {
     console.log('getKafka function invoked');
+    console.log('kafka component', kafkaComponent);
     try {
       // fetch from backend
       const res = await fetch(`/api/${kafkaComponent}`);

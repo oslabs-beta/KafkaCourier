@@ -9,8 +9,8 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import CardComponent from './CardComponent.jsx'
-import './KafkaComponents.scss';
+import CardComponent from './CardComponent.jsx';
+import ConsumerGroups from './ConsumerGroups.jsx';
 
 
 // const useStyles = {
@@ -30,6 +30,7 @@ import './KafkaComponents.scss';
 // row component to render within Topic
 function TopicRow(props) {
   const [topic, setTopic] = useState();
+
   useEffect(() => {
     // change color of current topic row
     if (topic) {
@@ -48,7 +49,7 @@ function TopicRow(props) {
 }
 
 export default function Topic(props) {
-  // set current topic
+  const [consumerGroup, setConsumerGroup] = useState();
 
   // const useStyles = makeStyles(() => ({
   //   tableRowStyles: {
@@ -104,7 +105,8 @@ export default function Topic(props) {
             </Grid>
           </Grid>
         </Box> */}
-        <CardComponent />
+        <ConsumerGroups consumerGroup={consumerGroup} setConsumerGroup={setConsumerGroup}></ConsumerGroups>
+        <CardComponent consumerGroup={consumerGroup}/>
         {/* <CardComponent />
         <CardComponent />
         <CardComponent /> */}
