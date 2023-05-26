@@ -10,16 +10,15 @@ const io = require('socket.io')(3001, {
   },
 });
 
-io.on('connection', socket => {
+io.on('connection', (socket) => {
   console.log('socket id: ', socket.id);
   // socket.on('event', obj => {
   //   console.log('obj: ', obj);
   // })
- 
 });
-const repeat =  () => {
+const repeat = () => {
   io.emit('event', {
-    a: 100
+    a: 100,
   });
 };
 
@@ -27,7 +26,6 @@ setInterval(repeat, 2000);
 
 const kafkaController = require('./controllers/kafkaController');
 const userController = require('./controllers/userController');
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -42,16 +40,19 @@ app.use(express.static(path.join(__dirname, './src')));
 // app.get('/*', )
 
 //create user
-app.post('/api/createUser', 
+app.post(
+  '/api/createUser',
   userController.createUser,
   kafkaController.connect,
   async (req, res) => {
     res.status(200).json(res.locals.rows);
-});
+  }
+);
 
-app.get('/api/checkUser/:user',
+app.get(
+  '/api/checkUser/:user',
   userController.checkUser,
-  kafkaController.connect, 
+  kafkaController.connect,
   async (req, res) => {
     res.status(200).json(res.locals.rows);
   }
@@ -59,108 +60,19 @@ app.get('/api/checkUser/:user',
 
 app.use(userController.checkUser, kafkaController.connect);
 
-// get topic data
-app.get('/api/topic', 
-  kafkaController.getTopicData, 
-  (req, res, next) => {
-    res.status(200).json(res.locals.topicMetaData);
+app.put(
+  '/api/updateUser',
+  userController.updateUser,
+  kafkaController.connect,
+  async (req, res) => {
+    res.sendStatus(200);
   }
 );
 
-// get consumer data
-
-// app.get('/api/consumerData/:consumerGroupId', 
-//   kafkaController.getConsumerData, 
-//   (req, res, next) => {
-
-//     res.status(200).json(res.locals.consumerData);
-//   }
-// )
-
-app.get('/api/consumerData/:consumerGroupId', 
-  kafkaController.getConsumerData,  
-  (req, res, next) => {
-    // io.emit....
-    const emitter = async (groupId) => {
-      const consumerLag = await kafkaController.getConsumerDataCLI(req.params.consumerGroupId);  // [{x, y}]
-      io.emit(groupId, consumerLag);
-    }
-    
-    setInterval(emitter, 7000, req.params.consumerGroupId);
-
-    next();
-  },
-  (req, res) => {
-    res.status(200).json(res.locals.consumerData);
-  }
-)
-
-// app.get(
-//   '/api/consumerData/:consumerGroupId',
-//   kafkaController.getConsumerData,
-//   async (req, res, next) => {
-//     const emitter = async (groupId) => {
-//       try {
-//         const consumerLag = await kafkaController.getConsumerDataCLI(req.params.consumerGroupId);
-//         console.log('consumerLag:', consumerLag);
-//         io.emit(groupId, consumerLag);
-//       } catch (error) {
-//         console.error('Error:', error);
-//       }
-//     };
-
-//     setInterval(() => emitter(req.params.consumerGroupId), 7000);
-
-//     next();
-//   },
-//   (req, res) => {
-//     res.status(200).json(res.locals.consumerData);
-//   }
-// );
-
-
-
-
-
-
-// // In your server code
-// app.get('/api/consumerData/:consumerGroupId', 
-//   (req, res, next) => {
-        // kafkaController.getConsumerDataCLI
-        // 
-//    },
-//   async (req, res, next) => {
-//     // Send initial response
-//     res.status(200).json({message: "Started consumer data fetch."});
-
-//     setInterval(async () => {
-//       try {
-//         await kafkaController.getConsumerDataCLI;
-//         io.emit('consumerData', res.locals.consumerLag);
-//       } catch (error) {
-//         console.log(error);
-//       }
-//     }, 5000);
-//   }
-// );
-
-// In your server code
-// app.get('/api/consumerData/:consumerGroupId', 
-//   async (req, res, next) => {
-//     // Send initial response
-//     res.status(200).json({message: "Started consumer data fetch."});
-
-//     setInterval(async () => {
-//       try {
-//         await kafkaController.getConsumerDataCLI(req, res, next);
-//         io.emit('consumerData', res.locals.consumerLag);
-//       } catch (error) {
-//         console.log(error);
-//       }
-//     }, 5000);
-//   }
-// );
-
+// get topic data
+app.get('/api/topic', kafkaController.getTopicData, (req, res, next) => {
+  res.status(200).json(res.locals.topicMetaData);
+});
 
 // catch-all route for errors
 app.get('*', (req, res) => {

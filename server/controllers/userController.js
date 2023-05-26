@@ -20,12 +20,12 @@ const userController = {
       res.locals = {
         rows: result.rows,
         server,
-        username: key, 
-        password: secret
+        username: key,
+        password: secret,
       };
       next();
     } catch (err) {
-      console.log('Error in userController.createUser: ', err)
+      console.log('Error in userController.createUser: ', err);
     }
   },
 
@@ -44,7 +44,7 @@ const userController = {
         user = JSON.parse(req.cookies.kafka_courier_session).user_id;
         console.log('typeof user cookie: ', typeof user);
       }
-      // 
+      //
       else {
         return next();
       }
@@ -59,14 +59,37 @@ const userController = {
           rows: result.rows,
           server: row.server,
           username: row.key,
-          password: row.secret
+          password: row.secret,
         };
       }
       next();
     } catch (err) {
       console.log('Error in userController.checkUser: ', err);
     }
-  }
-}
+  },
+
+  async updateUser(req, res, next) {
+    try {
+      const { user_id, server, key, secret } = req.body;
+      // sql query
+      const query = `UPDATE (user_id, server, key, secret)
+                    VALUES ($1, $2, $3, $4)
+                    SET server = $2, key = $3, secret = $4
+                    WHERE user_id = $1
+                    RETURNING *`;
+      const result = await pool.query(query, [user_id, server, key, secret]);
+      // save newly created user information in res.locals to be used in kafka middleware
+      res.locals = {
+        rows: result.rows,
+        server,
+        username: key,
+        password: secret,
+      };
+      next();
+    } catch (err) {
+      console.log('Error in userController.updateUser: ', err);
+    }
+  },
+};
 
 module.exports = userController;
