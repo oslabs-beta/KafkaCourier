@@ -153,7 +153,7 @@ const kafkaController = {
 
 
 
-      
+
       // START HERE :)
       consumers.groups[1].members.forEach((member) => {
         resultObj.memberId.push(member.memberId);
