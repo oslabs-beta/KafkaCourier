@@ -59,7 +59,6 @@ const kafkaController = {
 
   async getTopicData(req, res, next) {
     try {
-      console.log('get topic data reached');
       // await admin.connect();
       // get topic names and # of partitions
       const topicData = await admin.fetchTopicMetadata();
