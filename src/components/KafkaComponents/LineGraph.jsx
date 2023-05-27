@@ -9,8 +9,8 @@ export default function LineGraph() {
   const [data, setData] = useState([]);
   const [sockets, setSockets] = useState(false);
   const [chartDimensions, setChartDimensions] = useState({
-    width: 100,
-    height: 100,
+    width: 350,
+    height: 300,
     margin: { top: 20, right: 20, bottom: 30, left: 50 },
     get graphWidth() {
       return this.width - this.margin.left - this.margin.right;
@@ -24,147 +24,113 @@ export default function LineGraph() {
   if (!sockets) {
     const socket = io('http://localhost:3001');
     socket.on('group2', obj => {
-      // console.log('obj: ', obj);
-      // console.log('data: ', data);
-      // console.log('TYPEX: ', typeof obj.x);
-      // console.log('TYPEY: ', typeof obj.y);
-      // console.log('updated data: ', [...data, obj]);
+      obj.time = obj.x;
       setData(prevData => [...prevData, obj]);
     });
+    setSockets(true);
+  }
 
-    // Create chart
+  // Create graph container and unlabeled axes on page load
+  useEffect(() => {
     // Set up dimensions
-    // const width = 350;
-    // const height = 300;
-    // const margin = { top: 20, right: 20, bottom: 30, left: 50 };
-    // const graphWidth = width - margin.left - margin.right;
-    // const graphHeight = height - margin.top - margin.bottom;
-    const { width, height, margin, graphWidth, graphHeight } = chartDimensions;
+    const width = 350;
+    const height = 300;
+    const margin = { top: 20, right: 20, bottom: 30, left: 50 };
+    const graphWidth = width - margin.left - margin.right;
+    const graphHeight = height - margin.top - margin.bottom;
 
-    // // Create SVG container
-    // const svg = d3.select(graphRef.current)
-    //   .attr('width', width)
-    //   .attr('height', height);
+    // Create SVG container
     const svg = d3.select(graphRef.current)
-      .append('svg')
-        .attr('width', width)
-        .attr('height', height)
-      .append('g')
-        .attr('transform', `translate(${margin.left}, ${margin.top})`);
+      .attr('width', width)
+      .attr('height', height);
 
     // Create scales to map data values to visual properties
-    const xScale = d3.scaleLinear()
+    const xScale = d3.scaleTime()
     //minimum and maximum values of the input domain are 199990 and the maximum x value in the data array plus 10
       .domain([0, 100])
       .range([0, graphWidth])
 
     const yScale = d3.scaleLinear()
-      // .domain([0, d3.max(data, d => d.y+100)])
       .domain([0, 100])
       .range([graphHeight, 0]);
 
-    // // Create line generator
-    // const line = d3.line()
-    //   .x(d => xScale(d.x))
-    //   .y(d => yScale(d.y));
-
-    // // Create graph container
-    // const graph = svg.append('g')
-    //   .attr('transform', `translate(${margin.left}, ${margin.top})`);
-
-    // // Create line path
-    // graph.append('path')
-    //   .datum(data)
-    //   .attr('fill', 'none')
-    //   .attr('stroke', 'green')
-    //   .attr('stroke-width', 10)
-    //   .attr('id', 'line')
-    //   .attr('d', line);
-
-    // // Add x-axis
-    // const xAxis = d3.axisBottom(xScale);
-    // graph.append('g')
-    //   .attr('transform', `translate(0, ${graphHeight})`)
-    //   .attr('id', 'x-axis')
-    //   .call(xAxis);
-
-    // // Add y-axis
-    // const yAxis = d3.axisLeft(yScale);
-    // graph.append('g')
-    //   .attr('id', 'y-axis')
-    //   .call(yAxis);
-
-    svg.append('g')
+    // Create graph container
+    const graph = svg.append('g')
       .attr('transform', `translate(${margin.left}, ${margin.top})`)
-      .call(d3.axisBottom(xScale));
+      .attr('id', 'graph');
 
-    svg.append('g')
-      .call(d3.axisLeft(yScale));
+    // Add x-axis without labels
+    graph.append('g')
+      .attr('transform', `translate(0, ${graphHeight})`)
+      .attr('id', 'x-axis')
+      .call(d3.axisBottom(xScale).tickFormat(''));
 
-    console.log('axes appended');
+    // Add y-axis without labels
+    graph.append('g')
+      .attr('id', 'y-axis')
+      .call(d3.axisLeft(yScale).tickFormat(''));
 
-    setSockets(true);
-  }
+  }, []);
 
-  // useEffect(() => {
-  //   console.log('useEffect running: ', data);
-  //   const { graphWidth, graphHeight } = chartDimensions;
-  //   // const width = 350;
-  //   // const height = 300;
-  //   // const margin = { top: 20, right: 20, bottom: 30, left: 50 };
-  //   // const graphWidth = width - margin.left - margin.right;
-  //   // const graphHeight = height - margin.top - margin.bottom;
-    
-  //   // const svg = d3.select(graphRef.current)
-  //   //   .attr('width', width)
-  //   //   .attr('height', height);
+  useEffect(() => {
+    console.log('useEffect running: ', data);
+    const { graphWidth, graphHeight } = chartDimensions;
 
-  //   // Create scales to map data values to visual properties
-  //   const xScale = d3.scaleLinear()
-  //     .domain([d3.max(data, d => d.x-100), d3.max(data, d => d.x+100)])
-  //     .range([0, graphWidth]);
+    d3.select(graphRef.current)
+      .selectAll('#line').remove();
 
-  //   const yScale = d3.scaleLinear()
-  //     .domain([0, d3.max(data, d => d.y+100)])
-  //     .range([graphHeight, 0]);
+    // Parse time strings into Date objects
+    const parseTime = d3.timeParse('%I:%M:%S %p');
+    data.forEach(d => {
+      d.x = parseTime(d.time);
+    });
 
-  //   // // Create line generator
-  //   // const lineGenerator = d3.line()
-  //   // .x(d => xScale(d.x))
-  //   // .y(d => yScale(d.y));
+    console.log('data: ', data);
 
-  //   // CHECK HERE
+    // Create scales to map data values to visual properties
+    const xScale = d3.scaleTime()
+      .domain(d3.extent(data, d => d.x))
+      .range([0, graphWidth]);
 
-  //   // // Update line data
-  //   // const line = d3.select('#line');
-  //   // line.datum(data)
-  //   //   .transition()
-  //   //     .duration(500)
-  //   //   .attr('d', lineGenerator);
+    const yScale = d3.scaleLinear()
+      .domain([0, d3.max(data, d => d.y+100)])
+      .range([graphHeight, 0]);
 
-  //   // // Update x-axis
-  //   // const xAxisElement = d3.select('#x-axis');
-  //   // const xAxis = d3.axisBottom(xScale);
-  //   // xAxis.ticks(5);
-  //   // xAxisElement.transition()
-  //   //   .duration(500)
-  //   //   .call(xAxis);
+    // Create line generator
+    const line = d3.line()
+    // .defined(d => d.x > xScale.domain()[0])
+    .x(d => xScale(d.x))
+    .y(d => yScale(d.y));
 
-  //   // // Update y-axis
-  //   // const yAxisElement = d3.select('#y-axis');
-  //   // const yAxis = d3.axisLeft(yScale);
-  //   // yAxisElement.transition()
-  //   //   .duration(500)
-  //   //   .call(yAxis);
+    // Select graph container and add line
+    const graph = d3.select('#graph');
+    graph.append('path')
+      .datum(data)
+      .attr('id', 'line')
+      .attr('fill', 'none')
+      .attr('stroke', 'green')
+      .attr('stroke-width', 1)
+      .attr('d', line);
 
-  //   // const path = d3.select('#line');
+    // Update x-axis
+    const xAxisElement = d3.select('#x-axis');
+    const xAxis = d3.axisBottom(xScale)
+      // .ticks(5)
+      .tickValues(xScale.ticks(5))
+      .tickFormat(d3.timeFormat('%H:%M'));
+    // xAxis.ticks(5);
+    xAxisElement.transition()
+      .duration(500)
+      .call(xAxis);
 
-  //   // path.datum(data)
-  //   //   .transition()
-  //   //   .duration(500)
-  //   //   .attr('d', line)
+    // Update y-axis
+    const yAxisElement = d3.select('#y-axis');
+    const yAxis = d3.axisLeft(yScale);
+    yAxisElement.transition()
+      .duration(500)
+      .call(yAxis);
 
-  // }, [data]);
+  }, [data]);
 
   return (
     <svg ref={graphRef}></svg>
