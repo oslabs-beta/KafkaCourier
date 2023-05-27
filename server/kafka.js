@@ -75,12 +75,12 @@ const run = async () => {
   await producer.connect();
   for (let i = 0; i < 100; i++) {
     await producer.send({
-      topic: "returns",
+      topic: 'returns',
       messages: [
         {
           value: Buffer.from(
             JSON.stringify({
-              event_name: "QA",
+              event_name: 'QA',
               payload: {
                 assessment: {
                   performance: 7,

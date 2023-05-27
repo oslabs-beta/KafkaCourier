@@ -26,7 +26,7 @@ const kafkaController = {
       if (res.locals.rows.length) {
         ({ server, username, password } = res.locals);
 
-        console.log(server, username, password);
+        // console.log(server, username, password);
 
         const sasl =
           username && password
@@ -34,6 +34,7 @@ const kafkaController = {
             : null;
         const ssl = !!sasl;
         // This creates a client instance that is configured to connect to the Kafka broker
+        //WHERE DO WE GET THIS INFORMATION 
         const kafka = new Kafka({
           clientId: "qa-topic",
           brokers: [server],
@@ -95,6 +96,7 @@ const kafkaController = {
       next();
     } catch (error) {
       console.log(error);
+      next(error);
     }
 
     //function to retrieve consumer groups
@@ -116,22 +118,44 @@ const kafkaController = {
           ).assignment.hasOwnProperty(topic)
         );
       });
-
-      return topicConsumerGroups.length;
+      // console.log('topic consumer groups: ', topicConsumerGroups[0].members);
+      return topicConsumerGroups;
     }
   },
+
   async getConsumerData(req, res, next) {
     try {
       // await admin.connect()
-      const { consumerGroupId } = req.params;
-      const consumers = await admin.describeGroups([consumerGroupId]);
+      // const { consumerGroupId } = req.params;
+      // const consumers = await admin.describeGroups([consumerGroupId]);
+
+      //RETRIEVE GROUP IDs
+      const groups = await admin.listGroups();
+      // console.log('GROUPS ARE HERE: ', groups);
+
+      const groupArray = [];
+      groups.groups.forEach((group) => {
+        groupArray.push(group.groupId);
+      });
+
+      // console.log('group array is here: ', groupArray);
+
+      // console.log('group ids from list groups: ', groupArray);
+      const consumers = await admin.describeGroups(groupArray);
+      console.log('consumer groups all of them : ', consumers);
       // create a result object to send to frontend
       let resultObj = {
         memberId: [],
         partitions: [],
       };
       // loop over consumer.groups[0].members
-      consumers.groups[0].members.forEach((member) => {
+      // console.log('GROUPS ARRAY',consumers.groups[0].members)
+
+
+
+
+      // START HERE :)
+      consumers.groups[1].members.forEach((member) => {
         resultObj.memberId.push(member.memberId);
         resultObj.partitions.push(
           AssignerProtocol.MemberAssignment.decode(member.memberAssignment)
@@ -142,6 +166,7 @@ const kafkaController = {
       // decode memberAssignment and access assignment property of the buffer and assign this to partition in result object
       //
       res.locals.consumerData = resultObj;
+      // console.log('result object: ', resultObj);
       next();
     } catch (error) {
       console.log(error);
@@ -224,11 +249,12 @@ const kafkaController = {
               return Number(columns[lagArray]);
             })
             .filter((el) => {
-              if (!isNaN(el)) return el;
+              if (!isNaN(el)) return true;
             });
-          console.log("newArray2: ", newArray2);
+          console.log('array: ', array);
+          console.log('newArray2: ', newArray2);
           const maxNum = Math.max(...newArray2);
-          console.log("max number", maxNum);
+          // console.log('max number', maxNum);
 
           const getCurrentTime = () => {
             const now = new Date();
