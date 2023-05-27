@@ -1,7 +1,7 @@
-const { Kafka } = require('kafkajs');
-require('dotenv').config();
-const { Partitioners, AssignerProtocol } = require('kafkajs');
-const { exec } = require('child_process');
+const { Kafka } = require("kafkajs");
+require("dotenv").config();
+const { Partitioners, AssignerProtocol } = require("kafkajs");
+const { exec } = require("child_process");
 
 let admin;
 let server;
@@ -18,28 +18,30 @@ const kafkaController = {
     try {
       // if admin exists and kafka session cookie exists, don't connect
       if (admin && req.cookies.kafka_courier_session) {
-
         return next();
       }
-      
-      // connect to kafka broker only if res.locals.rows contains nonempty array 
+
+      // connect to kafka broker only if res.locals.rows contains nonempty array
       // allows middleware to be used both when user does and doesn't exist in database
       if (res.locals.rows.length) {
         ({ server, username, password } = res.locals);
 
-        console.log(server, username, password);
+        // console.log(server, username, password);
 
         const sasl =
-          username && password ? { username, password, mechanism: 'plain' } : null;
+          username && password
+            ? { username, password, mechanism: "plain" }
+            : null;
         const ssl = !!sasl;
         // This creates a client instance that is configured to connect to the Kafka broker
+        //WHERE DO WE GET THIS INFORMATION 
         const kafka = new Kafka({
-          clientId: 'qa-topic',
+          clientId: "qa-topic",
           brokers: [server],
           logLevel: 2,
           ssl,
           sasl: {
-            mechanism: 'plain',
+            mechanism: "plain",
             username,
             password,
           },
@@ -48,11 +50,11 @@ const kafkaController = {
         // connect to admin API
         admin = kafka.admin();
         admin.connect();
-        console.log('connecting to admin');
+        console.log("connecting to admin");
       }
       next();
     } catch (err) {
-      console.log('Error in kafkaController.connect: ', err);
+      console.log("Error in kafkaController.connect: ", err);
     }
   },
 
@@ -94,6 +96,7 @@ const kafkaController = {
       next();
     } catch (error) {
       console.log(error);
+      next(error);
     }
 
     //function to retrieve consumer groups
@@ -115,22 +118,44 @@ const kafkaController = {
           ).assignment.hasOwnProperty(topic)
         );
       });
-
-      return topicConsumerGroups.length;
+      // console.log('topic consumer groups: ', topicConsumerGroups[0].members);
+      return topicConsumerGroups;
     }
   },
+
   async getConsumerData(req, res, next) {
     try {
       // await admin.connect()
-      const { consumerGroupId } = req.params;
-      const consumers = await admin.describeGroups([consumerGroupId]);
+      // const { consumerGroupId } = req.params;
+      // const consumers = await admin.describeGroups([consumerGroupId]);
+
+      //RETRIEVE GROUP IDs
+      const groups = await admin.listGroups();
+      // console.log('GROUPS ARE HERE: ', groups);
+
+      const groupArray = [];
+      groups.groups.forEach((group) => {
+        groupArray.push(group.groupId);
+      });
+
+      // console.log('group array is here: ', groupArray);
+
+      // console.log('group ids from list groups: ', groupArray);
+      const consumers = await admin.describeGroups(groupArray);
+      console.log('consumer groups all of them : ', consumers);
       // create a result object to send to frontend
       let resultObj = {
         memberId: [],
         partitions: [],
       };
       // loop over consumer.groups[0].members
-      consumers.groups[0].members.forEach((member) => {
+      // console.log('GROUPS ARRAY',consumers.groups[0].members)
+
+
+
+
+      // START HERE :)
+      consumers.groups[1].members.forEach((member) => {
         resultObj.memberId.push(member.memberId);
         resultObj.partitions.push(
           AssignerProtocol.MemberAssignment.decode(member.memberAssignment)
@@ -141,6 +166,7 @@ const kafkaController = {
       // decode memberAssignment and access assignment property of the buffer and assign this to partition in result object
       //
       res.locals.consumerData = resultObj;
+      // console.log('result object: ', resultObj);
       next();
     } catch (error) {
       console.log(error);
@@ -178,16 +204,16 @@ const kafkaController = {
   //         });
   //       console.log('newArray2: ', newArray2);
   //       let maxNum = Math.max(...newArray2)
-  //       let resultArray = [{x: Date.now(), y: maxNum}]
-  //       // io.emit('consumer Data', resultArray)
-  //       res.locals.consumerLag = resultArray;
+  //       let result = [{x: Date.now(), y: maxNum}]
+  //       // io.emit('consumer Data', result)
+  //       res.locals.consumerLag = result;
   //       return next();
   //     });
   //     // console.log('newArray2: ', newArray2);
   //     // let maxNum = Math.max(...newArray2)
-  //     // let resultArray = [{x: Date.now(), y: maxNum}]
-  //     // // io.emit('consumer Data', resultArray)
-  //     // res.locals.consumerLag = resultArray;
+  //     // let result = [{x: Date.now(), y: maxNum}]
+  //     // // io.emit('consumer Data', result)
+  //     // res.locals.consumerLag = result;
   //     // return next();
   //   } catch (error) {
   //     console.log('error: ', error);
@@ -195,7 +221,7 @@ const kafkaController = {
   //   }
   // },
 
-  getConsumerDataCLI: function(consumerGroupId) {
+  getConsumerDataCLI: function (consumerGroupId) {
     try {
       return new Promise((resolve, reject) => {
         let newArray2 = [];
@@ -205,54 +231,92 @@ const kafkaController = {
             console.error(`Error executing command: ${error.message}`);
             return;
           }
-  
+
           if (stderr) {
             console.error(`Command stderr: ${stderr}`);
             return;
           }
-  
+
           // console.log('STDOUT: ', stdout);
-          const array = stdout.trim().split('\n');
-          console.log("array.length: ",array.length);
-          const lagArray = array[0].split(/\s+/).indexOf('LAG');
-          console.log('lag array', lagArray);
-          newArray2 = array.slice(1).map((line) => {
-            const columns = line.split(/\s+/);
-            return Number(columns[lagArray]);
-          })
-            .filter(el => {
-              if (!isNaN(el)) return el;
+          const array = stdout.trim().split("\n");
+          console.log("array.length: ", array.length);
+          const lagArray = array[0].split(/\s+/).indexOf("LAG");
+          console.log("lag array", lagArray);
+          newArray2 = array
+            .slice(1)
+            .map((line) => {
+              const columns = line.split(/\s+/);
+              return Number(columns[lagArray]);
+            })
+            .filter((el) => {
+              if (!isNaN(el)) return true;
             });
+          console.log('array: ', array);
           console.log('newArray2: ', newArray2);
           const maxNum = Math.max(...newArray2);
-          console.log('max number', maxNum);
+          // console.log('max number', maxNum);
 
           const getCurrentTime = () => {
             const now = new Date();
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            const seconds = now.getSeconds().toString().padStart(2, '0'); 
+            const hours = now.getHours().toString().padStart(2, "0");
+            const minutes = now.getMinutes().toString().padStart(2, "0");
+            const seconds = now.getSeconds().toString().padStart(2, "0");
             const currentTime = Number(`${hours}${minutes}${seconds}`);
             return currentTime;
-          }
+          };
 
-          const resultArray = {x: getCurrentTime(), y: maxNum};
-          // io.emit('consumer Data', resultArray)
-          console.log('resultArray: ', resultArray);
-          return resolve(resultArray);
+          // const result = {x: getCurrentTime(), y: maxNum};
+          const result = {x: (new Date()).toLocaleTimeString(), y: maxNum};
+          // io.emit('consumer Data', result)
+          console.log('result: ', result);
+          return resolve(result);
         });
         // console.log('newArray2: ', newArray2);
         // let maxNum = Math.max(...newArray2)
-        // let resultArray = [{x: Date.now(), y: maxNum}]
-        // // io.emit('consumer Data', resultArray)
-        // res.locals.consumerLag = resultArray;
+        // let result = [{x: Date.now(), y: maxNum}]
+        // // io.emit('consumer Data', result)
+        // res.locals.consumerLag = result;
         // return next();
-      })
-     } catch (error) {
-      console.log('error: ', error);
-      reject(error)
+      });
+    } catch (error) {
+      console.log("error: ", error);
+      reject(error);
     }
   },
-}
+  async getConsumerConsumption(
+    groupId,
+    topic,
+    previousOffset = null,
+    previousTime = null
+  ) {
+    let rate = 0;
+    const offsets = await admin.fetchOffsets({
+      groupId,
+      topic,
+    });
+    console.log(offsets[0].partitions, "OFFSETS HERER");
+    const totalOffset = offsets[0].partitions.reduce(
+      (total, { offset }) => total + Number(offset),
+      0
+    );
+    console.log("totalOffset", totalOffset);
+    const currentTime = Date.now();
+    if (previousOffset !== null && previousTime !== null) {
+      // console.log("TOTAL OFFSET", totalOffset);
+      // console.log("PREV OFFSET", previousOffset);
+      const offsetDifference = totalOffset - previousOffset;
+      const timeDifference = (currentTime - previousTime) / 1000; // to give time in seconds
+      rate = offsetDifference / timeDifference;
+      console.log(`Consumption rate: ${rate} messages/second`);
+    }
+    previousOffset = totalOffset;
+    previousTime = currentTime;
+    return {
+      rate,
+      updatedOffset: totalOffset,
+      updatedTime: currentTime,
+    };
+  },
+};
 
 module.exports = kafkaController;

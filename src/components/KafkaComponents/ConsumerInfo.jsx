@@ -11,16 +11,37 @@ export default function ConsumerInfo() {
   const[data, setData] = useState({});
 
   useEffect(() => {
-    const fetchData = async(consumerGroupId) => {
-      // const result = await axios(`/api/consumerData/${consumerGroupId}`);
-      // group2 is hard coded, replace with group name
-      const result = await axios(`/api/consumerData/group2`);
-      console.log('Consumer info data', result.data)
-      setData(result.data);
-    }
-    fetchData();
+    fetchConsumerData();
+    // const fetchData = async(consumerGroupId) => {
+    //   // const result = await axios(`/api/consumerData/${consumerGroupId}`);
+    //   // group2 is hard coded, replace with group name
+    //   const result = await axios(`/api/consumerData/group2`);
+    //   console.log('Consumer info data', result.data)
+    //   setData(result.data);
+    // }
+    // fetchData();
 
-  },[])
+  })
+
+
+  async function fetchConsumerData() {
+    
+    try {
+      const response = await fetch(`/api/consumerData/group2`)
+      if(response.ok) {
+        const data = await response.json();
+        console.log('fetched consumer data', data);
+        setData(data);
+      }
+      else {
+        throw new Error('Request failed');
+      }
+    }
+    catch(err) {
+      console.log('An error occured: ', err);
+    }
+  }
+
 
   const res = [];
   if(data.memberId && data.partitions){

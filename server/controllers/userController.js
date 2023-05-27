@@ -32,7 +32,7 @@ const userController = {
   async checkUser(req, res, next) {
     try {
       let user;
-      console.log('req.params ', req.params);
+      // console.log('req.params ', req.params);
       // check user upon login
       if (req.params.user) {
         user = req.params.user;
@@ -40,9 +40,9 @@ const userController = {
       }
       // session cookie exists
       else if (req.cookies.kafka_courier_session) {
-        console.log('checkUser cookie');
+        // console.log('checkUser cookie');
         user = JSON.parse(req.cookies.kafka_courier_session).user_id;
-        console.log('typeof user cookie: ', typeof user);
+        // console.log('typeof user cookie: ', typeof user);
       }
       //
       else {
