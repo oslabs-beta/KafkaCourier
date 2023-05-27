@@ -179,16 +179,16 @@ const kafkaController = {
   //         });
   //       console.log('newArray2: ', newArray2);
   //       let maxNum = Math.max(...newArray2)
-  //       let resultArray = [{x: Date.now(), y: maxNum}]
-  //       // io.emit('consumer Data', resultArray)
-  //       res.locals.consumerLag = resultArray;
+  //       let result = [{x: Date.now(), y: maxNum}]
+  //       // io.emit('consumer Data', result)
+  //       res.locals.consumerLag = result;
   //       return next();
   //     });
   //     // console.log('newArray2: ', newArray2);
   //     // let maxNum = Math.max(...newArray2)
-  //     // let resultArray = [{x: Date.now(), y: maxNum}]
-  //     // // io.emit('consumer Data', resultArray)
-  //     // res.locals.consumerLag = resultArray;
+  //     // let result = [{x: Date.now(), y: maxNum}]
+  //     // // io.emit('consumer Data', result)
+  //     // res.locals.consumerLag = result;
   //     // return next();
   //   } catch (error) {
   //     console.log('error: ', error);
@@ -239,16 +239,17 @@ const kafkaController = {
             return currentTime;
           };
 
-          const resultArray = { x: getCurrentTime(), y: maxNum };
-          // io.emit('consumer Data', resultArray)
-          console.log("resultArray: ", resultArray);
-          return resolve(resultArray);
+          // const result = {x: getCurrentTime(), y: maxNum};
+          const result = {x: (new Date()).toLocaleTimeString(), y: maxNum};
+          // io.emit('consumer Data', result)
+          console.log('result: ', result);
+          return resolve(result);
         });
         // console.log('newArray2: ', newArray2);
         // let maxNum = Math.max(...newArray2)
-        // let resultArray = [{x: Date.now(), y: maxNum}]
-        // // io.emit('consumer Data', resultArray)
-        // res.locals.consumerLag = resultArray;
+        // let result = [{x: Date.now(), y: maxNum}]
+        // // io.emit('consumer Data', result)
+        // res.locals.consumerLag = result;
         // return next();
       });
     } catch (error) {
