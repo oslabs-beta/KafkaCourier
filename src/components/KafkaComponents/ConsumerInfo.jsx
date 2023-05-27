@@ -21,16 +21,17 @@ export default function ConsumerInfo() {
     // }
     // fetchData();
 
-  },[])
+  })
 
 
   async function fetchConsumerData() {
     
     try {
-      const response = await fetch(`/api/consumerData`)
+      const response = await fetch(`/api/consumerData/group2`)
       if(response.ok) {
         const data = await response.json();
-        console.log('fetched consumer data', data)
+        console.log('fetched consumer data', data);
+        setData(data);
       }
       else {
         throw new Error('Request failed');
