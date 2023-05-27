@@ -1,7 +1,7 @@
 // import React from 'react';
 import { Link } from 'react-router-dom';
 import './NavBar.scss';
-//MUI dependencies 
+//MUI dependencies
 import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -37,43 +37,74 @@ export default function NavBar(props) {
         prevElement.classList.remove('navBarCurrent');
       }
       current.classList.add('navBarCurrent');
-
     }
-  })
+  });
 
-  const handleClick = (display) => {
+  // const handleClick = (display) => {
 
-  }
+  // }
 
   return (
-    <List className="navBar" sx={{
-      color:'#F8F2E3',
-      // backgroundColor: 'lightgrey'
-      border: '2px solid #F8F2E3',
-      marginRight: '10px',
-      paddingTop: 0
-    }}>
-      <ListItem component={Link} to="/topic" className="ListItem" id="topic" onClick={() => props.setDisplay('topic')}>
+    <List
+      className="navBar"
+      sx={{
+        color: '#F8F2E3',
+        // backgroundColor: 'lightgrey'
+        border: '2px solid #F8F2E3',
+        marginRight: '10px',
+        paddingTop: 0,
+      }}
+    >
+      <ListItem
+        component={Link}
+        to="/topic"
+        className="ListItem"
+        id="topic"
+        onClick={() => props.setDisplay('topic')}
+      >
         <TopicIcon></TopicIcon>
         <span>Topics</span>
       </ListItem>
-      <ListItem component={Link} to="/producer" className="ListItem" id="producer" onClick={() => props.setDisplay('producer')}>
+      <ListItem
+        component={Link}
+        to="/producer"
+        className="ListItem"
+        id="producer"
+        onClick={() => props.setDisplay('producer')}
+      >
         <InventoryIcon></InventoryIcon>
         <span>Producers</span>
       </ListItem>
-      <ListItem component={Link} to="/broker" className="ListItem" id="broker" onClick={() => props.setDisplay('broker')}>
+      <ListItem
+        component={Link}
+        to="/broker"
+        className="ListItem"
+        id="broker"
+        onClick={() => props.setDisplay('broker')}
+      >
         <ShareIcon></ShareIcon>
         <span>Brokers</span>
       </ListItem>
-      <ListItem component={Link} to="/consumer" className="ListItem" id="consumer" onClick={() => props.setDisplay('consumer')}>
+      <ListItem
+        component={Link}
+        to="/consumer"
+        className="ListItem"
+        id="consumer"
+        onClick={() => props.setDisplay('consumer')}
+      >
         <InboxIcon></InboxIcon>
         <span>Consumers</span>
       </ListItem>
-      <ListItem component={Link} to="/account" className="ListItem" id="account" onClick={() => props.setDisplay('account')}>
-        <PersonIcon/>
+      <ListItem
+        component={Link}
+        to="/account"
+        className="ListItem"
+        id="account"
+        onClick={() => props.setDisplay('account')}
+      >
+        <PersonIcon />
         <span>Account</span>
       </ListItem>
     </List>
-  )
+  );
 }
-

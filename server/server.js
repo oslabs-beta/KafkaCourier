@@ -1,15 +1,17 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const path = require("path");
-const { Kafka } = require("kafkajs");
-const cookieParser = require("cookie-parser");
+const path = require('path');
+const { Kafka } = require('kafkajs');
+const cookieParser = require('cookie-parser');
 
-const io = require("socket.io")(3001, {
+const io = require('socket.io')(3001, {
   cors: {
-    origin: ["http://localhost:8080"],
+    origin: ['http://localhost:8080'],
   },
 });
 
+io.on('connection', (socket) => {
+  console.log('socket id: ', socket.id);
 io.on("connection", (socket) => {
   console.log("socket id: ", socket.id);
   // socket.on('event', obj => {
@@ -17,15 +19,15 @@ io.on("connection", (socket) => {
   // })
 });
 const repeat = () => {
-  io.emit("event", {
+  io.emit('event', {
     a: 100,
   });
 };
 
 setInterval(repeat, 2000);
 
-const kafkaController = require("./controllers/kafkaController");
-const userController = require("./controllers/userController");
+const kafkaController = require('./controllers/kafkaController');
+const userController = require('./controllers/userController');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -35,13 +37,13 @@ app.use(cookieParser());
 const PORT = 3000;
 
 //serve static files
-app.use(express.static(path.join(__dirname, "./src")));
+app.use(express.static(path.join(__dirname, './src')));
 
 // app.get('/*', )
 
 //create user
 app.post(
-  "/api/createUser",
+  '/api/createUser',
   userController.createUser,
   kafkaController.connect,
   async (req, res) => {
@@ -50,7 +52,7 @@ app.post(
 );
 
 app.get(
-  "/api/checkUser/:user",
+  '/api/checkUser/:user',
   userController.checkUser,
   kafkaController.connect,
   async (req, res) => {
@@ -61,7 +63,7 @@ app.get(
 app.use(userController.checkUser, kafkaController.connect);
 
 // get topic data
-app.get("/api/topic", kafkaController.getTopicData, (req, res, next) => {
+app.get('/api/topic', kafkaController.getTopicData, (req, res, next) => {
   res.status(200).json(res.locals.topicMetaData);
 });
 
@@ -76,7 +78,7 @@ app.get("/api/topic", kafkaController.getTopicData, (req, res, next) => {
 // )
 
 app.get(
-  "/api/consumerData/:consumerGroupId",
+  '/api/consumerData/:consumerGroupId',
   kafkaController.getConsumerData,
   (req, res, next) => {
     // io.emit....
@@ -95,26 +97,6 @@ app.get(
     res.status(200).json(res.locals.consumerData);
   }
 );
-
-let previousOffset = null;
-let previousTime = null;
-
-app.get("/api/consumptionRate", (req, res) => {
-  // const{groupId, topicName} = req.body
-  setInterval(async () => {
-    const { rate, updatedOffset, updatedTime } =
-      await kafkaController.getConsumerConsumption(
-        "group2",
-        "returns",
-        previousOffset,
-        previousTime
-      );
-    previousOffset = updatedOffset;
-    previousTime = updatedTime;
-    io.emit("consumption rate", rate);
-  }, 500);
-  res.status(200).send("Consumption rate is being sent to frontend");
-});
 
 // app.get(
 //   '/api/consumerData/:consumerGroupId',
@@ -178,7 +160,7 @@ app.get("/api/consumptionRate", (req, res) => {
 // );
 
 // catch-all route for errors
-app.get("*", (req, res) => {
+app.get('*', (req, res) => {
   res.sendStatus(404);
 });
 
