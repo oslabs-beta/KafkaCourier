@@ -6,9 +6,6 @@ export default function ConsumerGroups({ topicData, consumerGroup, setConsumerGr
   // replace with consumer group array from backend
  
   const consumerGroups = [];
-
-  console.log('TOPIC DATA: ', topicData);
-  console.log("topics", topicData.topics);
   //find indexOf current topic in topicData.topics
   //display the same index of ConsumerGroups array
 
