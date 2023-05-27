@@ -11,7 +11,7 @@ export default function LineGraph() {
   const [chartDimensions, setChartDimensions] = useState({
     width: 350,
     height: 300,
-    margin: { top: 20, right: 20, bottom: 30, left: 30 },
+    margin: { top: 20, right: 20, bottom: 30, left: 40 },
     get graphWidth() {
       return this.width - this.margin.left - this.margin.right;
     },
@@ -49,6 +49,17 @@ export default function LineGraph() {
     const yScale = d3.scaleLinear()
       .domain([0, 100])
       .range([graphHeight, 0]);
+    
+    // Define axes gridlines
+    const xGridlines = d3.axisBottom(xScale)
+      .tickSize(-graphHeight)
+      .tickFormat('')
+      .ticks(5);
+    
+    const yGridlines = d3.axisLeft(yScale)
+      .tickSize(-graphWidth)
+      .tickFormat('')
+      .ticks(5);
 
     // Create graph container
     const graph = svg.append('g')
@@ -65,6 +76,44 @@ export default function LineGraph() {
     graph.append('g')
       .attr('id', 'y-axis')
       .call(d3.axisLeft(yScale).tickFormat(''));
+
+    // Add gridlines to graph
+    const xAxisGridlines = graph.append("g")
+      .attr("class", "gridlines")
+      .attr("transform", `translate(0, ${graphHeight})`)
+      .call(xGridlines)
+      .selectAll("line")
+      .attr("stroke", "#ccc")
+      .attr("stroke-opacity", 0.5);
+
+    graph.append("g")
+      .attr("class", "gridlines")
+      .call(yGridlines)
+      .selectAll("line")
+      .attr("stroke", "#ccc")
+      .attr("stroke-opacity", 0.5);
+
+    // Add axes labels
+    // Add x-axis label
+    graph.append('text')
+      .attr('class', 'axis-label')
+      .attr('x', graphWidth / 2)
+      .attr('y', graphHeight + margin.bottom)
+      .attr('text-anchor', 'middle')
+      .style('font-size', '14px')
+      .text('Time');
+
+    // Add y-axis label
+    graph.append('text')
+      .attr('class', 'axis-label')
+      .attr('transform', 'rotate(-90)')
+      .attr('x', -graphHeight / 2)
+      .attr('y', -margin.left)
+      .attr('dy', '1em')
+      .attr('text-anchor', 'middle')
+      .style('font-size', '14px')
+      .text('Consumer Group Lag');
+
 
   }, []);
 
@@ -111,9 +160,8 @@ export default function LineGraph() {
     // Update x-axis
     const xAxisElement = d3.select('#x-axis');
     const xAxis = d3.axisBottom(xScale)
-      // .ticks(5)
-      .tickValues(xScale.ticks(6))
-      .tickFormat(d3.timeFormat('%H:%M'));
+      .tickValues(xScale.ticks(5))
+      .tickFormat(d3.timeFormat('%-I:%M %p'));
     // xAxis.ticks(5);
     xAxisElement.transition()
       .duration(500)
@@ -121,7 +169,7 @@ export default function LineGraph() {
 
     // Update y-axis
     const yAxisElement = d3.select('#y-axis');
-    const yAxis = d3.axisLeft(yScale);
+    const yAxis = d3.axisLeft(yScale)
     yAxisElement.transition()
       .duration(500)
       .call(yAxis);
