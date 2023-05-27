@@ -1,12 +1,20 @@
 import React, { useState, useRef } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-// import './Account.css';
+import './Account.scss';
 
 export default function Account() {
   const newServerUri = useRef();
   const newApiKey = useRef();
   const newApiSecret = useRef();
+
+  const sessionCookie = document.cookie
+    .split('; ')
+    .find((cookie) => cookie.startsWith('kafka_courier_session='))
+    ?.split('=')[1];
+  const decoded = JSON.parse(decodeURIComponent(sessionCookie));
+  const user_id = decoded.user_id;
+  console.log('user_id 1: ', user_id);
 
   const handleClick = async (e) => {
     e.preventDefault(); //prevents clicking button from automatically submitting things in the form
@@ -22,14 +30,17 @@ export default function Account() {
         method: 'PUT',
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({
+          user_id,
           server,
           key,
           secret,
         }),
       });
-      const result = await response.json();
-      //clear fields
-      e.target.reset();
+      // const result = await response.json();
+      // clear fields
+      newServerUri.current.value = '';
+      newApiKey.current.value = '';
+      newApiSecret.current.value = '';
       //information updated
       alert('Information updated.');
     } catch (error) {

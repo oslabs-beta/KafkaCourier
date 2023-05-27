@@ -72,8 +72,7 @@ const userController = {
     try {
       const { user_id, server, key, secret } = req.body;
       // sql query
-      const query = `UPDATE (user_id, server, key, secret)
-                    VALUES ($1, $2, $3, $4)
+      const query = `UPDATE login
                     SET server = $2, key = $3, secret = $4
                     WHERE user_id = $1
                     RETURNING *`;
