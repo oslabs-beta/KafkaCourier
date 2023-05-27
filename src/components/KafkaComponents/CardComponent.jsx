@@ -22,7 +22,7 @@ export default function CardComponent({ consumerGroup }) {
           </CardMedia>
           </CardContent>
         </Card>
-        <ConsumerInfo></ConsumerInfo>
+        <ConsumerInfo />
       </div>
   )
 }

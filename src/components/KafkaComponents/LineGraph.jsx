@@ -11,7 +11,7 @@ export default function LineGraph() {
   const [chartDimensions, setChartDimensions] = useState({
     width: 350,
     height: 300,
-    margin: { top: 20, right: 20, bottom: 30, left: 50 },
+    margin: { top: 20, right: 20, bottom: 30, left: 30 },
     get graphWidth() {
       return this.width - this.margin.left - this.margin.right;
     },
@@ -69,7 +69,6 @@ export default function LineGraph() {
   }, []);
 
   useEffect(() => {
-    console.log('useEffect running: ', data);
     const { graphWidth, graphHeight } = chartDimensions;
 
     // Remove line on every update so a new line can be appended
@@ -113,7 +112,7 @@ export default function LineGraph() {
     const xAxisElement = d3.select('#x-axis');
     const xAxis = d3.axisBottom(xScale)
       // .ticks(5)
-      .tickValues(xScale.ticks(5))
+      .tickValues(xScale.ticks(6))
       .tickFormat(d3.timeFormat('%H:%M'));
     // xAxis.ticks(5);
     xAxisElement.transition()

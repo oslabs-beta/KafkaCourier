@@ -113,9 +113,9 @@ const run = async () => {
 
   await consumer1.run({
     eachMessage: async ({ topic, partition, message }) => {
-      console.log({
-        value: message.value.toString(),
-      });
+      // console.log({
+      //   value: message.value.toString(),
+      // });
       await new Promise((resolve) => setTimeout(resolve, 40));
     },
   });
