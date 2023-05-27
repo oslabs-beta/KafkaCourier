@@ -1,17 +1,29 @@
 import React, { useState } from 'react'
 import { List, ListItem, ListItemText } from '@mui/material';
 
-export default function ConsumerGroups({ consumerGroup, setConsumerGroup }) {
+export default function ConsumerGroups({ topicData, consumerGroup, setConsumerGroup, currentTopic }) {
   
   // replace with consumer group array from backend
-  const res = ['group1', 'group2', 'group3', 'group4'];
+ 
   const consumerGroups = [];
 
-  for(let i = 0; i < res.length; i ++){
-    consumerGroups.push( 
-        <ListItem onClick={() => setConsumerGroup(res[i])}> 
-          <ListItemText primary={res[i]} />
-        </ListItem> )
+  console.log('TOPIC DATA: ', topicData);
+  console.log("topics", topicData.topics);
+  //find indexOf current topic in topicData.topics
+  //display the same index of ConsumerGroups array
+
+
+  if (currentTopic) {
+
+    let index = topicData.topics.indexOf(currentTopic)
+    if (topicData.consumerGroups[index].length){ 
+       for(let i = 0; i < topicData.consumerGroups[index].length; i ++){
+        consumerGroups.push( 
+          <ListItem onClick={() => setConsumerGroup(topicData.consumerGroups[index])}> 
+            <ListItemText primary={topicData.consumerGroups[index][i].groupId} />
+          </ListItem> )
+      }
+    }
   }
   return (
     <div style={{ height: '100px', overflow: 'auto' }}>

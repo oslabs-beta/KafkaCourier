@@ -60,8 +60,12 @@ app.get('/api/checkUser/:user',
 app.use(userController.checkUser, kafkaController.connect);
 
 // get topic data
-app.get('/api/topic', 
+app.get('/api/topic',
+  // populate topic table 
   kafkaController.getTopicData, 
+  // list of consumer groups
+  // kafkaController.
+
   (req, res, next) => {
     res.status(200).json(res.locals.topicMetaData);
   }

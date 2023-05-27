@@ -93,7 +93,6 @@ const kafkaController = {
       }
 
       res.locals.topicMetaData = formattedData;
-      console.log('formatted data: ', formattedData);
       next();
     } catch (error) {
       console.log(error);
@@ -120,9 +119,10 @@ const kafkaController = {
         );
       });
       // console.log('topic consumer groups: ', topicConsumerGroups[0].members);
-      return topicConsumerGroups.length;
+      return topicConsumerGroups;
     }
   },
+
   async getConsumerData(req, res, next) {
     try {
       // await admin.connect()

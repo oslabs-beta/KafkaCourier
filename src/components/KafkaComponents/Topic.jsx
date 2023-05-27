@@ -28,27 +28,27 @@ import ConsumerGroups from './ConsumerGroups.jsx';
 // className={useStyles.tableCellStyles}
 
 // row component to render within Topic
-function TopicRow(props) {
-  const [topic, setTopic] = useState();
+function TopicRow({ topicName, partitions, consumerGroups, setCurrentTopic }) {
+  
 
   useEffect(() => {
     // change color of current topic row
-    if (topic) {
-      const element = document.getElementById(topic);
-      element.classList.add('currentTopic');
-    }
+    // if (topic) {
+    //   const element = document.getElementById(topic);
+    //   element.classList.add('currentTopic');
+    // }
   });
 
   return (
-    <TableRow onClick={() => setTopic(props.topicName)} topic={topic} id={topic}>
-      <TableCell>{props.topicName}</TableCell>
-      <TableCell>{props.partitions}</TableCell>
-      <TableCell>{props.consumerGroups}</TableCell>
+    <TableRow onClick={() => setCurrentTopic(topicName)}>
+      <TableCell>{topicName}</TableCell>
+      <TableCell>{partitions}</TableCell>
+      <TableCell>{consumerGroups.length}</TableCell>
     </TableRow>
   );
 }
 
-export default function Topic(props) {
+export default function Topic({ topicData, currentTopic, setCurrentTopic }) {
   const [consumerGroup, setConsumerGroup] = useState();
 
   // const useStyles = makeStyles(() => ({
@@ -57,16 +57,19 @@ export default function Topic(props) {
   //   },
   // }));
   
-  const topicData = JSON.parse(props.topicData);
   console.log('topicData', topicData);
+  console.log('current topic', currentTopic);
+  const parsedData = JSON.parse(topicData);
+  console.log('parsedData', parsedData);
   const topics = [];
-  for (let i = 0; i < topicData.topics.length; i++) {
+  for (let i = 0; i < parsedData.topics.length; i++) {
     topics.push(
       <TopicRow
         key={i}
-        topicName={topicData.topics[i]}
-        partitions={topicData.partitions[i]}
-        consumerGroups={topicData.consumerGroups[i]}
+        topicName={parsedData.topics[i]}
+        partitions={parsedData.partitions[i]}
+        consumerGroups={parsedData.consumerGroups[i]}
+        setCurrentTopic={setCurrentTopic}
       />
     );
   }
@@ -105,8 +108,8 @@ export default function Topic(props) {
             </Grid>
           </Grid>
         </Box> */}
-        <ConsumerGroups consumerGroup={consumerGroup} setConsumerGroup={setConsumerGroup}></ConsumerGroups>
-        <CardComponent consumerGroup={consumerGroup}/>
+        <ConsumerGroups consumerGroup={consumerGroup} setConsumerGroup={setConsumerGroup} topicData={parsedData} currentTopic={currentTopic}></ConsumerGroups>
+        <CardComponent consumerGroup={consumerGroup} topicData={topicData}/>
         {/* <CardComponent />
         <CardComponent />
         <CardComponent /> */}
