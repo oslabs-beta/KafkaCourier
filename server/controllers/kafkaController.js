@@ -1,7 +1,7 @@
-const { Kafka } = require('kafkajs');
-require('dotenv').config();
-const { Partitioners, AssignerProtocol } = require('kafkajs');
-const { exec } = require('child_process');
+const { Kafka } = require("kafkajs");
+require("dotenv").config();
+const { Partitioners, AssignerProtocol } = require("kafkajs");
+const { exec } = require("child_process");
 
 let admin;
 let server;
@@ -18,11 +18,10 @@ const kafkaController = {
     try {
       // if admin exists and kafka session cookie exists, don't connect
       if (admin && req.cookies.kafka_courier_session) {
-
         return next();
       }
-      
-      // connect to kafka broker only if res.locals.rows contains nonempty array 
+
+      // connect to kafka broker only if res.locals.rows contains nonempty array
       // allows middleware to be used both when user does and doesn't exist in database
       if (res.locals.rows.length) {
         ({ server, username, password } = res.locals);
@@ -30,16 +29,18 @@ const kafkaController = {
         console.log(server, username, password);
 
         const sasl =
-          username && password ? { username, password, mechanism: 'plain' } : null;
+          username && password
+            ? { username, password, mechanism: "plain" }
+            : null;
         const ssl = !!sasl;
         // This creates a client instance that is configured to connect to the Kafka broker
         const kafka = new Kafka({
-          clientId: 'qa-topic',
+          clientId: "qa-topic",
           brokers: [server],
           logLevel: 2,
           ssl,
           sasl: {
-            mechanism: 'plain',
+            mechanism: "plain",
             username,
             password,
           },
@@ -48,11 +49,11 @@ const kafkaController = {
         // connect to admin API
         admin = kafka.admin();
         admin.connect();
-        console.log('connecting to admin');
+        console.log("connecting to admin");
       }
       next();
     } catch (err) {
-      console.log('Error in kafkaController.connect: ', err);
+      console.log("Error in kafkaController.connect: ", err);
     }
   },
 
@@ -195,7 +196,7 @@ const kafkaController = {
   //   }
   // },
 
-  getConsumerDataCLI: function(consumerGroupId) {
+  getConsumerDataCLI: function (consumerGroupId) {
     try {
       return new Promise((resolve, reject) => {
         let newArray2 = [];
@@ -205,36 +206,38 @@ const kafkaController = {
             console.error(`Error executing command: ${error.message}`);
             return;
           }
-  
+
           if (stderr) {
             console.error(`Command stderr: ${stderr}`);
             return;
           }
-  
+
           // console.log('STDOUT: ', stdout);
-          const array = stdout.trim().split('\n');
-          console.log("array.length: ",array.length);
-          const lagArray = array[0].split(/\s+/).indexOf('LAG');
-          console.log('lag array', lagArray);
-          newArray2 = array.slice(1).map((line) => {
-            const columns = line.split(/\s+/);
-            return Number(columns[lagArray]);
-          })
-            .filter(el => {
+          const array = stdout.trim().split("\n");
+          console.log("array.length: ", array.length);
+          const lagArray = array[0].split(/\s+/).indexOf("LAG");
+          console.log("lag array", lagArray);
+          newArray2 = array
+            .slice(1)
+            .map((line) => {
+              const columns = line.split(/\s+/);
+              return Number(columns[lagArray]);
+            })
+            .filter((el) => {
               if (!isNaN(el)) return el;
             });
-          console.log('newArray2: ', newArray2);
+          console.log("newArray2: ", newArray2);
           const maxNum = Math.max(...newArray2);
-          console.log('max number', maxNum);
+          console.log("max number", maxNum);
 
           const getCurrentTime = () => {
             const now = new Date();
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            const seconds = now.getSeconds().toString().padStart(2, '0'); 
+            const hours = now.getHours().toString().padStart(2, "0");
+            const minutes = now.getMinutes().toString().padStart(2, "0");
+            const seconds = now.getSeconds().toString().padStart(2, "0");
             const currentTime = Number(`${hours}${minutes}${seconds}`);
             return currentTime;
-          }
+          };
 
           // const result = {x: getCurrentTime(), y: maxNum};
           const result = {x: (new Date()).toLocaleTimeString(), y: maxNum};
@@ -248,12 +251,46 @@ const kafkaController = {
         // // io.emit('consumer Data', result)
         // res.locals.consumerLag = result;
         // return next();
-      })
-     } catch (error) {
-      console.log('error: ', error);
-      reject(error)
+      });
+    } catch (error) {
+      console.log("error: ", error);
+      reject(error);
     }
   },
-}
+  async getConsumerConsumption(
+    groupId,
+    topic,
+    previousOffset = null,
+    previousTime = null
+  ) {
+    let rate = 0;
+    const offsets = await admin.fetchOffsets({
+      groupId,
+      topic,
+    });
+    console.log(offsets[0].partitions, "OFFSETS HERER");
+    const totalOffset = offsets[0].partitions.reduce(
+      (total, { offset }) => total + Number(offset),
+      0
+    );
+    console.log("totalOffset", totalOffset);
+    const currentTime = Date.now();
+    if (previousOffset !== null && previousTime !== null) {
+      // console.log("TOTAL OFFSET", totalOffset);
+      // console.log("PREV OFFSET", previousOffset);
+      const offsetDifference = totalOffset - previousOffset;
+      const timeDifference = (currentTime - previousTime) / 1000; // to give time in seconds
+      rate = offsetDifference / timeDifference;
+      console.log(`Consumption rate: ${rate} messages/second`);
+    }
+    previousOffset = totalOffset;
+    previousTime = currentTime;
+    return {
+      rate,
+      updatedOffset: totalOffset,
+      updatedTime: currentTime,
+    };
+  },
+};
 
 module.exports = kafkaController;
