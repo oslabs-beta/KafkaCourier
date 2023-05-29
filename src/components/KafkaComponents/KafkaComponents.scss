@@ -43,6 +43,11 @@ table .MuiTableBody-root:last-child {
     padding: 10px;
 }
 
+.MuiTableContainer-root {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
 .topic-container {
     display: flex;
     flex-direction: column;
@@ -65,15 +70,16 @@ table .MuiTableBody-root:last-child {
 
 #topic-lower-container {
   display: grid;
-  grid-template-columns: repeat(3, minmax(250px, 1fr)); 
+  grid-template-columns: minmax(250px, 1fr) minmax(250px, 2fr); 
   grid-template-rows: repeat(2, 1fr);
-  grid-gap: 10px; 
-  height: 100vh;
+  grid-gap: 20px; 
+  height: 130vh;
+  overflow-y: auto;
 }
 
 #consumer-groups {
     grid-column: 1;
-    grid-row: span 2;
+    grid-row: 1;
     background-color: white;
     border-radius: 12px;
     overflow: 'auto';
@@ -111,5 +117,18 @@ i {
 .card-container {
     margin: 0;
     padding: 16px;
+    max-height: 30%;
 }
 
+#consumer-group-data-upper, #consumer-group-data-lower {
+    background-color: white;
+    border-radius: 12px;
+}
+
+#consumer-group-data-upper {
+    grid-row: span 2;
+}
+
+#consumer-groups .MuiTableContainer-root {
+    padding: 10px;
+}
