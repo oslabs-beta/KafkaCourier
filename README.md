@@ -1,4 +1,4 @@
-![Logo](https://pbs.twimg.com/media/FwW_fC9aQAAs8nE?format=jpg&name=small)
+<img src="https://pbs.twimg.com/media/FwW_fC9aQAAs8nE?format=jpg&name=small" alt=logo style="border-radius: 10px;">
 
 # KafkaCourier
 
