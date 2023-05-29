@@ -13,7 +13,7 @@
 ---
 
 # **Features**
-Create a giphy or screen recording of each feature:
+- Create a giphy or screen recording of each feature:
 - Login + Entering Credentials
 - Dashboard / Landing page
 - Clicking to Topics and watching the graphical data
