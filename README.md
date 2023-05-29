@@ -18,9 +18,6 @@ Logout?
 
 **Built With**
 
-Certainly! Here's the list of technologies and tools formatted as a column:
-
-markdown
 Copy code
 **Built With**
 - ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
