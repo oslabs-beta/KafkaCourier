@@ -21,7 +21,7 @@
 
 ---
 
-**Built With**
+# **Built With**
 - ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 - ![Chart.js](https://img.shields.io/badge/chart.js-F5788D.svg?style=for-the-badge&logo=chart.js&logoColor=white)
 - ![Socket.io](https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101)
@@ -39,7 +39,8 @@
 - D3 
 
 ---
-**Contributors**
+# **Contributors**
+
 | Name | GitHub | LinkedIn |
 | ---- | ------ | -------- |
 | [**Shimmy Gabbara**](#) | [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/shimmy25) | [![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](#) |
