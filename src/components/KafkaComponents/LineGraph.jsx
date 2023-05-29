@@ -20,6 +20,48 @@ export default function LineGraph() {
     }
   });
 
+  // Check if domain values are at least 5 minutes apart for initial data display
+  const timeStringToDate = timeString => {
+    // Parse the time string
+    const [time, period] = timeString.split(' ');
+    const [hours, minutes, seconds] = time.split(':').map(Number);
+
+    // Get the current date
+    const currentDate = new Date();
+
+    // Set the hours, minutes, and seconds of the current date
+    currentDate.setHours(period === 'PM' ? hours + 12 : hours);
+    currentDate.setMinutes(minutes);
+    currentDate.setSeconds(seconds);
+
+    return currentDate;
+  };
+
+  const minDomain = (min, max) => {
+    // return true or false
+    return timeStringToDate(max).getMinutes() - timeStringToDate(min).getMinutes() >= 5;
+  };
+
+  const fiveMinutesAgo = timeString => {
+    const [time, period] = timeString.split(' ');
+    const [hours, minutes, seconds] = time.split(':').map(Number);
+
+    const newDate = new Date();
+
+    // Set the hours, minutes, and seconds of the current date
+    newDate.setHours(period === 'PM' ? hours + 12 : hours);
+    newDate.setMinutes(minutes);
+    newDate.setSeconds(seconds);
+
+    // Subtract 5 minutes
+    newDate.setMinutes(newDate.getMinutes() - 5);
+
+    // Format the resulting time as a string
+    const formattedTime = newDate.toLocaleTimeString([], { hour12: true });
+
+    return formattedTime;
+  };
+
   // Connect to websocket server and create chart only once
   if (!sockets) {
     const socket = io('http://localhost:3001');
@@ -78,7 +120,7 @@ export default function LineGraph() {
       .call(d3.axisLeft(yScale).tickFormat(''));
 
     // Add gridlines to graph
-    const xAxisGridlines = graph.append("g")
+    graph.append("g")
       .attr("class", "gridlines")
       .attr("transform", `translate(0, ${graphHeight})`)
       .call(xGridlines)
@@ -94,7 +136,6 @@ export default function LineGraph() {
       .attr("stroke-opacity", 0.5);
 
     // Add axes labels
-    // Add x-axis label
     graph.append('text')
       .attr('class', 'axis-label')
       .attr('x', graphWidth / 2)
@@ -103,7 +144,6 @@ export default function LineGraph() {
       .style('font-size', '14px')
       .text('Time');
 
-    // Add y-axis label
     graph.append('text')
       .attr('class', 'axis-label')
       .attr('transform', 'rotate(-90)')
@@ -113,7 +153,6 @@ export default function LineGraph() {
       .attr('text-anchor', 'middle')
       .style('font-size', '14px')
       .text('Consumer Group Lag');
-
 
   }, []);
 
@@ -130,11 +169,42 @@ export default function LineGraph() {
       d.x = parseTime(d.time);
     });
 
+
+
+
+    /* NO LINE ERROR HAS TO DO WITH WRONG DATES
+    D3.EXTENT USING DATA FROM SERVER WITH YEAR 1900
+    DOMAINARR USING CURRENT DATES WITH YEAR 2023
+    */
+
     console.log('data: ', data);
+
+    const myDomain = () => {
+      const [minDate, maxDate] = d3.extent(data, d => d.x);
+      if (minDate && maxDate) {
+        const [min, max] = [minDate.toLocaleTimeString(), maxDate.toLocaleTimeString()]
+        if (minDomain(min, max)) {
+          return [timeStringToDate(min), timeStringToDate(max)];
+        }
+        else {
+          return [timeStringToDate(fiveMinutesAgo(min)), timeStringToDate(max)];
+        }
+      }
+      else return [0, 0];
+    }
+
+    const domainArr = myDomain();
+    console.log('domainArr: ', domainArr);
+    console.log('d3.extent: ', d3.extent(data, d => d.x));
+
+
+
+
 
     // Create scales to map data values to visual properties
     const xScale = d3.scaleTime()
       .domain(d3.extent(data, d => d.x))
+      // .domain(domainArr)
       .range([0, graphWidth]);
 
     const yScale = d3.scaleLinear()
@@ -160,9 +230,10 @@ export default function LineGraph() {
     // Update x-axis
     const xAxisElement = d3.select('#x-axis');
     const xAxis = d3.axisBottom(xScale)
-      .tickValues(xScale.ticks(5))
+      // change tickValues argument to be an array from 5 minutes to current time
+      // .tickValues(xScale.ticks(5))
       .tickFormat(d3.timeFormat('%-I:%M %p'));
-    // xAxis.ticks(5);
+    xAxis.ticks(5);
     xAxisElement.transition()
       .duration(500)
       .call(xAxis);

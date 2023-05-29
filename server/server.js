@@ -82,7 +82,7 @@ app.get(
       ); // [{x, y}]
       io.emit(groupId, consumerLag);
     };
-    
+    emitter(req.params.consumerGroupId);
     // clear any running intervals and add interval id to intervals array to allow it to be cleared later
     intervals.forEach(interval => clearInterval(interval));
     intervals.push(setInterval(emitter, 7000, req.params.consumerGroupId));
