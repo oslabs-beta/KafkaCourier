@@ -3,7 +3,7 @@
 **Kafka Courier is a lightweight, open-source monitoring tool that provides visualization and tracking features for your Kafka clusters. It is built with the objective of enhancing developer productivity and streamlining troubleshooting by offering live updates of Kafka clusters and their key metrics.**
 
 ---
-# **Getting Started**
+## **Getting Started**
 - Go to —----.com
 - Login with your Gmail
 - Enter your Kafka API Key, API secret, and Server URI.
@@ -11,7 +11,7 @@
 
 ---
 
-# **Features**
+## **Features**
 - Create a giphy or screen recording of each feature:
 - Login + Entering Credentials
 - Dashboard / Landing page
@@ -21,7 +21,7 @@
 
 ---
 
-# **Built With**
+## **Built With**
 - ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 - ![Chart.js](https://img.shields.io/badge/chart.js-F5788D.svg?style=for-the-badge&logo=chart.js&logoColor=white)
 - ![Socket.io](https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101)
@@ -39,7 +39,7 @@
 - D3 
 
 ---
-# **Contributors**
+## **Contributors**
 
 | Name | GitHub | LinkedIn |
 | ---- | ------ | -------- |
@@ -52,7 +52,7 @@
 
   ---
   
-  # License
+ ## License
  - Kafka Courier is MIT licensed
 
 
