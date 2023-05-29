@@ -1,4 +1,6 @@
-<img src="https://pbs.twimg.com/media/FwW_fC9aQAAs8nE?format=jpg&name=small" alt="logo" style="border: 1px solid red;">
+<div style="border-radius: 10px;">
+  ![Header Logo](https://example.com/image.png](https://pbs.twimg.com/media/FwW_fC9aQAAs8nE?format=jpg&name=small)
+</div>
 
 # KafkaCourier
 
