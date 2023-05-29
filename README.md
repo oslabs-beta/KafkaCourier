@@ -1,3 +1,5 @@
+![Logo](https://pbs.twimg.com/media/FwW_fC9aQAAs8nE?format=jpg&name=small)
+
 # KafkaCourier
 
 **Kafka Courier is a lightweight, open-source monitoring tool that provides visualization and tracking features for your Kafka clusters. It is built with the objective of enhancing developer productivity and streamlining troubleshooting by offering live updates of Kafka clusters and their key metrics.**
