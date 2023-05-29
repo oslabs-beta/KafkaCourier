@@ -1,5 +1,5 @@
 <div style="border-radius: 10px;">
-  ![Header Logo](https://example.com/image.png](https://pbs.twimg.com/media/FwW_fC9aQAAs8nE?format=jpg&name=small)
+  ![Header Logo](https://pbs.twimg.com/media/FwW_fC9aQAAs8nE?format=jpg&name=small)
 </div>
 
 # KafkaCourier
