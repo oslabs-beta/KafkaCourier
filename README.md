@@ -48,5 +48,10 @@ Logout?
 **Lilianne Mueller**
   LI:
   Github:
+  
+  
+  
+  # License
+  Kafka Courier is MIT licensed
 
 
