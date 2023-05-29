@@ -2,7 +2,7 @@
 **Blurb:**
 **Kafka Courier is a lightweight, open-source monitoring tool that provides visualization and tracking features for your Kafka clusters. It is built with the objective of enhancing developer productivity and streamlining troubleshooting by offering live updates of Kafka clusters and their key metrics.**
 ---
-# **Getting Started**
+# Getting Started
 Go to —----.com
 Login with your Gmail
 Enter your Kafka API Key, API secret, and Server URI.
