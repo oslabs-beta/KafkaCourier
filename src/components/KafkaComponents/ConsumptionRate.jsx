@@ -40,14 +40,14 @@ export default function ConsumptionRate({ currentTopic, consumerGroup}) {
       });
     });
   }, [socket]);
-  const handleButtonClick = () => {
-    axios
-      .get("/api/consumptionRate")
-      .then((response) => {
-        console.log("success");
-      })
-      .catch((error) => console.log(error));
-  };
+  // const handleButtonClick = () => {
+  //   axios
+  //     .get("/api/consumptionRate")
+  //     .then((response) => {
+  //       console.log("success");
+  //     })
+  //     .catch((error) => console.log(error));
+  // };
     
   return (
     <div id="consumption-rate">
@@ -75,7 +75,7 @@ export default function ConsumptionRate({ currentTopic, consumerGroup}) {
           },
         }}
       />
-      <button onClick={handleButtonClick}>Start Consumption Rate</button>
+      {/* <button onClick={handleButtonClick}>Start Consumption Rate</button> */}
     </div>
   );
 }
