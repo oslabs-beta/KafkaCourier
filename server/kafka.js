@@ -73,35 +73,47 @@ producer.on("producer.network.request_timeout", (payload) => {
 const run = async () => {
   // Producing
   await producer.connect();
-  for (let i = 0; i < 100; i++) {
-    await producer.send({
-      topic: 'returns',
-      messages: [
-        {
-          value: Buffer.from(
-            JSON.stringify({
-              event_name: 'QA',
-              payload: {
-                assessment: {
-                  performance: 7,
-                  quality: 7,
-                  communication: 7,
-                  flexibility: 7,
-                  cost: 7,
-                  delivery: 6,
-                },
-              },
-            })
-          ),
-        },
-      ],
-    });
-  }
+  // for (let i = 0; i < 100; i++) {
+  //   await producer.send({
+  //     topic: 'returns',
+  //     messages: [
+  //       {
+  //         value: Buffer.from(
+  //           JSON.stringify({
+  //             event_name: 'QA',
+  //             payload: {
+  //               assessment: {
+  //                 performance: 7,
+  //                 quality: 7,
+  //                 communication: 7,
+  //                 flexibility: 7,
+  //                 cost: 7,
+  //                 delivery: 6,
+  //               },
+  //             },
+  //           })
+  //         ),
+  //       },
+  //     ],
+  //   });
+  // }
 
   //FIRST CONSUMER
-  const consumer1 = kafka.consumer({ groupId: "group2" });
+  const consumer1 = kafka.consumer({ groupId: "group1" });
   await consumer1.connect();
   await consumer1.subscribe({ topic: "returns", fromBeginning: true });
+
+  const consumer2 = kafka.consumer({ groupId: "group2" });
+  await consumer2.connect();
+  await consumer2.subscribe({ topic: "returns", fromBeginning: true });
+
+  const consumer3 = kafka.consumer({ groupId: "group3" });
+  await consumer3.connect();
+  await consumer3.subscribe({ topic: "returns", fromBeginning: true });
+
+  const consumer4 = kafka.consumer({ groupId: "group4" });
+  await consumer4.connect();
+  await consumer4.subscribe({ topic: "returns", fromBeginning: true });
 
   //SECOND CONSUMER
   // const consumer2 = kafka.consumer({ groupId: 'group2' });
@@ -120,7 +132,7 @@ const run = async () => {
     },
   });
 
-  const consumers = await admin.describeGroups(["group2"]);
+  const consumers = await admin.describeGroups(["group1"]);
   console.log("members", consumers.groups[0].members);
   console.log(
     "before member assignment ",

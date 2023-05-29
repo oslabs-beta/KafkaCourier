@@ -4,6 +4,7 @@ import CredentialForm from './components/CredentialForm/CredentialForm.js';
 import Dashboard from './components/dashboard/Dashboard.jsx';
 import Login from './components/Login/Login.js';
 import { useCookies } from 'react-cookie';
+import './styles.scss';
 
 function Error() {
   return <div>THIS IS AN ERROR BAD</div>;

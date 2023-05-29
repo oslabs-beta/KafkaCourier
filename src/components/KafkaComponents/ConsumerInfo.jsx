@@ -21,7 +21,7 @@ export default function ConsumerInfo() {
     // }
     // fetchData();
 
-  })
+  },[])
 
 
   async function fetchConsumerData() {
@@ -56,7 +56,7 @@ export default function ConsumerInfo() {
 
 
   return (
-    <TableContainer>
+    <TableContainer id="consumer-info">
         <Table>
             <TableHead>
                 <TableRow>

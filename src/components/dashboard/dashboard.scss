@@ -1,32 +1,12 @@
-// .test {
-//   display: flex;
-//   flex-direction: column;
-//   background-color: rgb(115, 160, 142);
-// }
-
-// body {
-//   background-color: black;
-// }
-
-// #root {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   background-color: rgb(73, 75, 75);
-//   height: 100vh !important;
-//   border-radius: 10px;
-// }
-
 .dashboard {
     background-color: #BD9699;
-    display: grid;
-    grid-template-columns: 1fr 5fr;
-    grid-gap: 10px;
+    display: flex;
+    gap: 20px;
     padding: 10px;
     padding-top: 20px;
-    // margin: 5rem;
-    // margin-top: 3rem;
+    height: 100vh;
+    width: 100vw;
+    margin-bottom: 20px;
 }
 
 #root {

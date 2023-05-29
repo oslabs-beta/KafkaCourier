@@ -31,24 +31,23 @@ table .MuiTableBody-root:last-child {
     border-bottom: none; /* Remove the bottom border from the last row */
 }
 
-.topic-upper-container .MuiTableBody-root .MuiTableRow-root:hover {
+.MuiTableBody-root .MuiTableRow-root:hover {
     cursor: pointer;
     background-color: $lightestGray;
     color: white;
 }
 
+.topic-upper-container {
+    background-color: white;
+    border-radius: 12px;
+    padding: 10px;
+}
+
 .topic-container {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-}
-
-.topic-lower-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    justify-items: center;
+    gap: 20px;
     height: 100%;
-    padding: 10px;
 }
 
 .cardComponent{
@@ -62,5 +61,55 @@ table .MuiTableBody-root:last-child {
 .graph{
     height: 50%;
     width: 70%;
+}
+
+#topic-lower-container {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(250px, 1fr)); 
+  grid-template-rows: repeat(2, 1fr);
+  grid-gap: 10px; 
+  height: 100vh;
+}
+
+#consumer-groups {
+    grid-column: 1;
+    grid-row: span 2;
+    background-color: white;
+    border-radius: 12px;
+    overflow: 'auto';
+}
+
+#consumer-lag {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+#consumption-rate {
+    grid-column: 3;
+    grid-row: 1;
+}
+
+#consumer-info {
+    grid-column-start: 2;
+    grid-column-end: 4;
+    grid-row: 2;
+}
+
+.selected-row {
+    background-color: $lightestGray;
+}
+
+i {
+    font-size: 14px;
+    color: $darkGray;
+}
+
+#consumer-group-placeholder {
+    padding: 0 8px 0 8px;
+}
+
+.card-container {
+    margin: 0;
+    padding: 16px;
 }
 

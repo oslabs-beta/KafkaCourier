@@ -5,42 +5,30 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
 import CardComponent from './CardComponent.jsx';
 import ConsumerGroups from './ConsumerGroups.jsx';
-
-
-// const useStyles = {
-//   tableCellStyles: {
-//     color: '#4E6667'
-//   }
-// }
-
-//  const useStyles = makeStyles(() => ({
-//   tableCellStyles: {
-//     color: '#4E6667'
-//     },
-//   }));
-// const useStylesFunction = useStyles();
-// className={useStyles.tableCellStyles}
+import ConsumptionRateContainer from './ConsumptionRateContainer.jsx';
+import ConsumerInfo from './ConsumerInfo.jsx';
+import './KafkaComponents.scss';
 
 // row component to render within Topic
-function TopicRow({ topicName, partitions, consumerGroups, setCurrentTopic }) {
-  
+function TopicRow({ topicName, partitions, consumerGroups, setCurrentTopic, currentTopic }) {
 
-  useEffect(() => {
+  const handleClick = () => {
+    setCurrentTopic(topicName);
     // change color of current topic row
-    // if (topic) {
-    //   const element = document.getElementById(topic);
-    //   element.classList.add('currentTopic');
-    // }
-  });
+    const rows = document.querySelectorAll('#topics .table-row');
+    rows.forEach(row => {
+      row.classList.remove('selected-row');
+    });
+    // Add selected-row class to the clicked row
+    // row.classList.add('selected-row');
+  }
+
+  const isSelected = currentTopic === topicName;
 
   return (
-    <TableRow onClick={() => setCurrentTopic(topicName)}>
+    <TableRow onClick={handleClick} className={`table-row ${isSelected ? 'selected-row' : ''}`}>
       <TableCell>{topicName}</TableCell>
       <TableCell>{partitions}</TableCell>
       <TableCell>{consumerGroups.length}</TableCell>
@@ -51,16 +39,9 @@ function TopicRow({ topicName, partitions, consumerGroups, setCurrentTopic }) {
 export default function Topic({ topicData, currentTopic, setCurrentTopic }) {
   const [consumerGroup, setConsumerGroup] = useState();
 
-  // const useStyles = makeStyles(() => ({
-  //   tableRowStyles: {
-  //     border: '2px solid #F8F2E3 !important',
-  //   },
-  // }));
-  
-  console.log('topicData', topicData);
-  console.log('current topic', currentTopic);
   const parsedData = JSON.parse(topicData);
-  console.log('parsedData', parsedData);
+
+  // populate topics table
   const topics = [];
   for (let i = 0; i < parsedData.topics.length; i++) {
     topics.push(
@@ -70,46 +51,59 @@ export default function Topic({ topicData, currentTopic, setCurrentTopic }) {
         partitions={parsedData.partitions[i]}
         consumerGroups={parsedData.consumerGroups[i]}
         setCurrentTopic={setCurrentTopic}
+        currentTopic={currentTopic}
+        className="table-row"
       />
     );
   }
+
+  // conditionally populate lower portion of topics page
+  let lowerComponents = [
+    <ConsumerGroups 
+      consumerGroup={consumerGroup} setConsumerGroup={setConsumerGroup} topicData={parsedData} currentTopic={currentTopic}>
+    </ConsumerGroups>
+  ];
+  // if a topic is selected, show corresponding consumer groups
+  // if (currentTopic) {
+  //   lowerComponents.push(
+  //     <ConsumerGroups 
+  //       setConsumerGroup={setConsumerGroup} topicData={parsedData} currentTopic={currentTopic}>
+  //     </ConsumerGroups>)
+  // }
+  // if a consumer group is selected, show corresponding charts
+  if (currentTopic && consumerGroup) {
+    lowerComponents.push( 
+        <CardComponent 
+          consumerGroup={consumerGroup} topicData={topicData}>
+        </CardComponent>,
+        <ConsumptionRateContainer currentTopic={currentTopic} consumerGroup={consumerGroup}></ConsumptionRateContainer>,
+        <ConsumerInfo></ConsumerInfo>,
+    )
+  }
+
   return (
     <div className="topic-container">
-      <div className="topic-upper-container">
+      <div className="topic-upper-container" id="topics">
+        <h3>Topics</h3>
         <TableContainer>
           <Table>
             <TableHead>
               <TableRow sx={{border: '3px solid #F8F2E3'}}>
-                <TableCell>Topic Name</TableCell>
-                <TableCell>Partitions</TableCell>
-                <TableCell>Consumer Groups</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell># of Partitions</TableCell>
+                <TableCell># of Consumer Groups</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>{topics}</TableBody>
           </Table>
         </TableContainer>
       </div>
-      <div className="topic-lower-container">
-        {/* mui grid component */}
-        {/* <Card className='cardComponent' variant="outlined">CARD HERE</Card>
-        <Card className='cardComponent' variant="outlined">CARD HERE</Card>
-        <Card className='cardComponent' variant="outlined">CARD HERE</Card>
-        <Card className='cardComponent' variant="outlined">CARD HERE</Card> */}
-        {/* <Box sx={{ width: '100%' }}>
-          <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-            <Grid item xs={4}>
-              <CardComponent />
-            </Grid>
-            <Grid item xs={4}>
-              <CardComponent />
-            </Grid>
-            <Grid item xs={4}>
-              <CardComponent />
-            </Grid>
-          </Grid>
-        </Box> */}
-        <ConsumerGroups consumerGroup={consumerGroup} setConsumerGroup={setConsumerGroup} topicData={parsedData} currentTopic={currentTopic}></ConsumerGroups>
-        <CardComponent consumerGroup={consumerGroup} topicData={topicData}/>
+      <div id="topic-lower-container">
+
+        {lowerComponents}
+        {/* <ConsumerGroups consumerGroup={consumerGroup} setConsumerGroup={setConsumerGroup} topicData={parsedData} currentTopic={currentTopic}></ConsumerGroups>
+        <CardComponent consumerGroup={consumerGroup} topicData={topicData}/> */}
+        {/* <ConsumptionRate consumerGroup={consumerGroup} currentTopic={currentTopic} /> */}
         {/* <CardComponent />
         <CardComponent />
         <CardComponent /> */}

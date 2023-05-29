@@ -16,13 +16,13 @@ io.on("connection", (socket) => {
   //   console.log('obj: ', obj);
   // })
 });
-const repeat = () => {
-  io.emit("event", {
-    a: 100,
-  });
-};
+// const repeat = () => {
+//   io.emit("event", {
+//     a: 100,
+//   });
+// };
 
-setInterval(repeat, 2000);
+// setInterval(repeat, 2000);
 
 const kafkaController = require("./controllers/kafkaController");
 const userController = require("./controllers/userController");
@@ -99,13 +99,14 @@ app.get(
 let previousOffset = null;
 let previousTime = null;
 
+///api/consumptionRate?consumerGroup=something&topic
 app.get("/api/consumptionRate", (req, res) => {
-  // const{groupId, topicName} = req.body
+  const{ consumerGroup, topic } = req.query;
   setInterval(async () => {
     const { rate, updatedOffset, updatedTime } =
       await kafkaController.getConsumerConsumption(
-        "group2",
-        "returns",
+        consumerGroup,
+        topic,
         previousOffset,
         previousTime
       );

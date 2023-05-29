@@ -5,24 +5,32 @@ import React, { useEffect, useRef, useState } from 'react';
 import ConsumerInfo from './ConsumerInfo.jsx';
 import LineGraph from './LineGraph.jsx';
 import CardContent from '@mui/material/CardContent';
+import ConsumptionRate from './ConsumptionRate.jsx';
 import "./CardComponent.css";
 
 export default function CardComponent({ consumerGroup }) {
-  return (
-      <div className="card-container" sx={{
-          color: '#4E6667'
-      }}>
-        <Typography variant="h5" component="h2"> {consumerGroup} </Typography>
-        <Card>
-          <CardContent>
-            <CardMedia>
-          {/* <div className="hero-image-container"> */}   
-             <LineGraph />
-          {/* </div> */}
+  console.log('consumer group current : ', consumerGroup);
+  // conditionally render line graph if a consumer group is clicked
+  let components;
+  if(consumerGroup){
+     components =       
+     <>
+     <Typography variant="h5" component="h2"> {consumerGroup} </Typography>
+      <Card>
+        <CardContent>
+          <CardMedia>
+            <LineGraph consumerGroup={consumerGroup}/>
           </CardMedia>
-          </CardContent>
-        </Card>
-        <ConsumerInfo></ConsumerInfo>
+        </CardContent>
+      </Card>
+      {/* <ConsumerInfo></ConsumerInfo> */}
+      </>  
+  } else {
+    components = <h1>FILLER COMPONENT</h1>
+  }
+  return (
+      <div className="card-container">
+        {components}
       </div>
   )
 }
