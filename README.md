@@ -26,7 +26,8 @@ Logout?
 - Sass
 - Tested with: jest
 - TS
-- node/express
+- Node
+- Express: ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 - HTML 5??
 - Material UI
 - SQL database
