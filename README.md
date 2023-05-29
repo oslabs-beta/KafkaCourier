@@ -36,7 +36,7 @@ Logout?
 **Contributors**
 | Name | Github | LinkedIn |
 | ------------- | ------------- |
-| [**Shimmy Gabbara**] (#) | [![GitHub]] (https://github.com/shimmy25) | ![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white) (#) |
+| [**Shimmy Gabbara**] (#) | [![GitHub] (https://github.com/shimmy25)] | ![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white) (#) |
 | [**Tejash Bharadwaj**] (#) | [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)] (https://github.com/tejasbbb)  | ![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white) (#) |
 | [**Kirsten Milic**] (#) | [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)] (https://github.com/klmilic)  | ![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white) (#) |
 | [**Jeffrey Huang**] (#) | [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/jeffuh)  | ![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white) (#) |
