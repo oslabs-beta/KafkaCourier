@@ -2,11 +2,13 @@
     background-color: #BD9699;
     display: flex;
     gap: 20px;
-    padding: 10px;
-    padding-top: 20px;
+    margin: 20px;
     height: 100vh;
-    width: 100vw;
+    // width: 95vw;
     margin-bottom: 20px;
+    position: relative;
+    height: auto;
+    min-height: 100vh;
 }
 
 #root {

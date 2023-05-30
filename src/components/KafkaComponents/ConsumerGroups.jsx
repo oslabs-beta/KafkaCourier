@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { List, ListItem, ListItemText, TableHead } from '@mui/material';
 import './KafkaComponents.scss';
 
 import Table from '@mui/material/Table';

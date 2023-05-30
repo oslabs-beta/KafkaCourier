@@ -5,6 +5,7 @@ $darkGray: #313131;
 $lightGray: #9b9b9b;
 $lightestGray: #e8e5e5;
 $pink: #BD9699;
+$green: #6b8d8e;
 
 .cardComponent div {
     font-family: 'Inter', sans-serif;
@@ -48,6 +49,10 @@ table .MuiTableBody-root:last-child {
     overflow-y: auto;
 }
 
+#consumer-groups .MuiTableContainer-root {
+    width: 90%;
+}
+
 .topic-container {
     display: flex;
     flex-direction: column;
@@ -73,8 +78,7 @@ table .MuiTableBody-root:last-child {
   grid-template-columns: minmax(250px, 1fr) minmax(250px, 2fr); 
   grid-template-rows: repeat(2, 1fr);
   grid-gap: 20px; 
-  height: 130vh;
-  overflow-y: auto;
+  height: 100vh;
 }
 
 #consumer-groups {
@@ -87,11 +91,6 @@ table .MuiTableBody-root:last-child {
 
 #consumer-lag {
     grid-column: 2;
-    grid-row: 1;
-}
-
-#consumption-rate {
-    grid-column: 3;
     grid-row: 1;
 }
 
@@ -117,7 +116,14 @@ i {
 .card-container {
     margin: 0;
     padding: 16px;
-    max-height: 30%;
+    flex: 1 1 0;
+    background-color: #EFF2F3;
+    border-radius: 12px;
+    margin: 10px;
+}
+
+#consumption-rate {
+    flex: 1 1 0;
 }
 
 #consumer-group-data-upper, #consumer-group-data-lower {
@@ -127,6 +133,8 @@ i {
 
 #consumer-group-data-upper {
     grid-row: span 2;
+    display: flex;
+    flex-direction: column;
 }
 
 #consumer-groups .MuiTableContainer-root {

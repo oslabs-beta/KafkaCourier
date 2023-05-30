@@ -12,17 +12,16 @@ import ConsumerInfo from './ConsumerInfo.jsx';
 import './KafkaComponents.scss';
 
 // row component to render within Topic
-function TopicRow({ topicName, partitions, consumerGroups, setCurrentTopic, currentTopic }) {
+function TopicRow({ topicName, partitions, consumerGroups, setCurrentTopic, currentTopic, setConsumerGroup }) {
 
   const handleClick = () => {
     setCurrentTopic(topicName);
+    setConsumerGroup();
     // change color of current topic row
     const rows = document.querySelectorAll('#topics .table-row');
     rows.forEach(row => {
       row.classList.remove('selected-row');
     });
-    // Add selected-row class to the clicked row
-    // row.classList.add('selected-row');
   }
 
   const isSelected = currentTopic === topicName;
@@ -38,7 +37,6 @@ function TopicRow({ topicName, partitions, consumerGroups, setCurrentTopic, curr
 
 export default function Topic({ topicData, currentTopic, setCurrentTopic }) {
   const [consumerGroup, setConsumerGroup] = useState();
-
   const parsedData = JSON.parse(topicData);
 
   // populate topics table
@@ -52,32 +50,45 @@ export default function Topic({ topicData, currentTopic, setCurrentTopic }) {
         consumerGroups={parsedData.consumerGroups[i]}
         setCurrentTopic={setCurrentTopic}
         currentTopic={currentTopic}
+        setConsumerGroup={setConsumerGroup}
         className="table-row"
       />
     );
   }
 
   // conditionally populate lower portion of topics page
+  const charts = [];
+  const consumerGroupData =  
+    <div id="consumer-group-data-upper">
+      <h4>Consumer Group Data</h4>
+      {charts}
+    </div>;
+
+  const consumerList = [];
+  const consumerData = 
+    <div id="consumer-group-data-lower">
+      <h4>Consumer Data</h4>
+      {consumerList}
+    </div>;
+
   let lowerComponents = [
     <ConsumerGroups 
       consumerGroup={consumerGroup} setConsumerGroup={setConsumerGroup} topicData={parsedData} currentTopic={currentTopic}>
-    </ConsumerGroups>
+    </ConsumerGroups>,
+    consumerGroupData,
+    consumerData
   ];
-  // if a topic is selected, show corresponding consumer groups
-  // if (currentTopic) {
-  //   lowerComponents.push(
-  //     <ConsumerGroups 
-  //       setConsumerGroup={setConsumerGroup} topicData={parsedData} currentTopic={currentTopic}>
-  //     </ConsumerGroups>)
-  // }
+
   // if a consumer group is selected, show corresponding charts
   if (currentTopic && consumerGroup) {
-    lowerComponents.push( 
+    charts.push( 
         <CardComponent 
           consumerGroup={consumerGroup} topicData={topicData}>
         </CardComponent>,
-        <ConsumptionRateContainer currentTopic={currentTopic} consumerGroup={consumerGroup}></ConsumptionRateContainer>,
-        <ConsumerInfo></ConsumerInfo>,
+        <ConsumptionRateContainer currentTopic={currentTopic} consumerGroup={consumerGroup}></ConsumptionRateContainer>
+    )
+    consumerList.push(
+      <ConsumerInfo consumerGroup={consumerGroup}></ConsumerInfo>
     )
   }
 
@@ -88,7 +99,7 @@ export default function Topic({ topicData, currentTopic, setCurrentTopic }) {
         <TableContainer>
           <Table>
             <TableHead>
-              <TableRow sx={{border: '3px solid #F8F2E3'}}>
+              <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell># of Partitions</TableCell>
                 <TableCell># of Consumer Groups</TableCell>

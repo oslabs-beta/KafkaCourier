@@ -1,12 +1,9 @@
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import React, { useEffect, useRef, useState } from 'react';
-import ConsumerInfo from './ConsumerInfo.jsx';
+import React from 'react';
 import LineGraph from './LineGraph.jsx';
 import CardContent from '@mui/material/CardContent';
-import ConsumptionRate from './ConsumptionRate.jsx';
-import "./CardComponent.css";
 
 export default function CardComponent({ consumerGroup }) {
   console.log('consumer group current : ', consumerGroup);
@@ -15,7 +12,7 @@ export default function CardComponent({ consumerGroup }) {
   if(consumerGroup){
      components =       
      <>
-     <Typography variant="h5" component="h2"> {consumerGroup} </Typography>
+     <h4>Consumer Lag</h4>
       <Card>
         <CardContent>
           <CardMedia>
@@ -23,11 +20,9 @@ export default function CardComponent({ consumerGroup }) {
           </CardMedia>
         </CardContent>
       </Card>
-      {/* <ConsumerInfo></ConsumerInfo> */}
-      </>  
-  } else {
-    components = <h1>FILLER COMPONENT</h1>
-  }
+    </>  
+  } 
+
   return (
       <div className="card-container">
         {components}

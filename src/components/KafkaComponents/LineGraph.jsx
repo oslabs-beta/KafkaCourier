@@ -10,8 +10,8 @@ export default function LineGraph({ consumerGroup }) {
   const [data, setData] = useState([]);
   const [sockets, setSockets] = useState(false);
   const [chartDimensions, setChartDimensions] = useState({
-    width: 350,
-    height: 300,
+    width: 500,
+    height: 100,
     margin: { top: 20, right: 20, bottom: 30, left: 50 },
     get graphWidth() {
       return this.width - this.margin.left - this.margin.right;
