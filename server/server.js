@@ -4,7 +4,10 @@ const path = require('path');
 const { Kafka } = require('kafkajs');
 const cookieParser = require('cookie-parser');
 
-const io = require('socket.io')(3001, {
+const kafkaController = require("./controllers/kafkaController");
+const userController = require("./controllers/userController");
+
+const io = require("socket.io")(3001, {
   cors: {
     origin: ['http://localhost:8080'],
   },
@@ -16,16 +19,6 @@ io.on("connection", (socket) => {
   //   console.log('obj: ', obj);
   // })
 });
-const repeat = () => {
-  io.emit('event', {
-    a: 100,
-  });
-};
-
-// setInterval(repeat, 2000);
-
-const kafkaController = require('./controllers/kafkaController');
-const userController = require('./controllers/userController');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -33,6 +26,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 const PORT = 3000;
+
+// keep track of emitting intervals so they can be cleared
+const intervals = [];
 
 //serve static files
 app.use(express.static(path.join(__dirname, './src')));
@@ -86,8 +82,10 @@ app.get(
       ); // [{x, y}]
       io.emit(groupId, consumerLag);
     };
-
-    setInterval(emitter, 7000, req.params.consumerGroupId);
+    emitter(req.params.consumerGroupId);
+    // clear any running intervals and add interval id to intervals array to allow it to be cleared later
+    intervals.forEach(interval => clearInterval(interval));
+    intervals.push(setInterval(emitter, 7000, req.params.consumerGroupId));
 
     next();
   },
