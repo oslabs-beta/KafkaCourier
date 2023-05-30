@@ -4,139 +4,145 @@ $darkestGray: #1e1e1e;
 $darkGray: #313131;
 $lightGray: #9b9b9b;
 $lightestGray: #e8e5e5;
-$pink: #BD9699;
+$pink: #bd9699;
 $green: #6b8d8e;
 
 .cardComponent div {
-    font-family: 'Inter', sans-serif;
-    font-size: 22px;
+  font-family: 'Inter', sans-serif;
+  font-size: 22px;
 }
 
 table {
-    // border: 1px solid #22302D;
-    font-family: 'Montserrat', sans-serif;
-    background-color: #FFFFFF;
-    border-radius: 12px;
+  // border: 1px solid #22302D;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #ffffff;
+  border-radius: 12px;
 }
 
 table .MuiTableCell-root {
-    font-family: 'Inter', sans-serif;
-    color: $darkestGray;
+  font-family: 'Inter', sans-serif;
+  color: $darkestGray;
 }
 
 table .MuiTableCell-head {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 table .MuiTableBody-root:last-child {
-    border-bottom: none; /* Remove the bottom border from the last row */
+  border-bottom: none; /* Remove the bottom border from the last row */
 }
 
 .MuiTableBody-root .MuiTableRow-root:hover {
-    cursor: pointer;
-    background-color: $lightestGray;
-    color: white;
+  cursor: pointer;
+  background-color: $lightestGray;
+  color: white;
 }
 
 .topic-upper-container {
-    background-color: white;
-    border-radius: 12px;
-    padding: 10px;
+  background-color: white;
+  border-radius: 12px;
+  padding: 10px;
 }
 
 .MuiTableContainer-root {
-    max-height: 200px;
-    overflow-y: auto;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 #consumer-groups .MuiTableContainer-root {
-    width: 90%;
+  width: 90%;
 }
 
 .topic-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
 }
 
-.cardComponent{
-    // min-height: 40vh;
-    height: 40vh;
-    width: 90%;
-    color: $pink;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+.cardComponent {
+  // min-height: 40vh;
+  height: 40vh;
+  width: 90%;
+  color: $pink;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 
-.graph{
-    height: 50%;
-    width: 70%;
+.graph {
+  height: 50%;
+  width: 70%;
 }
 
 #topic-lower-container {
   display: grid;
-  grid-template-columns: minmax(250px, 1fr) minmax(250px, 2fr); 
+  grid-template-columns: minmax(250px, 1fr) minmax(250px, 2fr);
   grid-template-rows: repeat(2, 1fr);
-  grid-gap: 20px; 
+  grid-gap: 20px;
   height: 100vh;
 }
 
 #consumer-groups {
-    grid-column: 1;
-    grid-row: 1;
-    background-color: white;
-    border-radius: 12px;
-    overflow: 'auto';
+  grid-column: 1;
+  grid-row: 1;
+  background-color: white;
+  border-radius: 12px;
+  overflow: 'auto';
 }
 
 #consumer-lag {
-    grid-column: 2;
-    grid-row: 1;
+  grid-column: 2;
+  grid-row: 1;
 }
 
 #consumer-info {
-    grid-column-start: 2;
-    grid-column-end: 4;
-    grid-row: 2;
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row: 2;
 }
 
 .selected-row {
-    background-color: $lightestGray;
+  background-color: $lightestGray;
 }
 
 i {
-    font-size: 14px;
-    color: $darkGray;
+  font-size: 14px;
+  color: $darkGray;
 }
 
 #consumer-group-placeholder {
-    padding: 0 8px 0 8px;
+  padding: 0 8px 0 8px;
 }
 
 .card-container {
-    margin: 0;
-    padding: 16px;
-    flex: 1 1 0;
-    background-color: $lightestGray;
-    border-radius: 12px;
-    margin: 10px;
+  margin: 0;
+  padding: 16px;
+  flex: 1 1 0;
+  background-color: $lightestGray;
+  border-radius: 12px;
+  margin: 10px;
 }
 
 #consumption-rate {
-    flex: 1 1 0;
+  flex: 1 1 0;
 }
 
-#consumer-group-data-upper, #consumer-group-data-lower {
-    background-color: white;
-    border-radius: 12px;
+#consumer-group-data-upper,
+#consumer-group-data-lower {
+  background-color: white;
+  border-radius: 12px;
 }
 
 #consumer-group-data-upper {
-    grid-row: span 2;
-    display: flex;
-    flex-direction: column;
+  grid-row: span 2;
+  display: flex;
+  flex-direction: column;
 }
 
 #consumer-groups .MuiTableContainer-root {
-    padding: 10px;
+  padding: 10px;
+}
+
+.coming-soon {
+  color: #313131;
 }
