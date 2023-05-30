@@ -32,12 +32,10 @@ const showDataPointInfo = (event, d) => {
   tooltip
     .style("left", `${mouseX-50}px`)
     .style("top", `${mouseY-50}px`)
-    // .text(`Time: ${d.x}, \nLag: ${d.y}`)
     .style('visibility', 'visible');
 
   // Display tooltip text
   tooltip.html(() => {
-    // Create a multiline string using HTML markup
     return `
       <div>
         <span>${`Time: ${d.x}`}</span><br/>
@@ -49,11 +47,9 @@ const showDataPointInfo = (event, d) => {
 
 // Function to hide data point information
 const hideDataPointInfo = () => {
-  // Hide the tooltip or any other element
   tooltip.style('visibility', 'hidden');
 }
 
-//LINE GRAPH
 export default function LineGraph() {
   const graphRef = useRef(null);
   const [data, setData] = useState([]);
@@ -69,6 +65,11 @@ export default function LineGraph() {
       return this.height - this.margin.top - this.margin.bottom;
     }
   });
+
+
+
+
+  // NEED TO UPDATE SOCKET EVENT LISTENER TO DEPEND ON GROUP NAME
 
   // Connect to websocket server and create chart only once
   if (!sockets) {
@@ -93,7 +94,6 @@ export default function LineGraph() {
 
     // Create scales to map data values to visual properties
     const xScale = d3.scaleTime()
-    //minimum and maximum values of the input domain are 199990 and the maximum x value in the data array plus 10
       .domain([0, 100])
       .range([0, graphWidth])
 
@@ -181,7 +181,7 @@ export default function LineGraph() {
       .selectAll('#line').remove();
 
     // Function to determine x-axis domain if there is not enough data yet
-    const myDomain = () => {
+    const domain = () => {
       const [min, max] = d3.extent(data, d => d.time);
       // handle edge case where data is initially empty
       if (min && max) {
@@ -197,7 +197,7 @@ export default function LineGraph() {
     const xScale = d3.scaleTime()
       .domain(
         data.length <= 50
-          ? myDomain()
+          ? domain()
           : d3.extent(data, d => d.time)
       )
       .range([0, graphWidth]);
@@ -212,9 +212,9 @@ export default function LineGraph() {
 
     // Create line generator
     const line = d3.line()
-    // .defined(d => d.x > xScale.domain()[0])
-    .x(d => xScale(d.time))
-    .y(d => yScale(d.y));
+      .defined(d => d.time >= xScale.domain()[0])
+      .x(d => xScale(d.time))
+      .y(d => yScale(d.y));
 
     // Select graph container and add line
     const graph = d3.select('#graph');
@@ -228,9 +228,10 @@ export default function LineGraph() {
 
     // Select data point group to display updated data points
     const dataPointGroup = d3.select('.data-points');
+    dataPointGroup.exit().remove();
     dataPointGroup.selectAll('circle').remove();
     dataPointGroup.selectAll("circle")
-      .data(data)
+      .data(data.filter(d => d.time >= xScale.domain()[0])) // filter data to only show points within x-axis bounds
       .enter()
       .append("circle")
       .attr("cx", d => xScale(d.time))
@@ -243,18 +244,18 @@ export default function LineGraph() {
     // Update x-axis
     const xAxisElement = d3.select('#x-axis');
     const xAxis = d3.axisBottom(xScale)
-      .tickFormat(d3.timeFormat('%-I:%M %p'));
-    xAxis.ticks(5);
+      .tickFormat(d3.timeFormat('%-I:%M %p'))
+      .ticks(5);
     xAxisElement.transition()
       .duration(500)
       .call(xAxis);
     
     // Stagger x-axis labels
     xAxisElement.selectAll("text")
-      .style("text-anchor", "end") // Set the text-anchor to "end" to align the labels to the right
-      .attr("dx", "-0.8em") // Adjust the horizontal position of the labels to create stagger
-      .attr("dy", "0.15em") // Adjust the vertical position of the labels to create stagger
-      .attr("transform", "rotate(-45)"); // Rotate the labels by -45 degrees to prevent overlap
+      .style("text-anchor", "end")
+      .attr("dx", "-0.8em")
+      .attr("dy", "0.15em")
+      .attr("transform", "rotate(-45)"); 
 
     // Update y-axis
     const yAxisElement = d3.select('#y-axis');

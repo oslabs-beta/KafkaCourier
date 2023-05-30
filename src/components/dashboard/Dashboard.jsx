@@ -51,7 +51,7 @@ export default function Dashboard({ setSub, setLoggedIn, setInDatabase, removeCo
   };
 
   return (
-    <div class="dashboard">
+    <div className="dashboard">
       <NavBar display={display} setDisplay={setDisplay} getKafkaData={getKafkaData} />
       <KafkaContainer display={display} topicData={topicData} currentTopic={currentTopic} setCurrentTopic={setCurrentTopic}/>
       <Logout setLoggedIn={setLoggedIn} removeCookie={removeCookie}></Logout>
