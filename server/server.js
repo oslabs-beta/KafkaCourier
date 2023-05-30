@@ -111,7 +111,7 @@ app.get("/api/consumptionRate", (req, res) => {
     previousOffset = updatedOffset;
     previousTime = updatedTime;
     io.emit("consumption rate", rate);
-  }, 500);
+  }, 2000);
   res.status(200).send("Consumption rate is being sent to frontend");
 });
 

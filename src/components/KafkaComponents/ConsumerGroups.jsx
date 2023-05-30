@@ -19,7 +19,7 @@ export default function ConsumerGroups({ topicData, consumerGroup, setConsumerGr
   else {
     let index = topicData.topics.indexOf(currentTopic)
     if (topicData.consumerGroups[index].length){ 
-       for(let i = 0; i < topicData.consumerGroups[index].length; i ++){
+      for(let i = 0; i < topicData.consumerGroups[index].length; i ++){
         consumerGroups.push( 
           <TableRow key={i} onClick={() => setConsumerGroup(topicData.consumerGroups[index][i].groupId)}> 
             <TableCell>{topicData.consumerGroups[index][i].groupId}</TableCell>
