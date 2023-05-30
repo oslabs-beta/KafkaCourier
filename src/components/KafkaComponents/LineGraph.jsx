@@ -53,7 +53,6 @@ const hideDataPointInfo = () => {
 export default function LineGraph({ consumerGroup }) {
   const graphRef = useRef(null);
   const [data, setData] = useState([]);
-  const [sockets, setSockets] = useState(false);
   const [chartDimensions, setChartDimensions] = useState({
     width: 350,
     height: 320,
@@ -66,24 +65,16 @@ export default function LineGraph({ consumerGroup }) {
     }
   });
 
-
-
-
-  // NEED TO UPDATE SOCKET EVENT LISTENER TO DEPEND ON GROUP NAME
-
-  // Connect to websocket server and create chart only once
-  if (!sockets) {
+  // Connect socket and create graph container and unlabeled axes on page load
+  useEffect(() => {
+    // Connect to websocket server and listen for server data
     const socket = io('http://localhost:3001');
     socket.on(consumerGroup, obj => {
       // store a date object in each data object to be used in d3 line graph
       obj.time = new Date(obj.x);
       setData(prevData => [...prevData, obj]);
     });
-    setSockets(true);
-  }
 
-  // Create graph container and unlabeled axes on page load
-  useEffect(() => {
     // Set up dimensions
     const { width, height, margin, graphWidth, graphHeight } = chartDimensions;
 
@@ -170,6 +161,11 @@ export default function LineGraph({ consumerGroup }) {
       .attr('text-anchor', 'middle')
       .style('font-size', '14px')
       .text('Consumer Group Lag');
+    
+    return () => {
+      // Disconnect the Socket.IO socket when the component is unmounted
+      socket.disconnect();
+    };
 
   }, []);
 
