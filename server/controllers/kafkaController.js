@@ -218,6 +218,7 @@ const kafkaController = {
 
   getConsumerDataCLI: function (consumerGroupId) {
     try {
+      console.log('consumerGroupId: ', consumerGroupId);
       return new Promise((resolve, reject) => {
         let newArray2 = [];
         const command = `kafka-consumer-groups --bootstrap-server pkc-6ojv2.us-west4.gcp.confluent.cloud:9092 --command-config server/cloud.properties --group ${consumerGroupId} --describe`;
@@ -274,12 +275,12 @@ const kafkaController = {
       groupId,
       topic,
     });
-    console.log(offsets[0].partitions, "OFFSETS HERER");
+    // console.log(offsets[0].partitions, "OFFSETS HERER");
     const totalOffset = offsets[0].partitions.reduce(
       (total, { offset }) => total + Number(offset),
       0
     );
-    console.log("totalOffset", totalOffset);
+    // console.log("totalOffset", totalOffset);
     const currentTime = Date.now();
     if (previousOffset !== null && previousTime !== null) {
       // console.log("TOTAL OFFSET", totalOffset);
@@ -287,7 +288,7 @@ const kafkaController = {
       const offsetDifference = totalOffset - previousOffset;
       const timeDifference = (currentTime - previousTime) / 1000; // to give time in seconds
       rate = offsetDifference / timeDifference;
-      console.log(`Consumption rate: ${rate} messages/second`);
+      // console.log(`Consumption rate: ${rate} messages/second`);
     }
     previousOffset = totalOffset;
     previousTime = currentTime;
