@@ -7,10 +7,6 @@ let admin;
 let server;
 let username;
 let password;
-// pkc-6ojv2.us-west4.gcp.confluent.cloud:9092
-// module.exports = function(io) {
-//   // ...your controller functions here, which can now use the `io` object...
-// };
 
 const kafkaController = {
   // connect to kafka cluster and admin api in order to prefetch
@@ -142,7 +138,6 @@ const kafkaController = {
 
       // console.log('group ids from list groups: ', groupArray);
       const consumers = await admin.describeGroups(groupArray);
-      console.log('consumer groups all of them : ', consumers);
       // create a result object to send to frontend
       let resultObj = {
         memberId: [],
@@ -223,9 +218,12 @@ const kafkaController = {
 
   getConsumerDataCLI: function (consumerGroupId) {
     try {
+      console.log('consumerGroupId: ', consumerGroupId);
       return new Promise((resolve, reject) => {
         let newArray2 = [];
         const command = `kafka-consumer-groups --bootstrap-server pkc-6ojv2.us-west4.gcp.confluent.cloud:9092 --command-config server/cloud.properties --group ${consumerGroupId} --describe`;
+        // const local = `kafka-consumer-groups --bootstrap-server http://localhost:9092 --group ${consumerGroupId} --describe`
+        // const cloud = `kafka-consumer-groups --bootstrap-server ${cloudServerUri} --command-config server/cloud.properties --group ${consumerGroupId} --describe`
         exec(command, (error, stdout, stderr) => {
           if (error) {
             console.error(`Error executing command: ${error.message}`);
@@ -239,35 +237,18 @@ const kafkaController = {
 
           // console.log('STDOUT: ', stdout);
           const array = stdout.trim().split("\n");
-          console.log("array.length: ", array.length);
+          // console.log("array.length: ", array.length);
           const lagArray = array[0].split(/\s+/).indexOf("LAG");
-          console.log("lag array", lagArray);
+          // console.log("lag array", lagArray);
           newArray2 = array
             .slice(1)
             .map((line) => {
               const columns = line.split(/\s+/);
               return Number(columns[lagArray]);
             })
-            .filter((el) => {
-              if (!isNaN(el)) return true;
-            });
-          // console.log('array: ', array);
-          // console.log('newArray2: ', newArray2);
+            .filter((el) => !isNaN(el));
           const maxNum = Math.max(...newArray2);
-          // console.log('max number', maxNum);
-
-          const getCurrentTime = () => {
-            const now = new Date();
-            const hours = now.getHours().toString().padStart(2, "0");
-            const minutes = now.getMinutes().toString().padStart(2, "0");
-            const seconds = now.getSeconds().toString().padStart(2, "0");
-            const currentTime = Number(`${hours}${minutes}${seconds}`);
-            return currentTime;
-          };
-
-          // const result = {x: getCurrentTime(), y: maxNum};
-          const result = {x: (new Date()).toLocaleTimeString(), y: maxNum};
-          // io.emit('consumer Data', result)
+          const result = {x: (new Date()).toLocaleString(), y: maxNum};
           console.log('result: ', result);
           return resolve(result);
         });
@@ -294,12 +275,12 @@ const kafkaController = {
       groupId,
       topic,
     });
-    console.log(offsets[0].partitions, "OFFSETS HERER");
+    // console.log(offsets[0].partitions, "OFFSETS HERER");
     const totalOffset = offsets[0].partitions.reduce(
       (total, { offset }) => total + Number(offset),
       0
     );
-    console.log("totalOffset", totalOffset);
+    // console.log("totalOffset", totalOffset);
     const currentTime = Date.now();
     if (previousOffset !== null && previousTime !== null) {
       // console.log("TOTAL OFFSET", totalOffset);
@@ -307,7 +288,7 @@ const kafkaController = {
       const offsetDifference = totalOffset - previousOffset;
       const timeDifference = (currentTime - previousTime) / 1000; // to give time in seconds
       rate = offsetDifference / timeDifference;
-      console.log(`Consumption rate: ${rate} messages/second`);
+      // console.log(`Consumption rate: ${rate} messages/second`);
     }
     previousOffset = totalOffset;
     previousTime = currentTime;

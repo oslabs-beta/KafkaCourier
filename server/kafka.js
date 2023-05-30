@@ -73,30 +73,30 @@ producer.on("producer.network.request_timeout", (payload) => {
 const run = async () => {
   // Producing
   await producer.connect();
-  // for (let i = 0; i < 100; i++) {
-  //   await producer.send({
-  //     topic: 'returns',
-  //     messages: [
-  //       {
-  //         value: Buffer.from(
-  //           JSON.stringify({
-  //             event_name: 'QA',
-  //             payload: {
-  //               assessment: {
-  //                 performance: 7,
-  //                 quality: 7,
-  //                 communication: 7,
-  //                 flexibility: 7,
-  //                 cost: 7,
-  //                 delivery: 6,
-  //               },
-  //             },
-  //           })
-  //         ),
-  //       },
-  //     ],
-  //   });
-  // }
+  for (let i = 0; i < 100; i++) {
+    await producer.send({
+      topic: 'returns',
+      messages: [
+        {
+          value: Buffer.from(
+            JSON.stringify({
+              event_name: 'QA',
+              payload: {
+                assessment: {
+                  performance: 7,
+                  quality: 7,
+                  communication: 7,
+                  flexibility: 7,
+                  cost: 7,
+                  delivery: 6,
+                },
+              },
+            })
+          ),
+        },
+      ],
+    });
+  }
 
   //FIRST CONSUMER
   const consumer1 = kafka.consumer({ groupId: "group1" });
@@ -125,9 +125,9 @@ const run = async () => {
 
   await consumer1.run({
     eachMessage: async ({ topic, partition, message }) => {
-      console.log({
-        value: message.value.toString(),
-      });
+      // console.log({
+      //   value: message.value.toString(),
+      // });
       await new Promise((resolve) => setTimeout(resolve, 40));
     },
   });

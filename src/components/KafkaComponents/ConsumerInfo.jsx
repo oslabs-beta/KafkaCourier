@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-export default function ConsumerInfo(consumerGroup) {
+export default function ConsumerInfo({ consumerGroup }) {
   const[data, setData] = useState({});
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function ConsumerInfo(consumerGroup) {
     // }
     // fetchData();
 
-  },[])
+  }, [])
 
 
   async function fetchConsumerData() {
@@ -47,10 +47,12 @@ export default function ConsumerInfo(consumerGroup) {
   if(data.memberId && data.partitions){
     console.log('DATA', data)
     for (let i = 0; i < data.memberId.length; i++) {
-      res.push(<TableRow>
-        <TableCell>{data.memberId[i]}</TableCell>
-        <TableCell>{data.partitions[i].returns.join()}</TableCell>
-      </TableRow>)
+      res.push(
+        <TableRow>
+          <TableCell>{data.memberId[i]}</TableCell>
+          <TableCell>{data.partitions[i].returns.join()}</TableCell>
+        </TableRow>
+      )
     }   
   }
 
