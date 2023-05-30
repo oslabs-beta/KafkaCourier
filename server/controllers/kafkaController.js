@@ -245,7 +245,7 @@ const kafkaController = {
             })
             .filter((el) => !isNaN(el));
           const maxNum = Math.max(...newArray2);
-          const result = {x: (new Date()).toLocaleTimeString(), y: maxNum};
+          const result = {x: (new Date()).toLocaleString(), y: maxNum};
           console.log('result: ', result);
           return resolve(result);
         });

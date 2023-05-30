@@ -73,7 +73,7 @@ producer.on("producer.network.request_timeout", (payload) => {
 const run = async () => {
   // Producing
   await producer.connect();
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 200; i++) {
     await producer.send({
       topic: 'returns',
       messages: [
