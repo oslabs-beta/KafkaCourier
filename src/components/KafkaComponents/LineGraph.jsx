@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import * as d3 from "d3";
+import * as d3 from 'd3';
 import { io } from 'socket.io-client';
 
 // Check if domain values are at least 5 minutes apart for 5 x-axis ticks on initial data display
@@ -12,12 +12,12 @@ const fourMinutesAgo = dateObj => {
 };
 
 // Create tooltip to display mouseover events
-const tooltip = d3.select("body")
-  .append("div")
-  .style("position", "fixed")
-  .style("z-index", "10")
-  .style("visibility", "hidden")
-  .style("background", "white")
+const tooltip = d3.select('body')
+  .append('div')
+  .style('position', 'fixed')
+  .style('z-index', '10')
+  .style('visibility', 'hidden')
+  .style('background', 'white')
   .style('opacity', 0.8)
   .style('font-family', 'sans-serif')
   .style('font-size', '10px')
@@ -30,8 +30,8 @@ const showDataPointInfo = (event, d) => {
 
   // Display information in a tooltip or any other element
   tooltip
-    .style("left", `${mouseX-50}px`)
-    .style("top", `${mouseY-50}px`)
+    .style('left', `${mouseX-50}px`)
+    .style('top', `${mouseY-50}px`)
     .style('visibility', 'visible');
 
   // Display tooltip text
@@ -50,7 +50,7 @@ const hideDataPointInfo = () => {
   tooltip.style('visibility', 'hidden');
 }
 
-export default function LineGraph() {
+export default function LineGraph({ consumerGroup }) {
   const graphRef = useRef(null);
   const [data, setData] = useState([]);
   const [sockets, setSockets] = useState(false);
@@ -74,7 +74,7 @@ export default function LineGraph() {
   // Connect to websocket server and create chart only once
   if (!sockets) {
     const socket = io('http://localhost:3001');
-    socket.on('group2', obj => {
+    socket.on(consumerGroup, obj => {
       // store a date object in each data object to be used in d3 line graph
       obj.time = new Date(obj.x);
       setData(prevData => [...prevData, obj]);
@@ -118,8 +118,8 @@ export default function LineGraph() {
       .attr('id', 'graph');
 
     // Create a group element for data points
-    graph.append("g")
-      .attr("class", "data-points"); 
+    graph.append('g')
+      .attr('class', 'data-points'); 
 
     // Add x-axis without labels
     graph.append('g')
@@ -137,20 +137,20 @@ export default function LineGraph() {
       .style('visibility', 'hidden');
 
     // Add gridlines to graph
-    graph.append("g")
-      .attr("class", "gridlines")
-      .attr("transform", `translate(0, ${graphHeight})`)
+    graph.append('g')
+      .attr('class', 'gridlines')
+      .attr('transform', `translate(0, ${graphHeight})`)
       .call(xGridlines)
-      .selectAll("line")
-      .attr("stroke", "#ccc")
-      .attr("stroke-opacity", 0.5);
+      .selectAll('line')
+      .attr('stroke', '#ccc')
+      .attr('stroke-opacity', 0.5);
 
-    graph.append("g")
-      .attr("class", "gridlines")
+    graph.append('g')
+      .attr('class', 'gridlines')
       .call(yGridlines)
-      .selectAll("line")
-      .attr("stroke", "#ccc")
-      .attr("stroke-opacity", 0.5);
+      .selectAll('line')
+      .attr('stroke', '#ccc')
+      .attr('stroke-opacity', 0.5);
 
     // Add axes labels
     graph.append('text')
@@ -230,16 +230,16 @@ export default function LineGraph() {
     const dataPointGroup = d3.select('.data-points');
     dataPointGroup.exit().remove();
     dataPointGroup.selectAll('circle').remove();
-    dataPointGroup.selectAll("circle")
+    dataPointGroup.selectAll('circle')
       .data(data.filter(d => d.time >= xScale.domain()[0])) // filter data to only show points within x-axis bounds
       .enter()
-      .append("circle")
-      .attr("cx", d => xScale(d.time))
-      .attr("cy", d => yScale(d.y))
-      .attr("r", 2)
-      .attr("fill", "steelblue")
-      .on("mouseover", showDataPointInfo)
-      .on("mouseout", hideDataPointInfo);
+      .append('circle')
+      .attr('cx', d => xScale(d.time))
+      .attr('cy', d => yScale(d.y))
+      .attr('r', 2)
+      .attr('fill', 'steelblue')
+      .on('mouseover', showDataPointInfo)
+      .on('mouseout', hideDataPointInfo);
 
     // Update x-axis
     const xAxisElement = d3.select('#x-axis');
@@ -251,11 +251,11 @@ export default function LineGraph() {
       .call(xAxis);
     
     // Stagger x-axis labels
-    xAxisElement.selectAll("text")
-      .style("text-anchor", "end")
-      .attr("dx", "-0.8em")
-      .attr("dy", "0.15em")
-      .attr("transform", "rotate(-45)"); 
+    xAxisElement.selectAll('text')
+      .style('text-anchor', 'end')
+      .attr('dx', '-0.8em')
+      .attr('dy', '0.15em')
+      .attr('transform', 'rotate(-45)'); 
 
     // Update y-axis
     const yAxisElement = d3.select('#y-axis');

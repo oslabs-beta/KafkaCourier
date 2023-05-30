@@ -221,6 +221,8 @@ const kafkaController = {
       return new Promise((resolve, reject) => {
         let newArray2 = [];
         const command = `kafka-consumer-groups --bootstrap-server pkc-6ojv2.us-west4.gcp.confluent.cloud:9092 --command-config server/cloud.properties --group ${consumerGroupId} --describe`;
+        // const local = `kafka-consumer-groups --bootstrap-server http://localhost:9092 --group ${consumerGroupId} --describe`
+        // const cloud = `kafka-consumer-groups --bootstrap-server ${cloudServerUri} --command-config server/cloud.properties --group ${consumerGroupId} --describe`
         exec(command, (error, stdout, stderr) => {
           if (error) {
             console.error(`Error executing command: ${error.message}`);

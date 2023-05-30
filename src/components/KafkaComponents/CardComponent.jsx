@@ -17,7 +17,7 @@ export default function CardComponent({ consumerGroup }) {
           <CardContent>
             <CardMedia>
           {/* <div className="hero-image-container"> */}   
-             <LineGraph />
+             <LineGraph consumerGroup={consumerGroup}/>
           {/* </div> */}
           </CardMedia>
           </CardContent>
