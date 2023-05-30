@@ -1,28 +1,31 @@
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import React, { useEffect, useRef, useState } from 'react';
-import ConsumerInfo from './ConsumerInfo.jsx';
+import React from 'react';
 import LineGraph from './LineGraph.jsx';
 import CardContent from '@mui/material/CardContent';
-import "./CardComponent.css";
 
 export default function CardComponent({ consumerGroup }) {
-  return (
-      <div className="card-container" sx={{
-          color: '#4E6667'
-      }}>
-        <Typography variant="h5" component="h2"> {consumerGroup} </Typography>
-        <Card>
-          <CardContent>
-            <CardMedia>
-          {/* <div className="hero-image-container"> */}   
-             <LineGraph />
-          {/* </div> */}
+  console.log('consumer group current : ', consumerGroup);
+  // conditionally render line graph if a consumer group is clicked
+  let components;
+  if(consumerGroup){
+     components =       
+     <>
+     <h4>Consumer Lag</h4>
+      <Card>
+        <CardContent>
+          <CardMedia>
+            <LineGraph consumerGroup={consumerGroup}/>
           </CardMedia>
-          </CardContent>
-        </Card>
-        <ConsumerInfo></ConsumerInfo>
+        </CardContent>
+      </Card>
+    </>  
+  } 
+
+  return (
+      <div className="card-container">
+        {components}
       </div>
   )
 }

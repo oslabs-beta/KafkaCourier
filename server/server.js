@@ -10,8 +10,6 @@ const io = require('socket.io')(3001, {
   },
 });
 
-io.on('connection', (socket) => {
-  console.log('socket id: ', socket.id);
 io.on("connection", (socket) => {
   console.log("socket id: ", socket.id);
   // socket.on('event', obj => {
@@ -24,7 +22,7 @@ const repeat = () => {
   });
 };
 
-setInterval(repeat, 2000);
+// setInterval(repeat, 2000);
 
 const kafkaController = require('./controllers/kafkaController');
 const userController = require('./controllers/userController');
@@ -97,6 +95,27 @@ app.get(
     res.status(200).json(res.locals.consumerData);
   }
 );
+
+let previousOffset = null;
+let previousTime = null;
+
+///api/consumptionRate?consumerGroup=something&topic
+app.get("/api/consumptionRate", (req, res) => {
+  const{ consumerGroup, topic } = req.query;
+  setInterval(async () => {
+    const { rate, updatedOffset, updatedTime } =
+      await kafkaController.getConsumerConsumption(
+        consumerGroup,
+        topic,
+        previousOffset,
+        previousTime
+      );
+    previousOffset = updatedOffset;
+    previousTime = updatedTime;
+    io.emit("consumption rate", rate);
+  }, 500);
+  res.status(200).send("Consumption rate is being sent to frontend");
+});
 
 // app.get(
 //   '/api/consumerData/:consumerGroupId',

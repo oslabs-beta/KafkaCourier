@@ -4,13 +4,14 @@ import { io } from 'socket.io-client';
 
 
 //LINE GRAPH
-export default function LineGraph() {
+export default function LineGraph({ consumerGroup }) {
+  console.log('the group in line graphs: ', consumerGroup);
   const graphRef = useRef(null);
   const [data, setData] = useState([]);
   const [sockets, setSockets] = useState(false);
   const [chartDimensions, setChartDimensions] = useState({
-    width: 350,
-    height: 300,
+    width: 500,
+    height: 100,
     margin: { top: 20, right: 20, bottom: 30, left: 50 },
     get graphWidth() {
       return this.width - this.margin.left - this.margin.right;
@@ -23,7 +24,7 @@ export default function LineGraph() {
   // Connect to websocket server and create chart only once
   if (!sockets) {
     const socket = io('http://localhost:3001');
-    socket.on('group2', obj => {
+    socket.on(consumerGroup, obj => {
       obj.time = obj.x;
       setData(prevData => [...prevData, obj]);
     });
@@ -69,7 +70,7 @@ export default function LineGraph() {
   }, []);
 
   useEffect(() => {
-    console.log('useEffect running: ', data);
+    // console.log('useEffect running: ', data);
     const { graphWidth, graphHeight } = chartDimensions;
 
     // Remove line on every update so a new line can be appended
@@ -82,7 +83,7 @@ export default function LineGraph() {
       d.x = parseTime(d.time);
     });
 
-    console.log('data: ', data);
+    // console.log('data: ', data);
 
     // Create scales to map data values to visual properties
     const xScale = d3.scaleTime()

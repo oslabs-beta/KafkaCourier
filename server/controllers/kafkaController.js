@@ -251,8 +251,8 @@ const kafkaController = {
             .filter((el) => {
               if (!isNaN(el)) return true;
             });
-          console.log('array: ', array);
-          console.log('newArray2: ', newArray2);
+          // console.log('array: ', array);
+          // console.log('newArray2: ', newArray2);
           const maxNum = Math.max(...newArray2);
           // console.log('max number', maxNum);
 

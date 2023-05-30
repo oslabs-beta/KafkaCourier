@@ -49,7 +49,7 @@ export default function Account() {
   };
 
   return (
-    <div>
+    <div id="account">
       <h3>Enter Updated Credentials</h3>
       <div className="formContainer">
         <form>
