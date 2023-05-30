@@ -48,7 +48,7 @@ export default function ConsumerInfo({ consumerGroup }) {
     console.log('DATA', data)
     for (let i = 0; i < data.memberId.length; i++) {
       res.push(
-        <TableRow>
+        <TableRow key={i}>
           <TableCell>{data.memberId[i]}</TableCell>
           <TableCell>{data.partitions[i].returns.join()}</TableCell>
         </TableRow>

@@ -17,12 +17,10 @@ export default function ConsumptionRate({ currentTopic, consumerGroup}) {
     setSocket(newSocket);
     axios  // to access these in backend use req.query.topic & req.query.consumerGroup
       .get(`/api/consumptionRate/?topic=${currentTopic}&consumerGroup=${consumerGroup}`) // https://example.com/api/resource?param1=value1&param2=value2&param3=value3
-      .then((response) => {
-        console.log("success");
-      })
+      .then()
       .catch((error) => console.log(error));
     // this cleanup function will turn off the connection for the specifc event which is consumption rate
-    return () => newSocket.off("consumption-rate");
+    return () => newSocket.disconnect();
   }, []);
 
   useEffect(() => {
@@ -30,6 +28,10 @@ export default function ConsumptionRate({ currentTopic, consumerGroup}) {
     if (!socket) return;
     // socket connection listens to event and adds rate to the data array
     // we want the data array to be limited to a 100
+    socket.on('disconnect', () => {
+      console.log('consumption rate socket disconnected');
+    })
+
     socket.on("consumption rate", (rate) => {
       setData((prevState) => {
         let newData = [...prevState, rate];
