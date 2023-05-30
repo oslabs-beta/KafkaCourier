@@ -24,9 +24,8 @@ export default function NavBar({ setCurrentTopic, display, setDisplay }) {
         prevElement.classList.remove('navBarCurrent');
       }
       current.classList.add('navBarCurrent');
-
     }
-  })
+  });
 
   const handleClick = (display) => {
     setDisplay(display);
@@ -55,6 +54,5 @@ export default function NavBar({ setCurrentTopic, display, setDisplay }) {
         <span>Account</span>
       </ListItem>
     </List>
-  )
+  );
 }
-
