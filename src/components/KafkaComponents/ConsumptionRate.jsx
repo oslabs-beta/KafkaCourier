@@ -28,10 +28,6 @@ export default function ConsumptionRate({ currentTopic, consumerGroup}) {
     if (!socket) return;
     // socket connection listens to event and adds rate to the data array
     // we want the data array to be limited to a 100
-    socket.on('disconnect', () => {
-      console.log('consumption rate socket disconnected');
-    })
-
     socket.on("consumption rate", (rate) => {
       setData((prevState) => {
         let newData = [...prevState, rate];
