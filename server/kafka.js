@@ -132,6 +132,15 @@ const run = async () => {
     },
   });
 
+  await consumer2.run({
+    eachMessage: async ({ topic, partition, message }) => {
+      console.log({
+        value: message.value.toString(),
+      });
+      await new Promise((resolve) => setTimeout(resolve, 40));
+    },
+  });
+
   const consumers = await admin.describeGroups(["group1"]);
   console.log("members", consumers.groups[0].members);
   console.log(

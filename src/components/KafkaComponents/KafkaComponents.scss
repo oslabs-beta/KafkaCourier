@@ -44,8 +44,11 @@ table .MuiTableBody-root:last-child {
     padding: 10px;
 }
 
-.MuiTableContainer-root {
+.topic-upper-container .MuiTableContainer-root {
     max-height: 200px;
+}
+
+.MuiTableContainer-root {
     overflow-y: auto;
 }
 
