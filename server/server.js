@@ -1,15 +1,15 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const path = require("path");
-const { Kafka } = require("kafkajs");
-const cookieParser = require("cookie-parser");
+const path = require('path');
+const { Kafka } = require('kafkajs');
+const cookieParser = require('cookie-parser');
 
 const kafkaController = require("./controllers/kafkaController");
 const userController = require("./controllers/userController");
 
 const io = require("socket.io")(3001, {
   cors: {
-    origin: ["http://localhost:8080"],
+    origin: ['http://localhost:8080'],
   },
 });
 
@@ -31,13 +31,13 @@ const PORT = 3000;
 const intervals = [];
 
 //serve static files
-app.use(express.static(path.join(__dirname, "./src")));
+app.use(express.static(path.join(__dirname, './src')));
 
 // app.get('/*', )
 
 //create user
 app.post(
-  "/api/createUser",
+  '/api/createUser',
   userController.createUser,
   kafkaController.connect,
   async (req, res) => {
@@ -46,7 +46,7 @@ app.post(
 );
 
 app.get(
-  "/api/checkUser/:user",
+  '/api/checkUser/:user',
   userController.checkUser,
   kafkaController.connect,
   async (req, res) => {
@@ -57,7 +57,7 @@ app.get(
 app.use(userController.checkUser, kafkaController.connect);
 
 // get topic data
-app.get("/api/topic", kafkaController.getTopicData, (req, res, next) => {
+app.get('/api/topic', kafkaController.getTopicData, (req, res, next) => {
   res.status(200).json(res.locals.topicMetaData);
 });
 
@@ -72,7 +72,7 @@ app.get("/api/topic", kafkaController.getTopicData, (req, res, next) => {
 // )
 
 app.get(
-  "/api/consumerData/:consumerGroupId",
+  '/api/consumerData/:consumerGroupId',
   kafkaController.getConsumerData,
   (req, res, next) => {
     // io.emit....
@@ -97,13 +97,14 @@ app.get(
 let previousOffset = null;
 let previousTime = null;
 
+///api/consumptionRate?consumerGroup=something&topic
 app.get("/api/consumptionRate", (req, res) => {
-  // const{groupId, topicName} = req.body
+  const{ consumerGroup, topic } = req.query;
   setInterval(async () => {
     const { rate, updatedOffset, updatedTime } =
       await kafkaController.getConsumerConsumption(
-        "group2",
-        "returns",
+        consumerGroup,
+        topic,
         previousOffset,
         previousTime
       );
@@ -176,7 +177,7 @@ app.get("/api/consumptionRate", (req, res) => {
 // );
 
 // catch-all route for errors
-app.get("*", (req, res) => {
+app.get('*', (req, res) => {
   res.sendStatus(404);
 });
 

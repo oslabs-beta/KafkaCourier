@@ -5,7 +5,7 @@ import socketIOclient from "socket.io-client";
 import axios from "axios";
 Chart.register(...registerables);
 
-export default function Broker() {
+export default function ConsumptionRate({ currentTopic, consumerGroup}) {
   const [data, setData] = useState([]);
   const [socket, setSocket] = useState(null);
 
@@ -15,6 +15,12 @@ export default function Broker() {
   useEffect(() => {
     const newSocket = socketIOclient("http://localhost:3001");
     setSocket(newSocket);
+    axios  // to access these in backend use req.query.topic & req.query.consumerGroup
+      .get(`/api/consumptionRate/?topic=${currentTopic}&consumerGroup=${consumerGroup}`) // https://example.com/api/resource?param1=value1&param2=value2&param3=value3
+      .then((response) => {
+        console.log("success");
+      })
+      .catch((error) => console.log(error));
     // this cleanup function will turn off the connection for the specifc event which is consumption rate
     return () => newSocket.off("consumption-rate");
   }, []);
@@ -34,16 +40,17 @@ export default function Broker() {
       });
     });
   }, [socket]);
-  const handleButtonClick = () => {
-    axios
-      .get("/api/consumptionRate")
-      .then((response) => {
-        console.log("success");
-      })
-      .catch((error) => console.log(error));
-  };
+  // const handleButtonClick = () => {
+  //   axios
+  //     .get("/api/consumptionRate")
+  //     .then((response) => {
+  //       console.log("success");
+  //     })
+  //     .catch((error) => console.log(error));
+  // };
+    
   return (
-    <div>
+    <div id="consumption-rate">
       <Line
         data={{
           labels: data.map((_, i) => i),
@@ -68,7 +75,7 @@ export default function Broker() {
           },
         }}
       />
-      <button onClick={handleButtonClick}>Start Consumption Rate</button>
+      {/* <button onClick={handleButtonClick}>Start Consumption Rate</button> */}
     </div>
   );
 }

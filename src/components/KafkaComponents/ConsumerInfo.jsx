@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-export default function ConsumerInfo() {
+export default function ConsumerInfo(consumerGroup) {
   const[data, setData] = useState({});
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function ConsumerInfo() {
   async function fetchConsumerData() {
     
     try {
-      const response = await fetch(`/api/consumerData/group2`)
+      const response = await fetch(`/api/consumerData/${consumerGroup}`)
       if(response.ok) {
         const data = await response.json();
         console.log('fetched consumer data', data);
@@ -58,7 +58,7 @@ export default function ConsumerInfo() {
 
 
   return (
-    <TableContainer>
+    <TableContainer id="consumer-info">
         <Table>
             <TableHead>
                 <TableRow>
