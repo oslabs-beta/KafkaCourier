@@ -1,40 +1,39 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@400;500&display=swap");
 
 * {
-  font-family: 'Inter', sans-serif !important;
+  font-family: "Inter", sans-serif !important;
 }
 
 .team-member {
-    text-align: center;
-  }
-  
-  .profile-photo {
-    border-radius: 50%;
-    width: 100px; /* adjust as necessary */
-    height: 100px; /* adjust as necessary */
-  }
-  
-  .member-name {
-    margin: 10px 0;
-  }
-  
-  .member-links {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-  }
-  
-  .button {
-    padding: 10px;
-    border: none;
-    background-color: #008cba; /* change to desired color */
-    color: white;
-    text-decoration: none;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
-  .button:hover {
-    background-color: #007b9a; /* slightly darker version of button color */
-  }
+  text-align: center;
+}
 
+.profile-photo {
+  border-radius: 50%;
+  width: 100px; /* adjust as necessary */
+  height: 100px; /* adjust as necessary */
+}
+
+.member-name {
+  margin: 10px 0;
+}
+
+.member-links {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.button {
+  padding: 10px;
+  border: none;
+  background-color: #008cba; /* change to desired color */
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.button:hover {
+  background-color: #007b9a; /* slightly darker version of button color */
+}

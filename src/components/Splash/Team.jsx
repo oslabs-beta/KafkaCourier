@@ -1,92 +1,112 @@
-import React from 'react'
+import React from "react";
+import "./teams.scss";
+import TejasImage from "./images/tejas.png";
+import github from "./images/github-mark.png";
+import linkedIn from "./images/linkedin.png";
 
 export default function Team() {
   return (
-    <div>
-         <section className="team-section">
-        <h2>Our Team</h2>
-        {/* Here you can list your team members along with their roles */}
-        <div className="team-member">
-          <img
-            // src={profilePic1}
-            alt="Tejash Bharadwaj"
-            className="profile-photo"
-          />
-          <h3 className="member-name">J**</h3>
-          <div className="member-links">
-            <a href="https://github.com" className="button">
-              GitHub
-            </a>
-            <a href="https://linkedin.com" className="button">
-              LinkedIn
-            </a>
+    <div className="responsive-container-block container">
+      <p className="text-blk team-head-text">Our Team</p>
+      <div className="responsive-container-block">
+        <div className="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
+          <div className="card">
+            <div className="team-image-wrapper">
+              <img className="team-member-image" src={TejasImage} />
+            </div>
+            <p className="text-blk name">Tejash Bharadwaj</p>
+            <p className="text-blk position">Software Engineer</p>
+            <div className="social-icons">
+              <a href="https://github.com/tejasbbb" target="_blank">
+                <img className="socials" src={github} />
+              </a>
+              <a href="https://www.facebook.com" target="_blank">
+                <img className="socials" src={linkedIn} />
+              </a>
+            </div>
           </div>
         </div>
-        <div className="team-member">
-          <img
-            // src={profilePic2}
-            alt="Kirsten Milic"
-            className="profile-photo"
-          />
-          <h3 className="member-name">**</h3>
-          <div className="member-links">
-            <a href="https://github.com" className="button">
-              GitHub
-            </a>
-            <a href="https://linkedin.com" className="button">
-              LinkedIn
-            </a>
+        <div className="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
+          <div className="card">
+            <div className="team-image-wrapper">
+              <img
+                className="team-member-image"
+                src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/expert2.png"
+              />
+            </div>
+            <p className="text-blk name">Kirsten Milic</p>
+            <p className="text-blk position">Software Engineer</p>
+            <div className="social-icons">
+              <a href="https://www.twitter.com" target="_blank">
+                <img className="socials" src={github} />
+              </a>
+              <a href="https://www.facebook.com" target="_blank">
+                <img className="socials" src={linkedIn} />
+              </a>
+            </div>
           </div>
         </div>
-        <div className="team-member">
-          <img
-            // src={profilePic3}
-            alt="Jeffrey Huang"
-            className="profile-photo"
-          />
-          <h3 className="member-name">**</h3>
-          <div className="member-links">
-            <a href="https://github.com" className="button">
-              GitHub
-            </a>
-            <a href="https://linkedin.com" className="button">
-              LinkedIn
-            </a>
+        <div className="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
+          <div className="card">
+            <div className="team-image-wrapper">
+              <img
+                className="team-member-image"
+                src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/expert2.png"
+              />
+            </div>
+            <p className="text-blk name">Jeffrey Huang</p>
+            <p className="text-blk position">Software Engineer</p>
+            <div className="social-icons">
+              <a href="https://www.twitter.com" target="_blank">
+                <img className="socials" src={github} />
+              </a>
+              <a href="https://www.facebook.com" target="_blank">
+                <img className="socials" src={linkedIn} />
+              </a>
+            </div>
           </div>
         </div>
-        <div className="team-member">
-          <img
-            // src={profilePic4}
-            alt="Lillyanne Mueller"
-            className="profile-photo"
-          />
-          <h3 className="member-name">**</h3>
-          <div className="member-links">
-            <a href="https://github.com" className="button">
-              GitHub
-            </a>
-            <a href="https://linkedin.com" className="button">
-              LinkedIn
-            </a>
+        <div className="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
+          <div className="card">
+            <div className="team-image-wrapper">
+              <img
+                className="team-member-image"
+                src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/expert2.png"
+              />
+            </div>
+            <p className="text-blk name">Shimmy Gabbara</p>
+            <p className="text-blk position">Software Engineer</p>
+            <div className="social-icons">
+              <a href="https://www.twitter.com" target="_blank">
+                <img className="socials" src={github} />
+              </a>
+              <a href="https://www.facebook.com" target="_blank">
+                <img className="socials" src={linkedIn} />
+              </a>
+            </div>
           </div>
         </div>
-        <div className="team-member">
-          <img
-            // src={profilePic4}
-            alt="Shimmy Gabbara"
-            className="profile-photo"
-          />
-          <h3 className="member-name">**</h3>
-          <div className="member-links">
-            <a href="https://github.com/alicewilliams" className="button">
-              GitHub
-            </a>
-            <a href="https://linkedin.com" className="button">
-              LinkedIn
-            </a>
+        <div className="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
+          <div className="card">
+            <div className="team-image-wrapper">
+              <img
+                className="team-member-image"
+                src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/expert2.png"
+              />
+            </div>
+            <p className="text-blk name">Lily Mueller</p>
+            <p className="text-blk position">Software Engineer</p>
+            <div className="social-icons">
+              <a href="https://www.twitter.com" target="_blank">
+                <img className="socials" src={github} />
+              </a>
+              <a href="https://www.facebook.com" target="_blank">
+                <img className="socials" src={linkedIn} />
+              </a>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
     </div>
-  )
+  );
 }
