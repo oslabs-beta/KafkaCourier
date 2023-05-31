@@ -4,8 +4,8 @@ const { metricize } = require("kafkajs-metrics");
 require("dotenv").config();
 const { Partitioners, AssignerProtocol } = require("kafkajs");
 
-// This creates a client instance that is configured to connect to the Kafka broker provided by
-// the environment variable KAFKA_BOOTSTRAP_SERVER
+// This creates a client instance that is configured to connect to the Kafka broker 
+// provided by the environment variable KAFKA_BOOTSTRAP_SERVER
 const { KAFKA_USERNAME: username, KAFKA_PASSWORD: password } = process.env;
 const sasl =
   username && password ? { username, password, mechanism: "plain" } : null;

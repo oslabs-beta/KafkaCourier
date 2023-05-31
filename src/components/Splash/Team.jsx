@@ -6,8 +6,8 @@ import linkedIn from "./images/linkedin.png";
 
 export default function Team() {
   return (
-    <div className="responsive-container-block container">
-      <p className="text-blk team-head-text">Our Team</p>
+    <div className="responsive-container-block container team">
+      <h2 className="text-blk team-head-text">Our Team</h2>
       <div className="responsive-container-block">
         <div className="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
           <div className="card">

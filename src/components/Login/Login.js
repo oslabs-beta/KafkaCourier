@@ -12,12 +12,8 @@ export default function Login({
   setInDatabase, 
   setCookie
 }) {
-
-  // function verifyUser(user) {
   async function verifyUser(user) {
-    //check if they are in db
     const response = await fetch(`/api/checkUser/${user}`);
-    // response.json() will contain object with user data, or undefined
     const result = (await response.json())[0];
     // if user is stored in database, update sub, server, key, and secret states
     if (result) {
@@ -29,7 +25,7 @@ export default function Login({
 
       // create session object to store in cookie
       const userSession = {
-        user_id: result.user_id // add other relevant data if needed
+        user_id: result.user_id
       }
       // set session cookie
       setCookie('kafka_courier_session', userSession, { path: '/' });

@@ -13,7 +13,6 @@ $green: #6b8d8e;
 }
 
 table {
-  // border: 1px solid #22302D;
   font-family: 'Montserrat', sans-serif;
   background-color: #ffffff;
   border-radius: 12px;
@@ -29,7 +28,7 @@ table .MuiTableCell-head {
 }
 
 table .MuiTableBody-root:last-child {
-  border-bottom: none; /* Remove the bottom border from the last row */
+  border-bottom: none; 
 }
 
 .MuiTableBody-root .MuiTableRow-root:hover {
@@ -65,7 +64,6 @@ table .MuiTableBody-root:last-child {
 }
 
 .cardComponent {
-  // min-height: 40vh;
   height: 40vh;
   width: 90%;
   color: $pink;

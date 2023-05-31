@@ -1,8 +1,7 @@
 // module.exports = async (globalConfig) => {
-//   testServer.close();
+//   global.testServer.close();
 // };
 
 // // "globalTeardown": "./jest-teardown.js",
-
 
 

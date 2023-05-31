@@ -47,7 +47,7 @@ const kafkaController = {
       }
       next();
     } catch (err) {
-      console.log("Error in kafkaController.connect: ", err);
+      return next({log: `Error in kafkaController.connect: ${err}.`, message: `An error occurred connecting to Kafka server: ${err}.`})
     }
   },
 
@@ -84,7 +84,7 @@ const kafkaController = {
       res.locals.topicMetaData = formattedData;
       next();
     } catch (error) {
-      console.log(error);
+      return next({log: `Error in kafkaController.getTopicData: ${err}.`, message: `An error occurred obtaining topic data: ${err}.`})
     }
 
     // function to retrieve consumer groups
@@ -131,7 +131,7 @@ const kafkaController = {
       res.locals.consumerData = resultObj;
       next();
     } catch (error) {
-      console.log(error);
+      return next({log: `Error in kafkaController.getConsumerData: ${err}.`, message: `An error occurred obtaining consumer data: ${err}.`})
     }
   },
 
@@ -193,7 +193,7 @@ const kafkaController = {
       groupId,
       topic,
     });
-    // console.log(offsets[0].partitions, "OFFSETS HERER");
+    // console.log(offsets[0].partitions, "OFFSETS HERE");
     const totalOffset = offsets[0].partitions.reduce(
       (total, { offset }) => total + Number(offset),
       0

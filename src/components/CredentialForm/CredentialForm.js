@@ -16,13 +16,6 @@ export default function CredentialForm({ setInDatabase, sub, setCookie }) {
       const key = apiKey.current.value;
       const secret = apiSecret.current.value;
 
-      // show helperText below input fields if any are empty
-      // if (!server || !key || !secret) throw new Error();
-      // if (!server) {
-      //   console.log(serverUri);
-      //   throw new Error('Server URI required');
-      // }
-
       const response = await fetch('/api/createUser', {
         method: 'POST',
         headers: {
@@ -37,7 +30,7 @@ export default function CredentialForm({ setInDatabase, sub, setCookie }) {
       });
       const result = await response.json();
       const userSession = {
-        user_id: sub // add other relevant data if needed
+        user_id: sub 
       }
       // set session cookie
       setCookie('kafka_courier_session', userSession, { path: '/' });
@@ -51,43 +44,25 @@ export default function CredentialForm({ setInDatabase, sub, setCookie }) {
   return (
     <div className="formContainer">
       <form>
-        {/* <label>
-          Enter Kafka Server URI:
-          <input type="text" ref={props.serverUri} />
-        </label> */}
         <TextField
           sx={{
             width: 300,
           }}
           required
-          // id="filled-required"
           id="uri-input"
           label="Enter Kafka Server URI:"
           variant="filled"
           inputRef={serverUri}
-          // helperText="Please enter a server URI"
         />
-
-        {/* <label>
-          Enter API Key:
-          <input type="text" ref={props.apiKey} />
-        </label> */}
         <TextField
           required
-          // id="filled-required"
           id="api-key-input"
           label="Enter API Key:"
           variant="filled"
           inputRef={apiKey}
         />
-
-        {/* <label>
-          Enter API Secret:
-          <input type="password" ref={props.apiSecret} />
-        </label> */}
         <TextField
           required
-          // id="filled-password-input"
           id="api-secret-input"
           label="Enter API Secret:"
           type="password"
@@ -100,6 +75,3 @@ export default function CredentialForm({ setInDatabase, sub, setCookie }) {
     </div>
   );
 }
-
-//prop drill the state components from app
-//handleClick function for submit button

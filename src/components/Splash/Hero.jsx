@@ -1,5 +1,6 @@
 import React from 'react'
 import Typography from '@mui/material/Typography';
+import Gif from './images/kafka.gif';
 
 export default function Hero() {
   return (
@@ -14,8 +15,8 @@ export default function Hero() {
         <button className="button">Try it out</button>
       </div>
       <div className="hero-right">
-        <div className='hero-gif'>a gif will go here</div>
+        <img src={Gif} height="200px" width="200px" alt="animated gif" id="kafka-gif"></img>
+        </div>
       </div>
-    </div>
   )
 }

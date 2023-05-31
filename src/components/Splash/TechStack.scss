@@ -1,0 +1,98 @@
+.tech-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50vw;
+  font-size: 10px;
+
+  h2 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style-type: none;
+
+    li {
+      display: flex;
+      flex: 0 0 calc(33.33% - 30px);
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      margin: 5px;
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
+  }
+}
+
+.react-badge {
+  background-image: url("https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB");
+}
+
+.chartjs-badge {
+  background-image: url('https://img.shields.io/badge/chart.js-F5788D.svg?style=for-the-badge&logo=chart.js&logoColor=white');
+}
+
+.javascript-badge {
+  background-image: url('https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E');
+}
+
+.react-router-badge {
+  background-image: url('https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white');
+}
+
+.nodejs-badge {
+  background-image: url('https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white');
+}
+
+.express-badge {
+  background-image: url('https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB');
+}
+
+.chartjs-badge {
+  background-image: url('https://img.shields.io/badge/chart.js-F5788D.svg?style=for-the-badge&logo=chart.js&logoColor=white');
+}
+
+.d3js-badge {
+  background-image: url('https://img.shields.io/badge/d3.js-F9A03C.svg?style=for-the-badge&logo=d3.js&logoColor=white');
+}
+
+.mui-badge {
+  background-image: url('https://img.shields.io/badge/MUI-%230081CB.svg?style=for-the-badge&logo=mui&logoColor=white');
+}
+
+.socketio-badge {
+  background-image: url('https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101');
+}
+
+.webpack-badge {
+  background-image: url('https://img.shields.io/badge/webpack-%238DD6F9.svg?style=for-the-badge&logo=webpack&logoColor=black');
+}
+
+.sass-badge {
+  background-image: url('https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white');
+}
+
+.jest-badge {
+  background-image: url('https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white');
+}
+
+.react-testing-library-badge {
+  background-image: url('https://img.shields.io/badge/-TestingLibrary-%23E33332?style=for-the-badge&logo=testing-library&logoColor=white');
+}
+
+.typescript-badge {
+  background-image: url('https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white');
+}
+
+.postgres-badge {
+  background-image: url('https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white');
+}
+
+.kafka-badge {
+  background-image: url('https://img.shields.io/badge/Apache%20Kafka-000?style=for-the-badge&logo=apachekafka');
+}

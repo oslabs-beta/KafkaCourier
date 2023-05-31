@@ -1,5 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@400;500&display=swap");
 
+$darkestGray: #1e1e1e;
+$darkGray: #313131;
+$lightGray: #9b9b9b;
+$lightestGray: #e8e5e5;
+$pink: #bd9699;
+$green: #6b8d8e;
+
 * {
   font-family: "Inter", sans-serif !important;
 }
@@ -36,4 +43,104 @@
 
 .button:hover {
   background-color: #007b9a; /* slightly darker version of button color */
+}
+
+.github-button {
+  width: auto;
+}
+
+// hero styles
+
+.hero {
+  display: flex;
+  height: 400px;
+  margin: 10px;
+  padding: 40px;
+}
+
+.hero-left {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 50px;
+}
+
+.hero-right {
+  flex: 1 1 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-gif {
+  border: 1px black solid;
+  width: 80%;
+  height: 80%;
+}
+
+.hero h2 {
+  font-size: 48px;
+  font-weight: 600;
+}
+
+#kafka-gif {
+  border-radius: 12px;
+}
+
+// benefits styles
+
+.benefits {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.benefits-card-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+  max-width: 700px;
+  gap: 10px;
+}
+
+.benefits-card {
+  min-width: 200px;
+  max-width: 250px;
+}
+
+.benefits svg {
+  width: 50px;
+  height: 50px;
+  color: black;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+}
+
+#root {
+	background: linear-gradient(-45deg, #cb7c9b, $green, $pink, $lightGray);
+	background-size: 400% 400%;
+	animation: gradient 30s ease infinite;
+	height: 100%;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
 }

@@ -29,7 +29,7 @@
 
 .team-head-text {
   font-size: 48px;
-  font-weight: 900;
+  // font-weight: 900;
   text-align: center;
 }
 
@@ -67,12 +67,14 @@
   height: auto;
 }
 
-.card-container {
-  width: 280px;
-  margin-top: 0px;
-  margin-right: 10px;
-  margin-bottom: 10px;
-  margin-left: 10px;
+.team {
+  .card-container {
+    width: 280px;
+    margin-top: 0px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+  }
 }
 
 .name {

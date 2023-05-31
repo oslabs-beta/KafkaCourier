@@ -25,7 +25,8 @@ const userController = {
       };
       next();
     } catch (err) {
-      console.log('Error in userController.createUser: ', err);
+      // console.log('Error in userController.createUser: ', err);
+      return next({log: `Error in userController.createUser: ${err}.`, message: `An error occurred when creating the user: ${err}.`})
     }
   },
 
@@ -64,7 +65,7 @@ const userController = {
       }
       next();
     } catch (err) {
-      console.log('Error in userController.checkUser: ', err);
+      return next({log: `Error in userController.checkUser: ${err}.`, message: `An error occurred when checking the user: ${err}.`})
     }
   },
 
@@ -86,7 +87,7 @@ const userController = {
       };
       next();
     } catch (err) {
-      console.log('Error in userController.updateUser: ', err);
+      return next({log: `Error in userController.updateUser: ${err}.`, message: `An error occurred when updating the user: ${err}.`})
     }
   },
 };
