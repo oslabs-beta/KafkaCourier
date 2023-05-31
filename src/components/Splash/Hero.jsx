@@ -1,13 +1,21 @@
 import React from 'react'
+import Typography from '@mui/material/Typography';
 
 export default function Hero() {
   return (
-    <div>
-        <h1>Monitor Your Kafka Clusters</h1>
-        <section className="demo-section">
-        <h2>Demo</h2>
-        <p>Here we will add gifs of various features of our application</p>
-      </section>
+    <div className="hero">
+      <div className="hero-left">
+        <Typography variant="h2" className="hero-text">
+            Real-Time Kafka Cluster Monitoring
+        </Typography>
+        <Typography variant="subtitle1" className="hero-text">
+        Lightweight, open-source monitoring tool to visualize and monitor key Kafka cluster metrics
+        </Typography>
+        <button className="button">Try it out</button>
+      </div>
+      <div className="hero-right">
+        <div className='hero-gif'>a gif will go here</div>
+      </div>
     </div>
   )
 }
