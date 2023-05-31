@@ -44,6 +44,10 @@ table .MuiTableBody-root:last-child {
   padding: 10px;
 }
 
+.topic-upper-container .MuiTableContainer-root {
+    max-height: 200px;
+}
+
 .MuiTableContainer-root {
   max-height: 200px;
   overflow-y: auto;
@@ -146,3 +150,4 @@ i {
 .coming-soon {
   color: #313131;
 }
+

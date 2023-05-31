@@ -1,7 +1,7 @@
 import React from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
-import './Login.css';
+import './Login.scss';
 
 export default function Login({
   setSub,

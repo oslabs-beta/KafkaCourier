@@ -1,0 +1,18 @@
+#oauth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+#logout {
+    position: absolute;
+    bottom: 20px;
+    width: 200px;
+}
+
+#logout:hover {
+  #logout-text {
+    color: white;
+  }
+}

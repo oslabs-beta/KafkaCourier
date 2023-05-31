@@ -1,9 +1,9 @@
 import React from 'react'
 import { googleLogout } from '@react-oauth/google';
 import { Link } from 'react-router-dom';
-import './Login.css';
+import './Login.scss';
 
-export default function LoginButton({ setLoggedIn, removeCookie }) {
+export default function LogoutButton({ setLoggedIn, removeCookie }) {
   const handleClick = () => {
     // clear session cookie
     removeCookie('kafka_courier_session', { path: '/' });
@@ -12,6 +12,8 @@ export default function LoginButton({ setLoggedIn, removeCookie }) {
     googleLogout();
   }
   return (
-    <Link to="/" onClick={handleClick} >LOGOUT</Link>
+    <Link to="/" onClick={handleClick}>
+      <span id="logout-text">Logout</span>
+    </Link>
   )
 }
