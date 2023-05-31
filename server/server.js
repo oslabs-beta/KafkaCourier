@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const { Kafka } = require('kafkajs');
 const cookieParser = require('cookie-parser');
 
 const kafkaController = require("./controllers/kafkaController");
@@ -15,9 +14,6 @@ const io = require("socket.io")(3001, {
 
 io.on("connection", (socket) => {
   console.log("socket id: ", socket.id);
-  // socket.on('event', obj => {
-  //   console.log('obj: ', obj);
-  // })
 });
 
 app.use(express.json());
@@ -33,9 +29,7 @@ const intervals = [];
 //serve static files
 app.use(express.static(path.join(__dirname, './src')));
 
-// app.get('/*', )
-
-//create user
+// create user
 app.post(
   '/api/createUser',
   userController.createUser,
@@ -45,6 +39,7 @@ app.post(
   }
 );
 
+// validate user
 app.get(
   '/api/checkUser/:user',
   userController.checkUser,
@@ -54,6 +49,7 @@ app.get(
   }
 );
 
+// if user has an existing session, re-connect to kafka instance
 app.use(userController.checkUser, kafkaController.connect);
 
 // get topic data
@@ -61,32 +57,23 @@ app.get('/api/topic', kafkaController.getTopicData, (req, res, next) => {
   res.status(200).json(res.locals.topicMetaData);
 });
 
-// get consumer data
-
-// app.get('/api/consumerData/:consumerGroupId',
-//   kafkaController.getConsumerData,
-//   (req, res, next) => {
-
-//     res.status(200).json(res.locals.consumerData);
-//   }
-// )
-
+// get consumer group data
 app.get(
   '/api/consumerData/:consumerGroupId',
   kafkaController.getConsumerData,
   (req, res, next) => {
-    // io.emit....
+    // function to send events via web sockets
     const emitter = async (groupId) => {
       const consumerLag = await kafkaController.getConsumerDataCLI(
         req.params.consumerGroupId
-      ); // [{x, y}]
+      ); 
       io.emit(groupId, consumerLag);
     };
     emitter(req.params.consumerGroupId);
     // clear any running intervals and add interval id to intervals array to allow it to be cleared later
+    // ensures only one interval is running at a time with simultaneous connections
     intervals.forEach(interval => clearInterval(interval));
     intervals.push(setInterval(emitter, 7000, req.params.consumerGroupId));
-
     next();
   },
   (req, res) => {
@@ -97,7 +84,7 @@ app.get(
 let previousOffset = null;
 let previousTime = null;
 
-///api/consumptionRate?consumerGroup=something&topic
+// get consumption rate data for consumer group
 app.get("/api/consumptionRate", (req, res) => {
   const{ consumerGroup, topic } = req.query;
   setInterval(async () => {
@@ -115,73 +102,22 @@ app.get("/api/consumptionRate", (req, res) => {
   res.status(200).send("Consumption rate is being sent to frontend");
 });
 
-// app.get(
-//   '/api/consumerData/:consumerGroupId',
-//   kafkaController.getConsumerData,
-//   async (req, res, next) => {
-//     const emitter = async (groupId) => {
-//       try {
-//         const consumerLag = await kafkaController.getConsumerDataCLI(req.params.consumerGroupId);
-//         console.log('consumerLag:', consumerLag);
-//         io.emit(groupId, consumerLag);
-//       } catch (error) {
-//         console.error('Error:', error);
-//       }
-//     };
-
-//     setInterval(() => emitter(req.params.consumerGroupId), 7000);
-
-//     next();
-//   },
-//   (req, res) => {
-//     res.status(200).json(res.locals.consumerData);
-//   }
-// );
-
-// // In your server code
-// app.get('/api/consumerData/:consumerGroupId',
-//   (req, res, next) => {
-// kafkaController.getConsumerDataCLI
-//
-//    },
-//   async (req, res, next) => {
-//     // Send initial response
-//     res.status(200).json({message: "Started consumer data fetch."});
-
-//     setInterval(async () => {
-//       try {
-//         await kafkaController.getConsumerDataCLI;
-//         io.emit('consumerData', res.locals.consumerLag);
-//       } catch (error) {
-//         console.log(error);
-//       }
-//     }, 5000);
-//   }
-// );
-
-// In your server code
-// app.get('/api/consumerData/:consumerGroupId',
-//   async (req, res, next) => {
-//     // Send initial response
-//     res.status(200).json({message: "Started consumer data fetch."});
-
-//     setInterval(async () => {
-//       try {
-//         await kafkaController.getConsumerDataCLI(req, res, next);
-//         io.emit('consumerData', res.locals.consumerLag);
-//       } catch (error) {
-//         console.log(error);
-//       }
-//     }, 5000);
-//   }
-// );
-
 // catch-all route for errors
 app.get('*', (req, res) => {
   res.sendStatus(404);
 });
 
 // express global error handler
+app.use((err, req, res, next) => {
+  const defaultErr = {
+    log: 'Express error handler caught unknown middleware error',
+    status: 400,
+    message: { err: 'An error occurred' },
+  };
+  const errorObj = Object.assign(defaultErr, err);
+  console.log(errorObj.log);
+  return res.status(errorObj.status).json(errorObj.message);
+});
 
 // start server
 app.listen(PORT, () => {

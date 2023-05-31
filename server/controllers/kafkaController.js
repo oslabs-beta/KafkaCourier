@@ -1,6 +1,6 @@
 const { Kafka } = require("kafkajs");
 require("dotenv").config();
-const { Partitioners, AssignerProtocol } = require("kafkajs");
+const { AssignerProtocol } = require("kafkajs");
 const { exec } = require("child_process");
 
 let admin;
@@ -22,17 +22,14 @@ const kafkaController = {
       if (res.locals.rows.length) {
         ({ server, username, password } = res.locals);
 
-        // console.log(server, username, password);
-
         const sasl =
           username && password
             ? { username, password, mechanism: "plain" }
             : null;
         const ssl = !!sasl;
         // This creates a client instance that is configured to connect to the Kafka broker
-        //WHERE DO WE GET THIS INFORMATION 
         const kafka = new Kafka({
-          clientId: "qa-topic",
+          clientId: "kafka-courier",
           brokers: [server],
           logLevel: 2,
           ssl,
@@ -56,17 +53,16 @@ const kafkaController = {
 
   async getTopicData(req, res, next) {
     try {
-      // await admin.connect();
-      // get topic names and # of partitions
       const topicData = await admin.fetchTopicMetadata();
 
+      // get topic names, # of partitions, and # of consumer groups
       const formattedData = {
         topics: [],
         partitions: [],
         consumerGroups: [],
       };
 
-      //RETRIEVE GROUP IDs
+      // retrieve group ids + put into array for admin.describeGroups method
       const groups = await admin.listGroups();
       const groupArray = [];
       groups.groups.forEach((group) => {
@@ -78,33 +74,22 @@ const kafkaController = {
         formattedData.topics.push(topicData.topics[i].name);
         // get # of partitions
         formattedData.partitions.push(topicData.topics[i].partitions.length);
-
         // get # of consumer groups
         const consumerGroupCount = await getConsumerGroups(
           topicData.topics[i].name,
           groupArray
         );
         formattedData.consumerGroups.push(consumerGroupCount);
-        // formattedData.consumerGroups.push(groups.length);
       }
-
       res.locals.topicMetaData = formattedData;
       next();
     } catch (error) {
       console.log(error);
-      next(error);
     }
 
-    //function to retrieve consumer groups
+    // function to retrieve consumer groups
     async function getConsumerGroups(topic, groupArray) {
-      // //RETRIEVE GROUP IDs
-      // const groups = await admin.listGroups();
-      // const groupArray = [];
-      // groups.groups.forEach((group) => {
-      //   groupArray.push(group.groupId);
-      // });
-
-      //Pass GroupId array as arg
+      // get consumer group meta data for a particular topic
       const consumerGroups = await admin.describeGroups(groupArray);
 
       const topicConsumerGroups = consumerGroups.groups.filter((group) => {
@@ -114,42 +99,28 @@ const kafkaController = {
           ).assignment.hasOwnProperty(topic)
         );
       });
-      // console.log('topic consumer groups: ', topicConsumerGroups[0].members);
       return topicConsumerGroups;
     }
   },
 
   async getConsumerData(req, res, next) {
     try {
-      // await admin.connect()
-      // const { consumerGroupId } = req.params;
-      // const consumers = await admin.describeGroups([consumerGroupId]);
-
-      //RETRIEVE GROUP IDs
+      // retrieve group ids
       const groups = await admin.listGroups();
-      // console.log('GROUPS ARE HERE: ', groups);
-
       const groupArray = [];
       groups.groups.forEach((group) => {
         groupArray.push(group.groupId);
       });
 
-      // console.log('group array is here: ', groupArray);
-
-      // console.log('group ids from list groups: ', groupArray);
       const consumers = await admin.describeGroups(groupArray);
       // create a result object to send to frontend
       let resultObj = {
         memberId: [],
         partitions: [],
       };
-      // loop over consumer.groups[0].members
-      // console.log('GROUPS ARRAY',consumers.groups[0].members)
-
-
-
 
       // START HERE :)
+      console.log('consumers from kafkaController.getConsumerData: ', consumers);
       consumers.groups[1].members.forEach((member) => {
         resultObj.memberId.push(member.memberId);
         resultObj.partitions.push(
@@ -157,68 +128,15 @@ const kafkaController = {
             .assignment
         );
       });
-      // assign memeberId in objext
-      // decode memberAssignment and access assignment property of the buffer and assign this to partition in result object
-      //
       res.locals.consumerData = resultObj;
-      // console.log('result object: ', resultObj);
       next();
     } catch (error) {
       console.log(error);
-      next(error);
     }
   },
 
-  // async getConsumerDataCLI(req, res, next) {
-  //   try {
-  //     const { consumerGroupId } = req.params;
-  //     let newArray2 = [];
-  //     const command = `kafka-consumer-groups --bootstrap-server pkc-6ojv2.us-west4.gcp.confluent.cloud:9092 --command-config server/cloud.properties --group ${consumerGroupId} --describe`;
-  //     exec(command, (error, stdout, stderr) => {
-  //       if (error) {
-  //         console.error(`Error executing command: ${error.message}`);
-  //         return;
-  //       }
-
-  //       if (stderr) {
-  //         console.error(`Command stderr: ${stderr}`);
-  //         return;
-  //       }
-
-  //       // console.log('STDOUT: ', stdout);
-  //       let array = stdout.trim().split('\n');
-  //       console.log("array.length: ",array.length);
-  //       let lagArray = array[0].split(/\s+/).indexOf('LAG');
-  //       console.log('lag array', lagArray);
-  //       newArray2 = array.slice(1).map((line) => {
-  //         const columns = line.split(/\s+/);
-  //         return Number(columns[lagArray]);
-  //       })
-  //         .filter(el => {
-  //           if (!isNaN(el)) return el;
-  //         });
-  //       console.log('newArray2: ', newArray2);
-  //       let maxNum = Math.max(...newArray2)
-  //       let result = [{x: Date.now(), y: maxNum}]
-  //       // io.emit('consumer Data', result)
-  //       res.locals.consumerLag = result;
-  //       return next();
-  //     });
-  //     // console.log('newArray2: ', newArray2);
-  //     // let maxNum = Math.max(...newArray2)
-  //     // let result = [{x: Date.now(), y: maxNum}]
-  //     // // io.emit('consumer Data', result)
-  //     // res.locals.consumerLag = result;
-  //     // return next();
-  //   } catch (error) {
-  //     console.log('error: ', error);
-  //     return next(error);
-  //   }
-  // },
-
   getConsumerDataCLI: function (consumerGroupId) {
     try {
-      console.log('consumerGroupId: ', consumerGroupId);
       return new Promise((resolve, reject) => {
         let newArray2 = [];
         const command = `kafka-consumer-groups --bootstrap-server pkc-6ojv2.us-west4.gcp.confluent.cloud:9092 --command-config server/cloud.properties --group ${consumerGroupId} --describe`;

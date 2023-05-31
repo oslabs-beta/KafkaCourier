@@ -3,6 +3,7 @@ import './NavBar.scss';
 import React, { useEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import Logout from '../Login/Logout.jsx';
 
 // icons
 import TopicIcon from '@mui/icons-material/Topic';
@@ -11,7 +12,7 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import ShareIcon from '@mui/icons-material/Share';
 import PersonIcon from '@mui/icons-material/Person';
 
-export default function NavBar({ setCurrentTopic, display, setDisplay }) {
+export default function NavBar({ setCurrentTopic, display, setDisplay, setLoggedIn, removeCookie }) {
   //onClick functions must be anon to not be immediately called upon render
 
   useEffect(() => {
@@ -32,6 +33,7 @@ export default function NavBar({ setCurrentTopic, display, setDisplay }) {
   }
 
   return (
+    <>
     <List className="navBar">
       <ListItem component={Link} to="/topic" className="ListItem" id="topic" onClick={() => {setCurrentTopic(); handleClick('topic')}}> 
         <TopicIcon></TopicIcon>
@@ -53,6 +55,11 @@ export default function NavBar({ setCurrentTopic, display, setDisplay }) {
         <PersonIcon/>
         <span>Account</span>
       </ListItem>
+      <ListItem component={Link} to="/#" className="ListItem" id="logout">
+        <PersonIcon/>
+        <Logout setLoggedIn={setLoggedIn} removeCookie={removeCookie}></Logout>
+      </ListItem>
     </List>
+    </>
   );
 }
