@@ -1,10 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 import CredentialForm from './components/CredentialForm/CredentialForm.js';
 import Dashboard from './components/dashboard/Dashboard.jsx';
 import Login from './components/Login/Login.js';
-import { useCookies } from 'react-cookie';
+import Splash from './components/Splash/Splash.jsx';
 import './styles.scss';
+
 
 function Error() {
   return <div>THIS IS AN ERROR BAD</div>;
@@ -31,15 +33,16 @@ export default function App() {
   })
 
   let components = !loggedIn ? (
-    <Login
-      setSub={setSub}
-      setServerUri={setServerUri}
-      setApiKey={setApiKey}
-      setApiSecret={setApiSecret}
-      setInDatabase={setInDatabase}
-      setLoggedIn={setLoggedIn}
-      setCookie={setCookie}
-    />
+    // <Login
+    //   setSub={setSub}
+    //   setServerUri={setServerUri}
+    //   setApiKey={setApiKey}
+    //   setApiSecret={setApiSecret}
+    //   setInDatabase={setInDatabase}
+    //   setLoggedIn={setLoggedIn}
+    //   setCookie={setCookie}
+    // />
+    <Splash></Splash>
   ) : inDatabase ? (
     <Dashboard serverUri={serverUri} apiKey={apiKey} apiSecret={apiSecret} 
       setInDatabase={setInDatabase}
