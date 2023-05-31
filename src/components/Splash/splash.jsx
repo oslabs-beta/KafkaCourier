@@ -1,4 +1,5 @@
 import React from "react";
+import "./Splash.css";
 
 export default function Splash() {
   return (
@@ -36,7 +37,7 @@ export default function Splash() {
             alt="Tejash Bharadwaj"
             className="profile-photo"
           />
-          <h3 className="member-name">John Doe - Lead Developer</h3>
+          <h3 className="member-name">J**</h3>
           <div className="member-links">
             <a href="https://github.com" className="button">
               GitHub
@@ -52,7 +53,7 @@ export default function Splash() {
             alt="Kirsten Milic"
             className="profile-photo"
           />
-          <h3 className="member-name">Jane Smith - Software Engineer</h3>
+          <h3 className="member-name">**</h3>
           <div className="member-links">
             <a href="https://github.com" className="button">
               GitHub
@@ -68,7 +69,7 @@ export default function Splash() {
             alt="Jefferey Huang"
             className="profile-photo"
           />
-          <h3 className="member-name">Bob Johnson - UI/UX Designer</h3>
+          <h3 className="member-name">**</h3>
           <div className="member-links">
             <a href="https://github.com" className="button">
               GitHub
@@ -84,7 +85,7 @@ export default function Splash() {
             alt="Lillyanne Mueller"
             className="profile-photo"
           />
-          <h3 className="member-name">Alice Williams - Project Manager</h3>
+          <h3 className="member-name">**</h3>
           <div className="member-links">
             <a href="https://github.com" className="button">
               GitHub
@@ -100,7 +101,7 @@ export default function Splash() {
             alt="Shimmy Gabbara"
             className="profile-photo"
           />
-          <h3 className="member-name">Alice Williams - Project Manager</h3>
+          <h3 className="member-name">**</h3>
           <div className="member-links">
             <a href="https://github.com/alicewilliams" className="button">
               GitHub

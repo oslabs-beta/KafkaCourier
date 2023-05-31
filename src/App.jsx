@@ -1,9 +1,10 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import CredentialForm from './components/CredentialForm/CredentialForm.js';
-import Dashboard from './components/dashboard/Dashboard.jsx';
-import Login from './components/Login/Login.js';
-import { useCookies } from 'react-cookie';
+import React, { useRef, useState, useEffect } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import CredentialForm from "./components/CredentialForm/CredentialForm.js";
+import Dashboard from "./components/dashboard/Dashboard.jsx";
+import Login from "./components/Login/Login.js";
+import { useCookies } from "react-cookie";
+import Splash from "./components/Splash/Splash.jsx";
 
 function Error() {
   return <div>THIS IS AN ERROR BAD</div>;
@@ -23,28 +24,33 @@ export default function App() {
   useEffect(() => {
     // check if user has an existing session
     if (cookies.kafka_courier_session) {
-      setSub(cookies.kafka_courier_session.user_id)
+      setSub(cookies.kafka_courier_session.user_id);
       setLoggedIn(true);
       setInDatabase(true);
     }
-  })
+  });
 
   let components = !loggedIn ? (
-    <Login
-      setSub={setSub}
-      setServerUri={setServerUri}
-      setApiKey={setApiKey}
-      setApiSecret={setApiSecret}
-      setInDatabase={setInDatabase}
-      setLoggedIn={setLoggedIn}
-      setCookie={setCookie}
-    />
+    // <Login
+    //   setSub={setSub}
+    //   setServerUri={setServerUri}
+    //   setApiKey={setApiKey}
+    //   setApiSecret={setApiSecret}
+    //   setInDatabase={setInDatabase}
+    //   setLoggedIn={setLoggedIn}
+    //   setCookie={setCookie}
+    // />
+    <Splash></Splash>
   ) : inDatabase ? (
-    <Dashboard serverUri={serverUri} apiKey={apiKey} apiSecret={apiSecret} 
+    <Dashboard
+      serverUri={serverUri}
+      apiKey={apiKey}
+      apiSecret={apiSecret}
       setInDatabase={setInDatabase}
       setSub={setSub}
       setLoggedIn={setLoggedIn}
-      removeCookie={removeCookie}/>
+      removeCookie={removeCookie}
+    />
   ) : (
     <CredentialForm
       setInDatabase={setInDatabase}
@@ -55,7 +61,6 @@ export default function App() {
 
   return (
     <>
-     
       {/* if !loggedIn */}
       {/* <Dashboard />
       <CredentialForm
@@ -75,14 +80,12 @@ export default function App() {
           {/* <Route path="/credentials" element={<CredentialForm />} /> */}
           {/* Only allow users that are logged in to these pages */}
           <Route path="/*" element={components}></Route>
-           {/* <Route path="/*" element={<Dashboard serverUri={serverUri} apiKey={apiKey} apiSecret={apiSecret} 
+          {/* <Route path="/*" element={<Dashboard serverUri={serverUri} apiKey={apiKey} apiSecret={apiSecret} 
             setInDatabase={setInDatabase}
             setSub={setSub}
             setLoggedIn={setLoggedIn}/>} /> */}
-        </Routes> 
+        </Routes>
       </BrowserRouter>
     </>
   );
 }
-
-
