@@ -16,7 +16,6 @@ export default function KafkaContainer({
   return (
     <div className="kafka-container">
       <Routes>
-        {/* <Route path="/" element={<Consumer />}></Route> */}
         <Route
           path="/topic"
           element={

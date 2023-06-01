@@ -13,14 +13,6 @@ export default function ConsumerInfo({ consumerGroup }) {
 
   useEffect(() => {
     fetchConsumerData();
-    // const fetchData = async(consumerGroupId) => {
-    //   // const result = await axios(`/api/consumerData/${consumerGroupId}`);
-    //   // group2 is hard coded, replace with group name
-    //   const result = await axios(`/api/consumerData/group2`);
-    //   console.log('Consumer info data', result.data)
-    //   setData(result.data);
-    // }
-    // fetchData();
   }, []);
 
 

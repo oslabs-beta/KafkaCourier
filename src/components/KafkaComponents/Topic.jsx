@@ -110,14 +110,7 @@ export default function Topic({ topicData, currentTopic, setCurrentTopic }) {
         </TableContainer>
       </div>
       <div id="topic-lower-container">
-
         {lowerComponents}
-        {/* <ConsumerGroups consumerGroup={consumerGroup} setConsumerGroup={setConsumerGroup} topicData={parsedData} currentTopic={currentTopic}></ConsumerGroups>
-        <CardComponent consumerGroup={consumerGroup} topicData={topicData}/> */}
-        {/* <ConsumptionRate consumerGroup={consumerGroup} currentTopic={currentTopic} /> */}
-        {/* <CardComponent />
-        <CardComponent />
-        <CardComponent /> */}
       </div>
     </div>
   );

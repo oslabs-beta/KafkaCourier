@@ -1,0 +1,39 @@
+.get-started-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h2 {
+    font-size: 48px;
+    font-weight: 600;
+    margin: 15px;
+  }
+}
+
+.get-started {
+  display: flex;
+  gap: 2rem;
+  width: 400px;
+  align-items: center;
+  justify-content: space-evenly;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  img {
+    width: 300px;
+    height: 200px;
+    border-radius: 12px;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}

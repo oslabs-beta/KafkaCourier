@@ -25,7 +25,6 @@ export default function Account() {
 
       if (!server || !key || !secret) alert('Fields cannot be empty.');
 
-      //fetch call to update PUT OR PATCH?
       const response = await fetch('/api/updateUser', {
         method: 'PUT',
         headers: { 'Content-type': 'application/json' },
@@ -36,8 +35,6 @@ export default function Account() {
           secret,
         }),
       });
-      // const result = await response.json();
-      // clear fields
       newServerUri.current.value = '';
       newApiKey.current.value = '';
       newApiSecret.current.value = '';
@@ -53,43 +50,25 @@ export default function Account() {
       <h3>Enter Updated Credentials</h3>
       <div className="formContainer">
         <form>
-          {/* <label>
-          Enter Kafka Server URI:
-          <input type="text" ref={props.serverUri} />
-        </label> */}
           <TextField
             sx={{
               width: 300,
             }}
             required
-            // id="filled-required"
             id="new-uri-input"
             label="Enter New Kafka Server URI:"
             variant="filled"
             inputRef={newServerUri}
-            // helperText="Please enter a server URI"
           />
-
-          {/* <label>
-          Enter API Key:
-          <input type="text" ref={props.apiKey} />
-        </label> */}
           <TextField
             required
-            // id="filled-required"
             id="new-api-key-input"
             label="Enter New API Key:"
             variant="filled"
             inputRef={newApiKey}
           />
-
-          {/* <label>
-          Enter API Secret:
-          <input type="password" ref={props.apiSecret} />
-        </label> */}
           <TextField
             required
-            // id="filled-password-input"
             id="new-api-secret-input"
             label="Enter New API Secret:"
             type="password"

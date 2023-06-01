@@ -1,9 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 import CredentialForm from './components/CredentialForm/CredentialForm.js';
 import Dashboard from './components/dashboard/Dashboard.jsx';
 import Login from './components/Login/Login.js';
-import { useCookies } from 'react-cookie';
+import Splash from './components/Splash/Splash.jsx';
 import './styles.scss';
 
 function Error() {
@@ -31,7 +32,19 @@ export default function App() {
   })
 
   let components = !loggedIn ? (
-    <Login
+
+    // DONT DELETE THIS STUFF BELOW !!
+
+    // <Login
+      // setSub={setSub}
+      // setServerUri={setServerUri}
+      // setApiKey={setApiKey}
+      // setApiSecret={setApiSecret}
+      // setInDatabase={setInDatabase}
+      // setLoggedIn={setLoggedIn}
+      // setCookie={setCookie}
+    // />
+    <Splash 
       setSub={setSub}
       setServerUri={setServerUri}
       setApiKey={setApiKey}
@@ -56,30 +69,22 @@ export default function App() {
 
   return (
     <>
-     
-      {/* if !loggedIn */}
-      {/* <Dashboard />
-      <CredentialForm
-        serverUri={serverUri}
-        apiKey={apiKey}
-        apiSecret={apiSecret}
-        handleClick={handleClick}
-      /> */}
-      {/* // this part will load after Oauth 
-      // check to see if googleID is present in database setState to present
-      // if present load dashboard else load CredentialForm */}
-
       <BrowserRouter>
         <Routes>
           {/* // login page will be root path  */}
           <Route exact path="/" element={components}></Route>
-          {/* <Route path="/credentials" element={<CredentialForm />} /> */}
           {/* Only allow users that are logged in to these pages */}
+          <Route path='/login' element={
+            <Login setSub={setSub} 
+              setServerUri={setServerUri}
+              setApiKey={setApiKey}
+              setApiSecret={setApiSecret}
+              setInDatabase={setInDatabase}
+              setLoggedIn={setLoggedIn}
+              setCookie={setCookie}
+            />}>
+          </Route>
           <Route path="/*" element={components}></Route>
-           {/* <Route path="/*" element={<Dashboard serverUri={serverUri} apiKey={apiKey} apiSecret={apiSecret} 
-            setInDatabase={setInDatabase}
-            setSub={setSub}
-            setLoggedIn={setLoggedIn}/>} /> */}
         </Routes> 
       </BrowserRouter>
     </>

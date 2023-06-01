@@ -54,9 +54,9 @@ export default function LineGraph({ consumerGroup }) {
   const graphRef = useRef(null);
   const [data, setData] = useState([]);
   const [chartDimensions, setChartDimensions] = useState({
-    width: 350,
-    height: 320,
-    margin: { top: 10, right: 20, bottom: 70, left: 40 },
+    width: (window.innerWidth - 40 - 220 - 20 - 20) * 0.6667 - 64,
+    height: (0.85 * window.innerHeight - 19.2 - 40 - 64) / 2 - 35,
+    margin: { top: 20, right: 20, bottom: 70, left: 40 },
     get graphWidth() {
       return this.width - this.margin.left - this.margin.right;
     },
@@ -80,8 +80,8 @@ export default function LineGraph({ consumerGroup }) {
 
     // Create SVG container
     const svg = d3.select(graphRef.current)
-      .attr('width', width)
-      .attr('height', height);
+      .attr('width', '100%')
+      .attr('height', '100%');
 
     // Create scales to map data values to visual properties
     const xScale = d3.scaleTime()
