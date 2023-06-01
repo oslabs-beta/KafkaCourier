@@ -19,7 +19,7 @@ const kafkaController = {
 
       // connect to kafka broker only if res.locals.rows contains nonempty array
       // allows middleware to be used both when user does and doesn't exist in database
-      if (res.locals.rows.length) {
+      if (res.locals.rows && res.locals.rows.length) {
         ({ server, username, password } = res.locals);
 
         const sasl =
