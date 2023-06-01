@@ -1,0 +1,35 @@
+.formContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+}
+
+form {
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: #22302D;
+}
+
+button {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  font-size: 16px;
+  border-radius: 5px;
+  border-width: 0;
+  width: 90px;
+  padding: 1rem;
+  background-color: #4E6667;
+  color: #22302D;
+  margin-top: 1rem;
+
+  &:hover {
+    background-color: #6b8d8e;
+    transition: ease-in-out;
+    transition-duration: 200ms;
+  }
+}
+

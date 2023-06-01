@@ -1,0 +1,16 @@
+.dashboard {
+    background-color: #BD9699;
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    height: 100vh;
+    margin-bottom: 20px;
+    position: relative;
+    min-height: 100%;
+    // overflow-y: scroll;
+}
+
+#root {
+    background-color: #BD9699;
+    // overflow-y: auto;
+}

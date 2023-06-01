@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@400;500&display=swap');
+
+$darkestGray: #1e1e1e;
+$darkGray: #313131;
+$lightGray: #9b9b9b;
+$lightestGray: #e8e5e5;
+$pink: #BD9699;
+
+* {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h3 {
+    padding: 16px;
+    color: $darkestGray;
+}
+
+h4 {
+    padding: 16px;
+    padding-bottom: 0;
+    color: $darkestGray;
+}
