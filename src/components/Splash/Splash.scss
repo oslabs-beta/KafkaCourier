@@ -66,6 +66,10 @@ $green: #6b8d8e;
   justify-content: flex-start;
   gap: 10px;
   padding: 50px;
+
+  button {
+    align-self: flex-start;
+  }
 }
 
 .hero-right {

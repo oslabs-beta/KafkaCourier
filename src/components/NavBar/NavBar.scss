@@ -6,11 +6,15 @@ $gray: #4d4c4c;
 $pink: #BD9699;
 
 .dashboard .navBar {
+    position: sticky;
+    top: 0;
+    bottom: 0;
     background-color: #EFF2F3;
     margin: 0;
     border-radius: 12px;
     padding: 10px;
     min-width: 200px;
+    height: calc(100vh + 130px);
 }
 
 .navBar a {

@@ -39,6 +39,7 @@ table .MuiTableBody-root:last-child {
 
 .topic-upper-container {
   background-color: white;
+  height: 30vh;
   border-radius: 12px;
   padding: 10px;
 }
@@ -60,7 +61,7 @@ table .MuiTableBody-root:last-child {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  height: 100%;
+  height: 90vh;
 }
 
 .cardComponent {
@@ -79,9 +80,9 @@ table .MuiTableBody-root:last-child {
 #topic-lower-container {
   display: grid;
   grid-template-columns: minmax(250px, 1fr) minmax(250px, 2fr);
-  grid-template-rows: repeat(2, 1fr);
+  grid-template-rows: repeat(2, calc(42.5vh - 10px));
   grid-gap: 20px;
-  height: 100vh;
+  height: 85vh;
 }
 
 #consumer-groups {
@@ -119,14 +120,14 @@ i {
 .card-container {
   margin: 0;
   padding: 16px;
-  flex: 1 1 0;
+  height: calc((85vh - 35px - 40px - 64px)/2);
   background-color: $lightestGray;
   border-radius: 12px;
   margin: 10px;
-}
 
-#consumption-rate {
-  flex: 1 1 0;
+  h4 {
+    padding-top: 0;
+  }
 }
 
 #consumer-group-data-upper,
@@ -149,3 +150,18 @@ i {
   color: #313131;
 }
 
+.linegraph-container, #consumption-rate {
+  background-color: #fff;
+  height: calc(100% - 1.25em);
+  border-radius: 0.5rem;
+
+  svg, canvas {
+    margin-left: 10px;
+  }
+}
+
+#consumption-rate {
+  // height: 400px;
+  height: calc(100% - 1.25em);
+  width: 100%;
+}
