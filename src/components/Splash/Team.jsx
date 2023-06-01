@@ -3,6 +3,9 @@ import "./teams.scss";
 import TejasImage from "./images/tejas.png";
 import github from "./images/github-mark.png";
 import linkedIn from "./images/linkedin.png";
+import lilly from "./images/lilly.png";
+import kirsten from "./images/kirsten.png";
+import shimmy from "./images/shimmy.png";
 
 export default function Team() {
   return (
@@ -29,10 +32,7 @@ export default function Team() {
         <div className="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
           <div className="card">
             <div className="team-image-wrapper">
-              <img
-                className="team-member-image"
-                src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/expert2.png"
-              />
+              <img className="team-member-image" src={kirsten} />
             </div>
             <p className="text-blk name">Kirsten Milic</p>
             <p className="text-blk position">Software Engineer</p>
@@ -69,10 +69,7 @@ export default function Team() {
         <div className="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
           <div className="card">
             <div className="team-image-wrapper">
-              <img
-                className="team-member-image"
-                src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/expert2.png"
-              />
+              <img className="team-member-image" src={shimmy} />
             </div>
             <p className="text-blk name">Shimmy Gabbara</p>
             <p className="text-blk position">Software Engineer</p>
@@ -89,10 +86,7 @@ export default function Team() {
         <div className="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
           <div className="card">
             <div className="team-image-wrapper">
-              <img
-                className="team-member-image"
-                src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/expert2.png"
-              />
+              <img className="team-member-image" src={lilly} />
             </div>
             <p className="text-blk name">Lily Mueller</p>
             <p className="text-blk position">Software Engineer</p>
