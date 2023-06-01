@@ -50,39 +50,23 @@ const hideDataPointInfo = () => {
   tooltip.style('visibility', 'hidden');
 }
 
-console.log('width: ', document.getElementById('linegraph-container'))
-
 export default function LineGraph({ consumerGroup }) {
   const graphRef = useRef(null);
   const [data, setData] = useState([]);
-  // const [chartDimensions, setChartDimensions] = useState({
-  //   width: 500,
-  //   height: 320,
-  //   margin: { top: 10, right: 20, bottom: 70, left: 40 },
-  //   get graphWidth() {
-  //     return this.width - this.margin.left - this.margin.right;
-  //   },
-  //   get graphHeight() {
-  //     return this.height - this.margin.top - this.margin.bottom;
-  //   }
-  // });
-  const [chartDimensions, setChartDimensions] = useState({});
+  const [chartDimensions, setChartDimensions] = useState({
+    width: 500,
+    height: 320,
+    margin: { top: 10, right: 20, bottom: 70, left: 40 },
+    get graphWidth() {
+      return this.width - this.margin.left - this.margin.right;
+    },
+    get graphHeight() {
+      return this.height - this.margin.top - this.margin.bottom;
+    }
+  });
 
   // Connect socket and create graph container and unlabeled axes on page load
   useEffect(() => {
-    setChartDimensions({
-      width: document.getElementById('linegraph-container').clientWidth,
-      height: document.getElementById('linegraph-container').clientHeight,
-      margin: { top: 10, right: 20, bottom: 70, left: 40 },
-      get graphWidth() {
-        return this.width - this.margin.left - this.margin.right;
-      },
-      get graphHeight() {
-        return this.height - this.margin.top - this.margin.bottom;
-      }
-    })
-    // console.log('width: ', document.getElementById('linegraph-container').clientWidth);
-
     // Connect to websocket server and listen for server data
     const socket = io('http://localhost:3001');
     socket.on(consumerGroup, obj => {

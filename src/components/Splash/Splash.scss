@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@400;500&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@400;500&display=swap');
 
 $darkestGray: #1e1e1e;
 $darkGray: #313131;
@@ -8,7 +8,8 @@ $pink: #bd9699;
 $green: #6b8d8e;
 
 * {
-  font-family: "Inter", sans-serif !important;
+  font-family: 'Inter', sans-serif !important;
+  color: rgb(43, 42, 42);
 }
 
 .team-member {
@@ -34,7 +35,7 @@ $green: #6b8d8e;
 .button {
   padding: 10px;
   border: none;
-  background-color: #008cba; /* change to desired color */
+  background-color: #4b6365; /* change to desired color */
   color: white;
   text-decoration: none;
   cursor: pointer;
@@ -42,7 +43,11 @@ $green: #6b8d8e;
 }
 
 .button:hover {
-  background-color: #007b9a; /* slightly darker version of button color */
+  background-color: rgb(
+    88,
+    116,
+    117
+  ); /* slightly darker version of button color */
 }
 
 .github-button {
@@ -102,14 +107,18 @@ $green: #6b8d8e;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 80%;
-  max-width: 700px;
-  gap: 10px;
+  gap: 8rem;
 }
 
 .benefits-card {
+  align-items: flex-start;
   min-width: 200px;
   max-width: 250px;
+}
+
+.card-title {
+  padding-left: 0;
+  color: rgb(43, 42, 42);
 }
 
 .benefits svg {
@@ -127,20 +136,20 @@ $green: #6b8d8e;
 }
 
 #root {
-	background: linear-gradient(-45deg, #cb7c9b, $green, $pink, $lightGray);
-	background-size: 400% 400%;
-	animation: gradient 30s ease infinite;
-	height: 100%;
+  background: linear-gradient(-45deg, #c7658c, #d3abbb, $green);
+  background-size: 400% 400%;
+  animation: gradient 30s ease infinite;
+  height: 100%;
 }
 
 @keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
