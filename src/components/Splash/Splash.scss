@@ -70,7 +70,11 @@ $green: #6b8d8e;
   align-items: flex-start;
   justify-content: flex-start;
   gap: 10px;
-  padding: 50px;
+  padding: 70px;
+
+  button {
+    align-self: flex-start;
+  }
 }
 
 .hero-right {
@@ -136,20 +140,10 @@ $green: #6b8d8e;
 }
 
 #root {
-  background: linear-gradient(-45deg, #c7658c, #d3abbb, $green);
+  background: linear-gradient(-45deg, #c7658c, #d3abbb);
   background-size: 400% 400%;
   animation: gradient 30s ease infinite;
   height: 100%;
 }
 
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
+

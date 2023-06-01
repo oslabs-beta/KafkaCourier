@@ -1,5 +1,6 @@
 import React from 'react';
 import { GoogleLogin } from '@react-oauth/google';
+import { useNavigate } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
 import './Login.scss';
 
@@ -33,6 +34,8 @@ export default function Login({
 
     else setInDatabase(false);
   }
+
+  const navigate = useNavigate();
     
   return (
     <div id="oauth">
@@ -43,6 +46,7 @@ export default function Login({
           setSub(decoded.sub);
           await verifyUser(decoded.sub);
           setLoggedIn(true);
+          navigate('/');
         }}
         onError={() => {
           console.log('Login Failed');

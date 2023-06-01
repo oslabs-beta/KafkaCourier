@@ -62,6 +62,7 @@ export default function ConsumptionRate({ currentTopic, consumerGroup}) {
               beginAtZero: true,
             },
           },
+          maintainAspectRatio: false
         }}
       />
     </div>

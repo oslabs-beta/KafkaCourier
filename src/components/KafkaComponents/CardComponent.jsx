@@ -12,13 +12,9 @@ export default function CardComponent({ consumerGroup }) {
      components =       
      <>
      <h4>Consumer Lag</h4>
-      <Card>
-        <CardContent>
-          <CardMedia id='linegraph-container'>
-            <LineGraph consumerGroup={consumerGroup}/>
-          </CardMedia>
-        </CardContent>
-      </Card>
+     <div className='linegraph-container'>
+      <LineGraph consumerGroup={consumerGroup}/>
+     </div>
     </>  
   } 
 

@@ -5,8 +5,9 @@
   align-items: center;
 
   h2 {
-    font-size: 3rem;
-    margin-bottom: 2rem;
+    font-size: 48px;
+    font-weight: 600;
+    margin: 15px;
   }
 }
 
@@ -26,11 +27,13 @@
   }
 
   img {
-    width: 200px;
+    width: 300px;
     height: 200px;
+    border-radius: 12px;
   }
 
   a {
-    font-size: 12px;
+    text-decoration: none;
+    color: inherit;
   }
 }

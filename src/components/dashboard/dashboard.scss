@@ -2,15 +2,15 @@
     background-color: #BD9699;
     display: flex;
     gap: 20px;
-    margin: 20px;
+    padding: 20px;
     height: 100vh;
-    // width: 95vw;
     margin-bottom: 20px;
     position: relative;
-    height: auto;
-    min-height: 100vh;
+    min-height: 100%;
+    // overflow-y: scroll;
 }
 
 #root {
     background-color: #BD9699;
+    // overflow-y: auto;
 }

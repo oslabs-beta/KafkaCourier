@@ -25,6 +25,7 @@ const PORT = 3000;
 
 // keep track of emitting intervals so they can be cleared
 const intervals = [];
+const rateInterval = [];
 
 //serve static files
 app.use(express.static(path.join(__dirname, './src')));
@@ -87,7 +88,7 @@ let previousTime = null;
 // get consumption rate data for consumer group
 app.get("/api/consumptionRate", (req, res) => {
   const{ consumerGroup, topic } = req.query;
-  setInterval(async () => {
+  const emitter = async () => {
     const { rate, updatedOffset, updatedTime } =
       await kafkaController.getConsumerConsumption(
         consumerGroup,
@@ -98,7 +99,9 @@ app.get("/api/consumptionRate", (req, res) => {
     previousOffset = updatedOffset;
     previousTime = updatedTime;
     io.emit("consumption rate", rate);
-  }, 2000);
+  }
+  rateInterval.forEach(interval => clearInterval(interval));
+  rateInterval.push(setInterval(emitter, 1000));
   res.status(200).send("Consumption rate is being sent to frontend");
 });
 

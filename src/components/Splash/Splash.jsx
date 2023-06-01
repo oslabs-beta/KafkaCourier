@@ -1,21 +1,12 @@
 import React from "react";
-import "./Splash.scss";
 import Hero from "./Hero.jsx";
 import Benefits from './Benefits.jsx';
 import Team from './Team.jsx'; 
 import TechStack from './TechStack.jsx';
 import GetStarted from './GetStarted.jsx';
-import Login from '../Login/Login.js';
+import "./Splash.scss";
 
-export default function Splash({
-  setSub,
-  setServerUri,
-  setApiKey,
-  setApiSecret,
-  setLoggedIn,
-  setInDatabase, 
-  setCookie
-}) {
+export default function Splash() {
   return (
     <div className='main-container'>
       <Hero />
@@ -23,15 +14,6 @@ export default function Splash({
       <GetStarted />
       <TechStack />
       <Team />   
-      <Login 
-        setSub={setSub}
-        setServerUri={setServerUri}
-        setApiKey={setApiKey}
-        setApiSecret={setApiSecret}
-        setInDatabase={setInDatabase}
-        setLoggedIn={setLoggedIn}
-        setCookie={setCookie}
-      />
     </div>
   );
 }

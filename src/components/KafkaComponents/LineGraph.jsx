@@ -54,9 +54,9 @@ export default function LineGraph({ consumerGroup }) {
   const graphRef = useRef(null);
   const [data, setData] = useState([]);
   const [chartDimensions, setChartDimensions] = useState({
-    width: 500,
-    height: 320,
-    margin: { top: 10, right: 20, bottom: 70, left: 40 },
+    width: (window.innerWidth - 40 - 220 - 20 - 20) * 0.6667 - 64,
+    height: (0.85 * window.innerHeight - 19.2 - 40 - 64) / 2 - 35,
+    margin: { top: 20, right: 20, bottom: 70, left: 40 },
     get graphWidth() {
       return this.width - this.margin.left - this.margin.right;
     },
