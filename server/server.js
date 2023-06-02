@@ -27,14 +27,16 @@ const PORT = 3000;
 const intervals = [];
 const rateInterval = [];
 
-// Serve bundled files as static assets
 app.use(express.static(path.join(__dirname, '../dist')));
-//serve static files
-app.use(express.static(path.join(__dirname, './src')));
-app.use(express.static(path.join(__dirname, '../src/index.html')));
 app.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../src/index.html'));
+  res.sendFile(path.resolve(__dirname, '../dist/index.html'));
 });
+//serve static files
+// app.use(express.static(path.join(__dirname, './src')));
+// app.use(express.static(path.join(__dirname, '../src/index.html')));
+// app.get('/', (req, res) => {
+//   res.sendFile(path.resolve(__dirname, '../src/index.html'));
+// });
 
 // create user
 app.post(
