@@ -9,7 +9,7 @@ const userController = require('./controllers/userController');
 
 const io = require('socket.io')(3001, {
   cors: {
-    origin: process.env.FRONTEND || 'http://localhost:8080',
+    origin: ['https://kafka-courier-i5rn.onrender.com'],
   },
 });
 
