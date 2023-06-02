@@ -8,7 +8,7 @@ const userController = require('./controllers/userController');
 
 const io = require('socket.io')(3001, {
   cors: {
-    origin: ['http://localhost:8080'],
+    origin: process.env.FRONTEND || 'http://localhost:8080',
   },
 });
 
@@ -31,12 +31,6 @@ app.use(express.static(path.join(__dirname, '../dist')));
 app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../dist/index.html'));
 });
-//serve static files
-// app.use(express.static(path.join(__dirname, './src')));
-// app.use(express.static(path.join(__dirname, '../src/index.html')));
-// app.get('/', (req, res) => {
-//   res.sendFile(path.resolve(__dirname, '../src/index.html'));
-// });
 
 // create user
 app.post(
