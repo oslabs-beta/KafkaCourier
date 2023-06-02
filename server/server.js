@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const cookieParser = require('cookie-parser');
+require('dotenv').config();
 
 const kafkaController = require('./controllers/kafkaController');
 const userController = require('./controllers/userController');
@@ -28,7 +29,7 @@ const intervals = [];
 const rateInterval = [];
 
 app.use(express.static(path.join(__dirname, '../dist')));
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../dist/index.html'));
 });
 
@@ -108,9 +109,9 @@ app.get('/api/consumptionRate', (req, res) => {
 });
 
 // catch-all route for errors
-app.get('*', (req, res) => {
-  res.sendStatus(404);
-});
+// app.get('*', (req, res) => {
+//   res.sendStatus(404);
+// });
 
 // express global error handler
 app.use((err, req, res, next) => {
