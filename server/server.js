@@ -3,17 +3,17 @@ const app = express();
 const path = require('path');
 const cookieParser = require('cookie-parser');
 
-const kafkaController = require("./controllers/kafkaController");
-const userController = require("./controllers/userController");
+const kafkaController = require('./controllers/kafkaController');
+const userController = require('./controllers/userController');
 
-const io = require("socket.io")(3001, {
+const io = require('socket.io')(3001, {
   cors: {
     origin: ['http://localhost:8080'],
   },
 });
 
-io.on("connection", (socket) => {
-  console.log("socket id: ", socket.id);
+io.on('connection', (socket) => {
+  console.log('socket id: ', socket.id);
 });
 
 app.use(express.json());
@@ -29,6 +29,10 @@ const rateInterval = [];
 
 //serve static files
 app.use(express.static(path.join(__dirname, './src')));
+app.use(express.static(path.join(__dirname, '../src/index.html')));
+app.get('/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../src/index.html'));
+});
 
 // create user
 app.post(
@@ -67,13 +71,13 @@ app.get(
     const emitter = async (groupId) => {
       const consumerLag = await kafkaController.getConsumerDataCLI(
         req.params.consumerGroupId
-      ); 
+      );
       io.emit(groupId, consumerLag);
     };
     emitter(req.params.consumerGroupId);
     // clear any running intervals and add interval id to intervals array to allow it to be cleared later
     // ensures only one interval is running at a time with simultaneous connections
-    intervals.forEach(interval => clearInterval(interval));
+    intervals.forEach((interval) => clearInterval(interval));
     intervals.push(setInterval(emitter, 7000, req.params.consumerGroupId));
     next();
   },
@@ -86,8 +90,8 @@ let previousOffset = null;
 let previousTime = null;
 
 // get consumption rate data for consumer group
-app.get("/api/consumptionRate", (req, res) => {
-  const{ consumerGroup, topic } = req.query;
+app.get('/api/consumptionRate', (req, res) => {
+  const { consumerGroup, topic } = req.query;
   const emitter = async () => {
     const { rate, updatedOffset, updatedTime } =
       await kafkaController.getConsumerConsumption(
@@ -98,11 +102,11 @@ app.get("/api/consumptionRate", (req, res) => {
       );
     previousOffset = updatedOffset;
     previousTime = updatedTime;
-    io.emit("consumption rate", rate);
-  }
-  rateInterval.forEach(interval => clearInterval(interval));
+    io.emit('consumption rate', rate);
+  };
+  rateInterval.forEach((interval) => clearInterval(interval));
   rateInterval.push(setInterval(emitter, 1000));
-  res.status(200).send("Consumption rate is being sent to frontend");
+  res.status(200).send('Consumption rate is being sent to frontend');
 });
 
 // catch-all route for errors
