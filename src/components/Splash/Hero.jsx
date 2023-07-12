@@ -18,8 +18,8 @@ export default function Hero() {
           Lightweight, open-source monitoring tool to visualize and monitor key
           Kafka cluster metrics
         </Typography>
-        <button className="button" onClick={handleButtonClick}>
-          Try it out
+        <button className="button" onClick={handleButtonClick} disabled>
+          Currently in closed beta
         </button>
       </div>
       <div className="hero-right">
