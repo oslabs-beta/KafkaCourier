@@ -140,9 +140,11 @@ $green: #6b8d8e;
 }
 
 #root {
-  background: linear-gradient(-45deg, #c7658c, #d3abbb);
-  background-size: 400% 400%;
-  animation: gradient 30s ease infinite;
+  // background: linear-gradient(-45deg, #c7658c, #d3abbb);
+  // background-size: 400% 400%;
+  // animation: gradient 30s ease infinite;
+  background: inherit;
+  animation: inherit;
   height: 100%;
 }
 

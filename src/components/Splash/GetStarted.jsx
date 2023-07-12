@@ -12,8 +12,8 @@ export default function GetStarted() {
       <div className='get-started'>
         <div>
           <img src={dashboard} />
-          <button className="button" onClick={() => navigate('login')}>
-            Try it out
+          <button className="button" onClick={() => navigate('login')} disabled>
+            Currently in closed beta
           </button>
         </div>
         <div>

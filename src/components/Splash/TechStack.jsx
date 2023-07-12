@@ -14,7 +14,6 @@ export default function TechStack() {
         <li className='postgres-badge'></li>
         <li className='chartjs-badge'></li>
         <li className='d3js-badge'></li>
-        <li className='typescript-badge'></li>
         <li className='mui-badge'></li>
         <li className='socketio-badge'></li>
         <li className='webpack-badge'></li>
