@@ -1,29 +1,16 @@
 <img src="https://pbs.twimg.com/media/FwW_fC9aQAAs8nE?format=jpg&name=small" style='border-radius:30%;'>
 
-# KafkaCourier
+# Kafka Courier
 
-**Kafka Courier is a lightweight, open-source monitoring tool that provides visualization and tracking features for your Apache Kafka clusters. It is built with the objective of enhancing developer productivity and streamlining troubleshooting by offering live updates of Apache Kafka clusters and their key metrics.**
+Kafka Courier is a lightweight, open-source monitoring tool that provides visualization and tracking features for your Apache Kafka clusters. It is built with the objective of enhancing developer productivity and streamlining troubleshooting by offering live updates of Apache Kafka clusters and corresponding key metrics.
 
----
-## **Getting Started**
-- Go to —----.com
-- Login with your Gmail
-- Enter your Kafka API Key, API secret, and Server URI.
-- Enjoy watching your data come to life!
+## Getting Started
+- Go to https://www.kafkacourier.io/
+- Login with your Google account
+- Enter your Kafka API Key, API secret, and Server URI
+- Watch your data come to life!
 
----
-
-## **Features**
-- Create a giphy or screen recording of each feature:
-- Login + Entering Credentials
-- Dashboard / Landing page
-- Clicking to Topics and watching the graphical data
-- Clicking on Accounts to change credential information
-- Logout?
-
----
-
-## **Built With**
+## Built With 
 - ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 - ![Chart.js](https://img.shields.io/badge/chart.js-F5788D.svg?style=for-the-badge&logo=chart.js&logoColor=white)
 - ![Socket.io](https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101)
@@ -37,11 +24,8 @@
 - ![MUI](https://img.shields.io/badge/MUI-%230081CB.svg?style=for-the-badge&logo=mui&logoColor=white)
 - ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 - ![Apache Kafka](https://img.shields.io/badge/Apache%20Kafka-000?style=for-the-badge&logo=apachekafka)
-- Google OAuth 
-- D3 
 
----
-## **Contributors**
+## Contributors
 
 | Name | GitHub | LinkedIn |
 | ---- | ------ | -------- |
@@ -51,10 +35,11 @@
 | [**Jeffrey Huang**](#) | [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/jeffuh) | [![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/jeffreyehuang/) |
 | [**Lilianne Mueller**](#) | [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/liliannemueller) | [![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/lilianne-orlet-mueller/) |
 
+## Feedback
 
-  ---
-  
- ## License
- - Kafka Courier is MIT licensed
+We welcome feedback of all kind! If you have anything to share, please reach out to us at kafkacourier@gmail.com.
 
 
+## License
+
+Kafka Courier is MIT licensed. 
